@@ -1,0 +1,3 @@
+# .bat 必須保持 CRLF，否則在 Windows 上執行會出錯
+*.bat text eol=crlf
+*.sh  text eol=lf
