@@ -45,6 +45,6 @@ python3 -m http.server 8000   # 然後開 http://localhost:8000/
 
 ## 資料來源與註記
 
-參數名稱、預設值與說明對照 ArduPilot 官方文件與 master 分支原始碼（`quadplane.cpp`、`tailsitter.cpp`、`tiltrotor.cpp`、`Parameters.cpp`、`AP_Landing.cpp`、`mode_takeoff.cpp`）整理。未能完整查證或版本相依的內容在正文以紅色 ▲ 標記，說明集中在頁面最末的「註記與查證狀態」一節。
+參數名稱、預設值與說明對照 ArduPilot 官方文件與 master 分支原始碼（`quadplane.cpp`、`tailsitter.cpp`、`tiltrotor.cpp`、`Parameters.cpp`、`AP_Landing.cpp`、`mode_takeoff.cpp`）整理。2026-09 另對照 ArduPilot master 與 ArduPlane-stable（V4.7.1）原始碼查證過；原始碼無法確認的經驗值與影片內容，列在講者模式（`?speaker`）頁尾的「上課前待確認」。
 
-韌體版本以 ArduPilot Plane 4.x 為準；`AIRSPEED_MIN` 等參數在舊版名為 `ARSPD_FBW_MIN`，請依實際韌體對照。
+韌體版本以 ArduPilot Plane 4.x 為準；頁面使用 4.5 版以後的參數名稱（例如 `AIRSPEED_MIN`，4.5 版以前叫 `ARSPD_FBW_MIN`），完整對照表在頁尾參考資料。

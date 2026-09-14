@@ -124,11 +124,6 @@ body[data-level="adv"] .basic-only{display:none!important}
 .adv-block::before{content:"進階";position:absolute;top:-10px;left:16px;background:var(--wing);color:#fff;font-family:var(--font-display);font-size:11px;letter-spacing:.14em;padding:1px 10px;border-radius:999px;font-weight:600}
 .adv-block h3{margin-top:2px}
 
-/* footnote marker */
-.fn{display:inline-block;color:var(--note);font-family:var(--font-display);font-weight:700;font-size:.78em;vertical-align:super;line-height:0;text-decoration:none;margin-left:1px}
-.fn::before{content:"▲"}
-.fn:hover{text-decoration:underline}
-
 /* tables */
 .tbl{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}
 .tbl th,.tbl td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -277,7 +272,7 @@ img{max-width:100%}
 </svg>
 
 <div class="topbar"><div class="topbar-in">
-  <div class="brand">垂起・短起 無人機講堂 <span class="tag">ArduPilot Edition</span></div>
+  <div class="brand">VTOL 與 STOL 無人機講義</div>
   <div class="controls">
     <div class="seg" role="group" aria-label="內容深度">
       <button type="button" data-level="basic" aria-pressed="true">基礎</button>
@@ -290,16 +285,16 @@ img{max-width:100%}
 <nav class="outline" aria-label="課程大綱">
   <h4><span class="aud">大綱</span><span class="spk">課綱 · 120 分鐘</span></h4>
   <ol>
-    <li><a href="#s0" data-track="misc"><span>開場：為什麼要垂起／短起</span><span class="min">8′</span></a></li>
-    <li><a href="#s1" data-track="vtol"><span>垂起固定翼家族</span><span class="min">10′</span></a></li>
+    <li><a href="#s0" data-track="misc"><span>為什麼需要垂起與短起</span><span class="min">8′</span></a></li>
+    <li><a href="#s1" data-track="vtol"><span>垂起固定翼的三種構型</span><span class="min">10′</span></a></li>
     <li><a href="#s2" data-track="vtol"><span>標準式 VTOL（QuadPlane）</span><span class="min">15′</span></a></li>
     <li><a href="#s3" data-track="vtol"><span>傾轉式 VTOL</span><span class="min">15′</span></a></li>
-    <li><a href="#s4" data-track="vtol"><span>尾座式 Tailsitter</span><span class="min">12′</span></a></li>
+    <li><a href="#s4" data-track="vtol"><span>尾座式 VTOL</span><span class="min">12′</span></a></li>
     <li><a href="#s5" data-track="vtol"><span>過渡機制與飛行模式</span><span class="min">10′</span></a></li>
     <li class="spk"><a href="#brk" data-track="misc"><span>休息</span><span class="min">10′</span></a></li>
     <li><a href="#s6" data-track="stol"><span>短距起降 STOL 原理</span><span class="min">20′</span></a></li>
     <li><a href="#s7" data-track="stol"><span>STOL 的 ArduPilot 設定</span><span class="min">8′</span></a></li>
-    <li><a href="#s8" data-track="misc"><span>選型、常見失敗與 Q&amp;A</span><span class="min">12′</span></a></li>
+    <li><a href="#s8" data-track="misc"><span>構型選擇與常見問題</span><span class="min">12′</span></a></li>
     <li class="aud"><a href="#more-vids" data-track="misc"><span>延伸影片</span></a></li>
     <li class="spk"><a href="#vids" data-track="misc"><span>課堂影片清單</span><span class="min">—</span></a></li>
     <li class="aud"><a href="#refs" data-track="misc"><span>參考資料</span></a></li>
@@ -310,10 +305,9 @@ img{max-width:100%}
 
 <main>
 <header class="hero">
-  <div class="eyebrow">Lecture Notes · 2 hr</div>
-  <h1>淺談垂直起降與短距起降無人機<small>VTOL &amp; STOL UAV：構型、機制，以及 ArduPilot 怎麼把它們飛起來</small></h1>
-  <p class="lede">兩個小時走過三大類垂起固定翼（標準式、傾轉式、尾座式）與短距起降飛機的設計邏輯，每一個構型都對照 ArduPilot 裡真實存在的參數與模擬模型，讓「為什麼這樣設計」和「飛控上怎麼設」接在一起。</p>
-  <div class="meta"><span>對象 <b>RC 玩家 ／ 工程系學生</b></span><span>切換 <b>基礎 ⇄ 進階</b>（右上）</span><span>飛控 <b>ArduPilot Plane 4.x</b></span><span>紅色 ▲ = 末尾有註記</span></div>
+  <h1>垂直起降與短距起降無人機<small>VTOL／STOL 固定翼的構型、過渡機制與 ArduPilot 設定</small></h1>
+  <p class="lede">介紹三種垂直起降固定翼（標準式、傾轉式、尾座式）與短距起降飛機的設計原理，並對照 ArduPilot Plane 的實際參數與 SITL 模擬模型。</p>
+  <div class="meta"><span>對象：RC 玩家、工程系學生</span><span>飛控：ArduPilot Plane 4.x</span><span>右上角切到「進階」可看完整參數表</span></div>
 
   <div class="spk">
   <div class="tl" aria-label="時間分配">
@@ -337,12 +331,11 @@ img{max-width:100%}
 <section class="sec" id="s0" data-track="misc">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">開場<span class="spk"> · 8 分鐘</span></div>
-    <h2>為什麼要垂起／短起？</h2>
-    <p class="goal">先建立一個直覺：多旋翼與固定翼各自贏在哪裡、輸在哪裡，垂起與短起都是在「起降場地」和「巡航效率」之間找折衷。</p>
+    <h2>為什麼需要垂直起降與短距起降</h2>
   </div></div>
 
   <div class="prose">
-    <p>多旋翼靠旋翼直接把空氣往下推來撐住自己，不需要跑道、可以懸停，但每一秒都在「用力」；固定翼靠機翼把前進速度轉成升力，同樣的電池可以飛得遠得多，代價是必須先跑到起飛速度、落地也要一段距離。垂直起降（VTOL）固定翼與短距起降（STOL）飛機，是兩條不同的解法：前者「把多旋翼帶在身上」，後者「把起飛速度壓到很低」。</p>
+    <p>多旋翼靠旋翼直接把空氣往下推來撐住自己，不需要跑道、可以懸停，但懸停時必須持續出力，耗電很快；固定翼靠機翼把前進速度轉成升力，同樣的電池可以飛得遠得多，代價是必須先跑到起飛速度、落地也要一段距離。垂直起降（VTOL）固定翼與短距起降（STOL）飛機，是兩種不同的做法：前者在固定翼上加裝垂直升力系統，後者設法降低起飛與降落所需的速度。</p>
   </div>
 
   <figure class="fig-frame">
@@ -383,7 +376,7 @@ img{max-width:100%}
         <rect x="150" y="194" width="250" height="7" rx="3.5" fill="var(--wing)"/>
       </g>
     </svg>
-    <figcaption>四種載具的相對表現（定性示意<a class="fn" href="#notes" title="見註記 4">4</a>）。灰色是對照組；橘色＝本課的 VTOL 固定翼，藍綠色＝本課的 STOL 固定翼。垂起固定翼幾乎補齊了固定翼的弱項，但把複雜度推到最高；STOL 則是用空氣動力學便宜地換到「很短的場地」。</figcaption>
+    <figcaption>四種載具的相對表現（定性示意）。灰色為多旋翼與傳統固定翼，橘色為垂起固定翼，藍綠色為 STOL 固定翼。垂起固定翼補上了固定翼不能懸停、需要跑道的缺點，但系統最複雜；STOL 固定翼則靠空氣動力設計縮短起降距離。</figcaption>
   </figure>
 
   <div class="callout"><div class="lab">思考題</div><p>如果任務是在山區每天巡檢一條 20 公里長的輸電線，你會選哪一種？為什麼不選多旋翼？第 8 節會再回來討論。</p></div>
@@ -394,8 +387,8 @@ img{max-width:100%}
 <section class="sec" id="s1" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 1 節<span class="spk"> · 10 分鐘</span></div>
-    <h2>垂起固定翼家族：三種把「多旋翼」帶上飛機的方法</h2>
-    <p class="goal">按「懸停時的升力由誰提供、巡航時它們去哪了」來分類，三大類的差別就一目瞭然。</p>
+    <h2>垂直起降固定翼的三種構型</h2>
+    <p class="goal">分類依據是懸停時由誰提供升力，以及這些升力系統在巡航時怎麼處理。</p>
   </div></div>
 
   <figure class="fig-frame">
@@ -418,34 +411,34 @@ img{max-width:100%}
         <rect x="710" y="184" width="90" height="56" rx="8" fill="var(--hover-soft)" stroke="var(--hover)"/><text x="755" y="204" fill="var(--ink)" font-weight="500">尾座式</text><text x="755" y="219" fill="var(--hover)" font-size="10" font-family="Saira">Tailsitter</text><text x="755" y="232" fill="var(--muted)" font-size="10">第 4 節</text>
       </g>
     </svg>
-    <figcaption>本課涵蓋的五個節點：三種垂起固定翼（橘）與短距起降（藍綠）。ArduPilot 把三種垂起固定翼全部放在同一個 <code>QuadPlane</code> 架構下，用 <code>Q_TILT_ENABLE</code>、<code>Q_TAILSIT_ENABLE</code> 決定它是哪一種。</figcaption>
+    <figcaption>本課涵蓋三種垂起固定翼（橘）與短距起降（藍綠）。ArduPilot 把三種垂起固定翼都放在 <code>QuadPlane</code> 架構下，再以 <code>Q_TILT_ENABLE</code>、<code>Q_TAILSIT_ENABLE</code> 區分。</figcaption>
   </figure>
 
   <div class="grid3">
-    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">標準式 SLT</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">Separate Lift &amp; Thrust。懸停用一組垂直旋翼，巡航用另一顆推進螺旋槳，兩套系統互不干涉。<br><b style="color:var(--ink)">一句話：</b>最好調、最笨重。</p></div>
-    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">傾轉式 Tilt</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">同一組馬達，懸停時朝上、巡航時轉向前。傾轉的可以是馬達（tilt-rotor）或整片機翼（tilt-wing）。<br><b style="color:var(--ink)">一句話：</b>效率最好、機構最多。</p></div>
-    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">尾座式 Tailsitter</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">整架飛機立起來，機頭朝天起降，再整架俯仰 90° 進入平飛。沒有任何多餘機構。<br><b style="color:var(--ink)">一句話：</b>最簡單、最怕風。</p></div>
+    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">標準式 SLT</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">Separate Lift &amp; Thrust。懸停用一組垂直旋翼，巡航用另一顆推進螺旋槳，兩套系統互不干涉。調校最容易，但巡航時要多帶一組用不到的旋翼。</p></div>
+    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">傾轉式 Tilt</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">同一組馬達，懸停時朝上、巡航時轉向前。傾轉的可以是馬達（tilt-rotor）或整片機翼（tilt-wing）。巡航效率最好，但傾轉機構最複雜。</p></div>
+    <div class="card" style="border-top:4px solid var(--hover)"><h3 style="font-size:17px">尾座式 Tailsitter</h3><p style="font-size:14px;color:var(--ink-2);margin:6px 0 0">起降時機頭朝上，起飛後整機俯仰 90° 轉入平飛，不需要額外的機構。結構最簡單，但懸停時最容易受風影響。</p></div>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">ArduPilot 怎麼區分這三種？三個「開關參數」</h3>
+    <h3 style="font-size:17px">ArduPilot 用哪些參數區分三種構型</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>值</th><th>意義</th></tr>
       <tr class="hi"><td class="p">Q_ENABLE</td><td class="d">1</td><td>開啟 QuadPlane：輸出 1–4 留給固定翼舵面／推進，VTOL 馬達從輸出 5 開始。設 2 = 在 AUTO 任務中預設以 VTOL 起降（Enable VTOL AUTO）。</td></tr>
       <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1 / 2 / 3 / 4 / 5 / 7 / 10</td><td>VTOL 馬達的佈局類別：Quad、Hexa、Octa、OctaQuad、Y6、Tri、Single/Dual（單／雙馬達尾座機用 10）。每一種的圖解與取捨見<a href="#s2">第 2 節</a>。</td></tr>
-      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0 → 1</td><td>設 1 進入傾轉式邏輯，再用 <code>Q_TILT_TYPE</code>、<code>Q_TILT_MASK</code> 說明「哪幾顆、怎麼轉」。</td></tr>
+      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0 → 1</td><td>設 1 進入傾轉式邏輯，再用 <code>Q_TILT_TYPE</code>、<code>Q_TILT_MASK</code> 指定傾轉方式與哪幾顆馬達傾轉。</td></tr>
       <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0 → 1 / 2</td><td>設 1 進入尾座式邏輯；2 = 強制 Q-assist 一直開（給沒有舵面的純馬達尾座機）。</td></tr>
     </table></div>
-    <p style="font-size:13.5px;color:var(--ink-2);margin:0">三個 enable 互斥地決定「過渡邏輯用哪一套」；其餘 <code>Q_*</code> 參數（姿態 PID、位置控制、著陸速度）三種構型共用。</p>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:0">這幾個 enable 參數決定使用哪一套過渡邏輯，傾轉式與尾座式不能同時開啟；其餘 <code>Q_*</code> 參數（姿態 PID、位置控制、著陸速度）三種構型共用。</p>
   </div>
-  <div class="lecturer"><div class="lab">講師備註</div>強調一件事：ArduPilot 是「一套韌體、三種過渡邏輯」，所以後面三節每一節的結構都一樣——構型 → 優缺點 → 過渡怎麼發生 → 對應參數 → SITL 模型。</div>
+  <div class="lecturer"><div class="lab">講師備註</div>強調一件事：ArduPilot 是「一套韌體、三種過渡邏輯」，所以後面三節的結構都一樣：構型 → 優缺點 → 過渡流程 → 對應參數 → SITL 模型。</div>
 </section>
 <!-- ============ S2 ============ -->
 <section class="sec" id="s2" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 2 節<span class="spk"> · 15 分鐘</span></div>
-    <h2>標準式 VTOL：QuadPlane（SLT）</h2>
-    <p class="goal">一架固定翼加上一組多旋翼，各做各的事。它是 ArduPilot 裡名字本身就叫 QuadPlane 的原型，也是最適合第一次做垂起的構型。</p>
+    <h2>標準式 VTOL（QuadPlane）</h2>
+    <p class="goal">在固定翼上加裝一組垂直旋翼，懸停和巡航各用一套動力。ArduPilot 的 QuadPlane 就是以這種構型命名，也是第一次做垂起機最容易上手的選擇。</p>
   </div></div>
 
   <div class="spec">
@@ -475,7 +468,7 @@ img{max-width:100%}
       <div class="alias">又稱 SLT（Separate Lift and Thrust）／複合翼／「四加一」</div>
       <div class="pm">
         <div class="plus"><b>優點</b><ul><li>懸停控制就是一台多旋翼，成熟、好調</li><li>平飛時是一架普通固定翼，舵面照常</li><li>兩套系統獨立，一套失效另一套還能救</li><li>酬載空間與重心最容易安排</li></ul></div>
-        <div class="minus"><b>代價</b><ul><li>平飛時四顆馬達與支臂全是死重與阻力</li><li>多一組電調／馬達，成本與重量上升</li><li>後向過渡時所有馬達同時高輸出，電池電壓易跌</li><li>懸停時機翼是一片大帆，側風下漂</li></ul></div>
+        <div class="minus"><b>代價</b><ul><li>平飛時四顆馬達與支臂全是死重與阻力</li><li>多一組電調／馬達，成本與重量上升</li><li>後向過渡時所有馬達同時高輸出，電池電壓易跌</li><li>懸停時機翼受側風影響大，容易被吹偏</li></ul></div>
       </div>
       <div class="rate" aria-label="定性評分（講師主觀）">
         <span class="k">懸停效率</span><span class="bar"><i style="width:60%"></i></span><span class="v">3/5</span>
@@ -488,8 +481,8 @@ img{max-width:100%}
     </div>
   </div>
 
-  <h3 style="font-size:19px;margin:28px 0 4px">Q_FRAME_CLASS 圖解：VTOL 馬達可以怎麼排</h3>
-  <p class="prose" style="color:var(--ink-2)">類別只描述「懸停那組馬達」的幾何與轉向，跟機翼無關。選哪一種，本質上是在<b>馬達數（重量、成本）</b>、<b>單顆失效容忍</b>與<b>懸停效率</b>之間取捨。俯視、機頭朝上；↻ 順時針、↺ 逆時針，相鄰馬達永遠反轉以抵銷反扭力。</p>
+  <h3 style="font-size:19px;margin:28px 0 4px">VTOL 馬達配置（Q_FRAME_CLASS）</h3>
+  <p class="prose" style="color:var(--ink-2)">Q_FRAME_CLASS 只描述懸停用馬達的配置與轉向，和機翼無關。選擇時主要在<b>馬達數（重量、成本）</b>、<b>單顆失效容忍</b>與<b>懸停效率</b>之間取捨。俯視、機頭朝上；↻ 順時針、↺ 逆時針，相鄰馬達轉向相反以抵銷反扭力。圖中編號依 ArduPilot 原始碼的馬達順序。</p>
   <div class="frames">
     <div class="frame">
       <svg viewBox="0 0 200 210" role="img" aria-label="Quad X 佈局：四顆馬達在 45 度斜臂上，1 右前逆時針、2 左後逆時針、3 左前順時針、4 右後順時針">
@@ -500,7 +493,7 @@ img{max-width:100%}
         <text x="100" y="200" text-anchor="middle" font-family="Saira" font-size="10" fill="var(--muted)">Q_FRAME_TYPE=1 (X)</text>
       </svg>
       <h4>Quad <span class="cv">CLASS 1 · 4 顆</span></h4>
-      <p>最常見的 QuadPlane。四顆剛好夠控制四個自由度，沒有多餘；一顆失效就掉。效率最好、最輕、最好調。</p>
+      <p>最常見的 QuadPlane。四顆馬達剛好控制四個自由度，沒有冗餘，一顆失效就會墜機。效率最好、最輕，也最好調。</p>
       <p class="ap">支臂平行機身的典型垂起機，幾何上是 H 但通常直接設 X；FRAME_TYPE 差別見下方。</p>
     </div>
     <div class="frame">
@@ -512,7 +505,7 @@ img{max-width:100%}
         <text x="100" y="200" text-anchor="middle" font-family="Saira" font-size="10" fill="var(--muted)">Q_FRAME_TYPE=1 (X)</text>
       </svg>
       <h4>Hexa <span class="cv">CLASS 2 · 6 顆</span></h4>
-      <p>掉一顆還能勉強飛回來（yaw 權威會變差）。多兩顆馬達的重量與阻力在平飛時全是負擔，通常只有大酬載才值得。</p>
+      <p>少一顆還能勉強飛回來（偏航控制力會變差）。多兩顆馬達的重量與阻力在平飛時全是負擔，通常只有大酬載才值得。</p>
       <p class="ap">需要 6 個 PWM 輸出（5–10）；QuadPlane 上少見，因為兩根支臂放不下六顆。</p>
     </div>
     <div class="frame">
@@ -523,8 +516,8 @@ img{max-width:100%}
         <text x="100" y="200" text-anchor="middle" font-family="Saira" font-size="10" fill="var(--muted)">Q_FRAME_TYPE=1 (X)</text>
       </svg>
       <h4>Octa <span class="cv">CLASS 3 · 8 顆</span></h4>
-      <p>完整冗餘：掉一顆幾乎無感。八根臂在固定翼上很難安排，屬於工業級大機的選項。</p>
-      <p class="ap">需要 8 個輸出（5–12）；馬達編號請以官方 Motor Order 圖為準<a class="fn" href="#notes" title="見註記 11">11</a>。</p>
+      <p>冗餘最完整，少一顆幾乎沒有影響。八根臂在固定翼上很難安排，屬於工業級大機的選項。</p>
+      <p class="ap">需要 8 個輸出（5–12）；馬達編號請以官方 Motor Order 圖為準。</p>
     </div>
     <div class="frame">
       <svg viewBox="0 0 200 210" role="img" aria-label="OctaQuad X8 佈局：四根斜臂，每臂上下各一顆同軸反轉馬達">
@@ -534,7 +527,7 @@ img{max-width:100%}
         <text x="100" y="200" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="var(--muted)">每臂上↻下↺同軸一對</text>
       </svg>
       <h4>OctaQuad（X8）<span class="cv">CLASS 4 · 8 顆</span></h4>
-      <p>四根臂、八顆馬達：用同軸換冗餘，不用多加支臂。商用測繪垂起機很愛用，因為兩根支臂就能裝完。代價是同軸下槳吃上槳的下洗流，懸停效率損失約一到兩成<a class="fn" href="#notes" title="見註記 12">12</a>。</p>
+      <p>四根臂、八顆馬達：用同軸換冗餘，不必多加支臂。商用測繪垂起機常用，因為兩根支臂就能裝完。代價是下層螺旋槳處在上層的下洗流中，懸停效率會損失約一到兩成。</p>
       <p class="ap">8 個輸出；上下馬達反轉，臂數幾何與 Quad 相同。</p>
     </div>
     <div class="frame">
@@ -545,7 +538,7 @@ img{max-width:100%}
         <text x="100" y="200" text-anchor="middle" font-family="Saira" font-size="10" fill="var(--muted)">Q_FRAME_TYPE=10 Y6B · 11 Y6F</text>
       </svg>
       <h4>Y6 <span class="cv">CLASS 5 · 6 顆</span></h4>
-      <p>三臂同軸：比 Hexa 少三根臂、比 Y3 多冗餘。尾臂可以就是機身，很適合把懸停馬達藏在翼下與尾管上。</p>
+      <p>三臂同軸：比 Hexa 少三根臂、比 Y3 多冗餘。尾臂可以直接用機身，很適合把懸停馬達藏在翼下與尾管上。</p>
       <p class="ap">Y6B／Y6F 差在上下馬達轉向的配置；FireFly6 傾轉機就是 Y6F（SITL 模型 <code>firefly</code>）。</p>
     </div>
     <div class="frame">
@@ -559,7 +552,7 @@ img{max-width:100%}
         <text x="100" y="204" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="var(--hover)">尾馬達偏擺舵機控 yaw</text>
       </svg>
       <h4>Tri <span class="cv">CLASS 7 · 3 顆＋舵機</span></h4>
-      <p>三顆馬達無法靠反扭力平衡 yaw，所以尾馬達裝在舵機上左右偏擺。最省馬達，但多一個活動件；傾轉三旋翼（Convergence 類）的懸停基礎就是它，只是 yaw 改由前馬達差動傾轉負責。</p>
+      <p>三顆馬達無法靠反扭力平衡偏航，所以尾馬達裝在舵機上左右偏擺。馬達最少，但多一個活動件。傾轉三旋翼（如 Convergence）懸停時就是這種配置，只是偏航改由前方兩顆馬達差動傾轉控制。</p>
       <p class="ap">預設輸出 5、6、8，尾舵機在 11；<code>Q_M_YAW_SV_ANGLE</code> 設舵機最大偏角。</p>
     </div>
     <div class="frame">
@@ -574,7 +567,7 @@ img{max-width:100%}
         <text x="100" y="206" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="var(--muted)">Single：只靠滑流吹舵面</text>
       </svg>
       <h4>Single / Dual <span class="cv">CLASS 10 · 1–2 顆</span></h4>
-      <p>沒有多旋翼式的四點力矩：滾轉、俯仰、偏航都靠螺旋槳滑流吹過 elevon／方向舵，雙馬達再加差動推力。這就是尾座機第 4 節講的「低油門時舵面沒風」的來源。</p>
+      <p>沒有多旋翼式的四點力矩：滾轉、俯仰、偏航都靠螺旋槳滑流吹過 elevon／方向舵，雙馬達再加上差動推力。所以尾座機在低油門時舵面幾乎沒有控制力（見第 4 節）。</p>
       <p class="ap">尾座機專用（<code>Q_TAILSIT_ENABLE=1</code>）；三顆以上的尾座機改用對應馬達數的 CLASS 加 <code>Q_TAILSIT_MOTMX</code>。</p>
     </div>
   </div>
@@ -596,7 +589,7 @@ img{max-width:100%}
       </g>
       <g font-family="Noto Sans TC" font-size="10.5" fill="var(--muted)" text-anchor="middle"><text x="90" y="144">前後左右各一顆</text><text x="270" y="144">斜臂，最常用</text><text x="450" y="144">幾何同 X，轉向全部相反</text><text x="630" y="144">前寬後窄，偏航混控不同</text></g>
     </svg>
-    <figcaption>同一個 CLASS 之下，<code>Q_FRAME_TYPE</code> 再決定臂的幾何與馬達轉向。H 型在 ArduPilot 裡定義為「與 X 相同幾何、但每顆馬達轉向相反」；兩根平行支臂的 QuadPlane 用 X 或 H 都行，重點是實際轉向要跟所選類型一致。</figcaption>
+    <figcaption>同一個 CLASS 之下，<code>Q_FRAME_TYPE</code> 再決定臂的幾何與馬達轉向。ArduPilot 的 H 型和 X 型馬達位置相同，只是每顆轉向相反；兩根平行支臂的 QuadPlane 設 X 或 H 都可以，但實際轉向必須和所選類型一致。</figcaption>
   </figure>
 
   <div class="tscroll"><table class="tbl">
@@ -611,13 +604,13 @@ img{max-width:100%}
   </table></div>
   <div class="lecturer"><div class="lab">講師備註</div>這一段可以只講 Quad、X8、Tri 三個：Quad 是預設答案，X8 是「商用機為什麼長那樣」，Tri 是為了銜接下一節的傾轉三旋翼。其餘讓學生自己看圖。</div>
 
-<div class="ytwrap"><div class="ytlab">課堂影片 · 點縮圖即在頁內播放</div><div class="ytgrid"><figure class="yt" data-id="FNuVuNiK-L4"><button class="yt-play" type="button" aria-label="播放：Ardupilot QuadPlane 飛行模式示範"><img src="https://i.ytimg.com/vi/FNuVuNiK-L4/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Ardupilot QuadPlane 飛行模式示範<small>看 Q 模式與固定翼模式切換</small><a href="https://www.youtube.com/watch?v=FNuVuNiK-L4" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="ZaVoMkekVsM"><button class="yt-play" type="button" aria-label="播放：QuadPlane 起飛、過渡、降落（METU VTOL 競賽）"><img src="https://i.ytimg.com/vi/ZaVoMkekVsM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>QuadPlane 起飛、過渡、降落（METU VTOL 競賽）<small>一趟完整任務</small><a href="https://www.youtube.com/watch?v=ZaVoMkekVsM" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="Ellz5c-oy6M"><button class="yt-play" type="button" aria-label="播放：用 5 歐元滑翔機做 QuadPlane"><img src="https://i.ytimg.com/vi/Ellz5c-oy6M/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>用 5 歐元滑翔機做 QuadPlane<small>RC 玩家向</small><a href="https://www.youtube.com/watch?v=Ellz5c-oy6M" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
+<div class="ytwrap"><div class="ytlab">相關影片（點縮圖播放）</div><div class="ytgrid"><figure class="yt" data-id="FNuVuNiK-L4"><button class="yt-play" type="button" aria-label="播放：Ardupilot QuadPlane 飛行模式示範"><img src="https://i.ytimg.com/vi/FNuVuNiK-L4/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Ardupilot QuadPlane 飛行模式示範<small>看 Q 模式與固定翼模式切換</small><a href="https://www.youtube.com/watch?v=FNuVuNiK-L4" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="ZaVoMkekVsM"><button class="yt-play" type="button" aria-label="播放：QuadPlane 起飛、過渡、降落（METU VTOL 競賽）"><img src="https://i.ytimg.com/vi/ZaVoMkekVsM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>QuadPlane 起飛、過渡、降落（METU VTOL 競賽）<small>一趟完整任務</small><a href="https://www.youtube.com/watch?v=ZaVoMkekVsM" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="Ellz5c-oy6M"><button class="yt-play" type="button" aria-label="播放：用 5 歐元滑翔機做 QuadPlane"><img src="https://i.ytimg.com/vi/Ellz5c-oy6M/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>用 5 歐元滑翔機做 QuadPlane<small>RC 玩家向</small><a href="https://www.youtube.com/watch?v=Ellz5c-oy6M" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
   <div class="prose" style="margin-top:18px">
-    <p><b>過渡怎麼發生？</b>切到固定翼模式後，推進槳開始推、四顆旋翼繼續撐著；等空速到達 <code>AIRSPEED_MIN</code><a class="fn" href="#notes" title="見註記 1">1</a>，旋翼在 <code>Q_TRANSITION_MS</code>（預設 5000 ms）內慢慢收力。反向過渡則是推進槳立刻停、旋翼接手，舵面在減速期間繼續穩定姿態。細節在第 5 節用動畫看。</p>
+    <p><b>過渡流程：</b>切到固定翼模式後，推進槳開始出力、四顆旋翼繼續提供升力；空速達到 <code>AIRSPEED_MIN</code>（4.5 版以前叫 <code>ARSPD_FBW_MIN</code>）後，旋翼在 <code>Q_TRANSITION_MS</code>（預設 5000 ms）內逐漸降低出力。反向過渡時推進槳立即停止、改由旋翼提供升力，減速期間舵面繼續穩定姿態。第 5 節有動畫比較。</p>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">參數：定義一台 QuadPlane 的骨架</h3>
+    <h3 style="font-size:17px">QuadPlane 基本參數</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
       <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1</td><td>1 Quad · 2 Hexa · 3 Octa · 4 OctaQuad · 5 Y6 · 7 Tri · 10 Single/Dual（尾座機）· 12 DodecaHexa · 14 Deca · 15/17 Scripting Matrix</td></tr>
@@ -625,7 +618,7 @@ img{max-width:100%}
       <tr><td class="p">SERVO5–8_FUNCTION</td><td class="d">33–36</td><td>Motor1–Motor4（33、34、35、36）；Motor5–8 為 37–40。Q_ENABLE=1 後會自動填好。Tricopter 預設用輸出 5、6、8 與 11（尾舵機）。</td></tr>
       <tr><td class="p">Q_M_PWM_MIN / MAX</td><td class="d">—</td><td>VTOL 馬達的 PWM 範圍，優先於 SERVOx_MIN/MAX。</td></tr>
       <tr><td class="p">Q_M_SPIN_ARM</td><td class="d">—</td><td>解鎖後 VTOL 馬達的怠速輸出。</td></tr>
-      <tr><td class="p">Q_A_RAT_RLL_P / PIT_P</td><td class="d">0.25</td><td>VTOL 姿態速率環 P。文件明講 QuadPlane 通常需要「明顯更高」的值——因為機翼與支臂讓轉動慣量比同尺寸多旋翼大得多。</td></tr>
+      <tr><td class="p">Q_A_RAT_RLL_P / PIT_P</td><td class="d">0.25</td><td>VTOL 姿態速率環 P。官方文件指出 QuadPlane 通常需要明顯更高的值，因為機翼與支臂讓轉動慣量比同尺寸多旋翼大得多。</td></tr>
       <tr><td class="p">Q_A_ANGLE_MAX</td><td class="d">—</td><td>VTOL 模式的最大傾角；QuadPlane 建議保守，機翼在大傾角會產生額外升力／阻力。</td></tr>
       <tr><td class="p">Q_M_YAW_SV_ANGLE</td><td class="d">—</td><td>Tricopter 尾舵機最大傾角（僅 Q_FRAME_CLASS=7）。</td></tr>
       <tr><td class="p">SCHED_LOOP_RATE</td><td class="d">300</td><td>主迴圈 Hz；&lt;1 kg 的小機可用 400。</td></tr>
@@ -633,7 +626,7 @@ img{max-width:100%}
     <h4 style="font-size:14px;margin:12px 0 4px">SITL 模擬模型</h4>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane-tri --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
-    <p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0"><code>quadplane</code> 是 Quad-X 加固定翼的基本模型；<code>quadplane-tri</code> 為三旋翼版（Q_FRAME_CLASS=7，尾馬達用舵機偏擺控 yaw）<a class="fn" href="#notes" title="見註記 2">2</a>。加 <code>-w</code> 可把參數重設為該模型預設值；官方範例任務 <code>Tools/autotest/Generic-Missions/KSFO-VTOL.txt</code>。</p>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0"><code>quadplane</code> 是 Quad-X 加固定翼的基本模型；<code>quadplane-tri</code> 為三旋翼版（Q_FRAME_CLASS=7，尾馬達用舵機偏擺控 yaw）。加 <code>-w</code> 可把參數重設為該模型預設值；官方範例任務 <code>Tools/autotest/Generic-Missions/KSFO-VTOL.txt</code>。</p>
   </div>
   <div class="lecturer"><div class="lab">講師備註</div>如果現場有投影 Mission Planner，這一節就開 SITL <code>quadplane</code>，切到 QHOVER 起飛、切 FBWA 看它加速、再切回 QLOITER，一次示範完正反向過渡。</div>
 </section>
@@ -642,8 +635,8 @@ img{max-width:100%}
 <section class="sec" id="s3" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 3 節<span class="spk"> · 15 分鐘</span></div>
-    <h2>傾轉式 VTOL：Tilt-rotor 與 Tilt-wing</h2>
-    <p class="goal">同一組馬達兩用：朝上懸停、轉向前巡航。省掉死重，換來舵機、機構和一段「半傾斜」的曖昧過渡期。</p>
+    <h2>傾轉式 VTOL（Tilt-rotor、Tilt-wing）</h2>
+    <p class="goal">同一組馬達懸停時朝上、巡航時轉向前方。不必多帶閒置的馬達，但需要傾轉機構，過渡期間馬達處於半傾斜狀態。</p>
   </div></div>
 
   <div class="spec">
@@ -664,14 +657,14 @@ img{max-width:100%}
           <text x="186" y="238" fill="var(--ink-2)">尾馬達：固定，僅懸停用</text>
         </g>
       </svg>
-      <figcaption>傾轉三旋翼（Tilt-tricopter）俯視圖——RC 圈最常見的傾轉構型（E-flite Convergence 類）。前兩顆馬達沿虛線軸前傾成推進槳，尾馬達平飛時停轉。</figcaption>
+      <figcaption>傾轉三旋翼（Tilt-tricopter）俯視圖，這是 RC 機最常見的傾轉構型（如 E-flite Convergence）。前兩顆馬達沿虛線軸前傾成推進槳，尾馬達平飛時停轉。</figcaption>
     </figure>
     <div>
       <h3>Tilt-rotor ／ Tilt-wing</h3>
       <div class="alias">傾轉旋翼 · 傾轉機翼 · 矢量傾轉（vectored yaw）</div>
       <div class="pm">
-        <div class="plus"><b>優點</b><ul><li>沒有閒置馬達，巡航效率與速度最好</li><li>懸停時前馬達可差動傾轉控 yaw（矢量），懸停最有力</li><li>tilt-wing 讓螺旋槳滑流順著機翼吹，懸停時機翼不擋風</li></ul></div>
-        <div class="minus"><b>代價</b><ul><li>傾轉舵機要承受整顆馬達推力，機構與故障點最多</li><li>過渡期馬達半傾斜，升力與推力同時不足，是最容易出事的區間</li><li>Tilt-wing 懸停時整片機翼豎直，側風下像一面牆</li><li>參數最多、調校最久</li></ul></div>
+        <div class="plus"><b>優點</b><ul><li>沒有閒置馬達，巡航效率與速度最好</li><li>懸停時前方馬達可以差動傾轉控制偏航（矢量控制），懸停控制力最強</li><li>tilt-wing 讓螺旋槳滑流順著機翼吹，懸停時機翼不擋風</li></ul></div>
+        <div class="minus"><b>代價</b><ul><li>傾轉舵機要承受整顆馬達推力，機構與故障點最多</li><li>過渡期馬達半傾斜，升力與推力同時不足，是最容易出事的區間</li><li>Tilt-wing 懸停時整片機翼豎直，受側風面積大</li><li>參數最多、調校最久</li></ul></div>
       </div>
       <div class="rate">
         <span class="k">懸停效率</span><span class="bar"><i style="width:80%"></i></span><span class="v">4/5</span>
@@ -715,32 +708,32 @@ img{max-width:100%}
       </g>
       <g font-family="Noto Sans TC" font-size="11" fill="var(--muted)"><text x="20" y="190">橘＝懸停姿態，淡藍綠＝巡航姿態</text></g>
     </svg>
-    <figcaption>兩種傾轉的差別在「轉什麼」。tilt-wing 在懸停時滑流沿翼弦流過，機翼不會被自己的下洗氣流「壓住」（download），這是它懸停效率略勝的原因；代價是側風面積。ArduPilot 用同一組 <code>Q_TILT_*</code> 參數處理兩者；tilt-wing 多一個 <code>Q_TILT_WING_FLAP</code>，讓放襟翼時機翼也小幅上仰（最多 15°）。</figcaption>
+    <figcaption>兩者的差別在於傾轉的是馬達還是整片機翼。tilt-wing 懸停時滑流沿翼弦流過，機翼不會被下洗氣流往下壓（download），所以懸停效率略好，代價是受側風面積大。ArduPilot 用同一組 <code>Q_TILT_*</code> 參數處理兩者；tilt-wing 多一個 <code>Q_TILT_WING_FLAP</code>，讓放襟翼時機翼也小幅上仰（最多 15°）。</figcaption>
   </figure>
 
-<div class="ytwrap"><div class="ytlab">課堂影片 · 點縮圖即在頁內播放</div><div class="ytgrid"><figure class="yt" data-id="hDG-KlYyYDU"><button class="yt-play" type="button" aria-label="播放：ArduPilot 飛 E-flite Convergence"><img src="https://i.ytimg.com/vi/hDG-KlYyYDU/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>ArduPilot 飛 E-flite Convergence<small>傾轉三旋翼過渡</small><a href="https://www.youtube.com/watch?v=hDG-KlYyYDU" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="CXgFptnM_KQ"><button class="yt-play" type="button" aria-label="播放：CL-84 Dynavert 強風中完整過渡"><img src="https://i.ytimg.com/vi/CXgFptnM_KQ/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>CL-84 Dynavert 強風中完整過渡<small>傾轉機翼</small><a href="https://www.youtube.com/watch?v=CXgFptnM_KQ" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="lPwFxIHII6U"><button class="yt-play" type="button" aria-label="播放：MV-22B 懸停與過渡"><img src="https://i.ytimg.com/vi/lPwFxIHII6U/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>MV-22B 懸停與過渡<small>全尺寸傾轉旋翼</small><a href="https://www.youtube.com/watch?v=lPwFxIHII6U" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="5Y3fylbImAY"><button class="yt-play" type="button" aria-label="播放：Mission Planner SITL 跑 quadplane-tilttri"><img src="https://i.ytimg.com/vi/5Y3fylbImAY/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner SITL 跑 quadplane-tilttri<small>模擬操作</small><a href="https://www.youtube.com/watch?v=5Y3fylbImAY" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
+<div class="ytwrap"><div class="ytlab">相關影片（點縮圖播放）</div><div class="ytgrid"><figure class="yt" data-id="hDG-KlYyYDU"><button class="yt-play" type="button" aria-label="播放：ArduPilot 飛 E-flite Convergence"><img src="https://i.ytimg.com/vi/hDG-KlYyYDU/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>ArduPilot 飛 E-flite Convergence<small>傾轉三旋翼過渡</small><a href="https://www.youtube.com/watch?v=hDG-KlYyYDU" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="CXgFptnM_KQ"><button class="yt-play" type="button" aria-label="播放：CL-84 Dynavert 強風中完整過渡"><img src="https://i.ytimg.com/vi/CXgFptnM_KQ/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>CL-84 Dynavert 強風中完整過渡<small>傾轉機翼</small><a href="https://www.youtube.com/watch?v=CXgFptnM_KQ" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="lPwFxIHII6U"><button class="yt-play" type="button" aria-label="播放：MV-22B 懸停與過渡"><img src="https://i.ytimg.com/vi/lPwFxIHII6U/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>MV-22B 懸停與過渡<small>全尺寸傾轉旋翼</small><a href="https://www.youtube.com/watch?v=lPwFxIHII6U" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="5Y3fylbImAY"><button class="yt-play" type="button" aria-label="播放：Mission Planner SITL 跑 quadplane-tilttri"><img src="https://i.ytimg.com/vi/5Y3fylbImAY/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner SITL 跑 quadplane-tilttri<small>模擬操作</small><a href="https://www.youtube.com/watch?v=5Y3fylbImAY" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
   <div class="prose">
-    <p><b>過渡怎麼發生？</b>切到固定翼模式後，馬達先傾到 <code>Q_TILT_MAX</code>（預設 45°）等待空速；油門桿低於中位時馬達依比例轉回垂直，行為像 QHOVER。空速達到 <code>AIRSPEED_MIN</code> 後才繼續傾到 90° 全前推。<span class="adv">傾轉速率由 <code>Q_TILT_RATE_UP</code>（預設 40°/s）／<code>Q_TILT_RATE_DN</code> 限制，過渡完成或進入 MANUAL 時韌體自動放寬到 90°/s。</span></p>
+    <p><b>過渡流程：</b>切到固定翼模式後，馬達先傾到 <code>Q_TILT_MAX</code>（預設 45°）等待空速；油門桿低於中位時馬達依比例轉回垂直，行為像 QHOVER。空速達到 <code>AIRSPEED_MIN</code> 後才繼續傾到 90° 全前推。<span class="adv">傾轉速率由 <code>Q_TILT_RATE_UP</code>（預設 40°/s）／<code>Q_TILT_RATE_DN</code> 限制，過渡完成或進入 MANUAL 時韌體自動放寬到 90°/s。</span></p>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">參數：Q_TILT_* 一覽</h3>
+    <h3 style="font-size:17px">傾轉參數（Q_TILT_*）</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>範圍</th><th>說明</th></tr>
       <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0</td><td class="d">0/1</td><td>開啟傾轉功能。</td></tr>
       <tr><td class="p">Q_TILT_TYPE</td><td class="d">0</td><td class="d">0–3</td><td><b>0 Continuous</b> 連續：從垂直到水平任意角度。<b>1 Binary</b> 二段：只有全上／全前。<b>2 VectoredYaw</b> 矢量：左右馬達可獨立傾轉控 yaw。<b>3 Bicopter</b> 雙旋翼。</td></tr>
       <tr><td class="p">Q_TILT_MASK</td><td class="d">0</td><td class="d">bitmask</td><td>哪些馬達會傾轉；bit 0 = Motor 1。三旋翼前兩顆 = 3（1+2），四顆全傾 = 15。</td></tr>
-      <tr><td class="p">Q_TILT_MAX</td><td class="d">45</td><td class="d">20–80°</td><td>等待過渡空速時馬達停留的最大角度，也是「仍用多旋翼控制律」的界線。</td></tr>
+      <tr><td class="p">Q_TILT_MAX</td><td class="d">45</td><td class="d">20–80°</td><td>等待過渡空速時馬達停留的最大角度，也是仍使用多旋翼控制律的界線。</td></tr>
       <tr><td class="p">Q_TILT_RATE_UP</td><td class="d">40</td><td class="d">10–300°/s</td><td>懸停→前飛的傾轉速率上限。</td></tr>
       <tr><td class="p">Q_TILT_RATE_DN</td><td class="d">0</td><td class="d">10–300°/s</td><td>前飛→懸停的速率；0 = 沿用 RATE_UP。文件建議約 15°/s 起手。</td></tr>
-      <tr><td class="p">Q_TILT_YAW_ANGLE</td><td class="d">0</td><td class="d">0–30°</td><td>矢量 yaw 時馬達可「超過 90°」的角度（向後傾）。</td></tr>
+      <tr><td class="p">Q_TILT_YAW_ANGLE</td><td class="d">0</td><td class="d">0–30°</td><td>矢量 yaw 時馬達可以超過 90°（向後傾）的角度。</td></tr>
       <tr><td class="p">Q_TILT_FIX_ANGLE / _GAIN</td><td class="d">0 / 0</td><td class="d">0–30° / 0–1</td><td>平飛時用馬達傾轉輔助滾轉／俯仰（固定翼矢量），GAIN 從 0.1 慢慢加。</td></tr>
       <tr><td class="p">Q_TILT_WING_FLAP</td><td class="d">0</td><td class="d">0–15°</td><td>tilt-wing 專用：全襟翼時機翼上仰的角度；機翼到此角度即視為過渡完成。</td></tr>
     </table></div>
     <h4 style="font-size:14px;margin:12px 0 4px">傾轉舵機的輸出功能（SERVOn_FUNCTION）</h4>
     <div class="chips"><span class="chip">41 TiltMotorsFront</span><span class="chip">45 TiltMotorsRear</span><span class="chip">75 TiltMotorFrontLeft</span><span class="chip">76 TiltMotorFrontRight</span><span class="chip">46 TiltMotorRearLeft</span><span class="chip">47 TiltMotorRearRight</span></div>
-    <p style="font-size:13.5px;color:var(--ink-2)">矢量 yaw（TYPE=2）需要左右分開的 75/76；連續或二段傾轉用 41 一顆舵機同步即可。首飛前務必在地面於 MANUAL ⇄ QSTABILIZE 之間切換，確認傾轉平順、舵機微調正確——這是官方列出的地面檢查項目。</p>
-    <h4 style="font-size:14px;margin:12px 0 4px">SITL 模擬模型<a class="fn" href="#notes" title="見註記 2">2</a></h4>
+    <p style="font-size:13.5px;color:var(--ink-2)">矢量 yaw（TYPE=2）需要左右分開的 75/76；連續或二段傾轉用 41 一顆舵機同步即可。首飛前應在地面於 MANUAL ⇄ QSTABILIZE 之間切換，確認傾轉平順、舵機微調正確，這是官方文件列出的地面檢查項目。</p>
+    <h4 style="font-size:14px;margin:12px 0 4px">SITL 模擬模型</h4>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane-tilttri --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane-tilttrivec --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane-cl84 --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
@@ -749,8 +742,8 @@ img{max-width:100%}
       <tr><td class="p">quadplane-tilttri</td><td>傾轉三旋翼，前兩顆連續傾轉（TYPE 0）。</td></tr>
       <tr><td class="p">quadplane-tilttrivec</td><td>同上但矢量 yaw（TYPE 2），左右前馬達獨立傾轉。</td></tr>
       <tr><td class="p">quadplane-tilthvec</td><td>H 型四旋翼、四顆全傾、矢量 yaw。</td></tr>
-      <tr><td class="p">quadplane-tilt</td><td>四旋翼全傾的傾轉四旋翼。</td></tr>
-      <tr><td class="p">quadplane-cl84</td><td>仿 Canadair CL-84 的傾轉機翼（二段傾轉，TYPE 1）。</td></tr>
+      <tr><td class="p">quadplane-tilt</td><td>Quad X 四旋翼，前兩顆（Motor 1、3）左右獨立傾轉，矢量 yaw（TYPE 2，MASK 5）。</td></tr>
+      <tr><td class="p">quadplane-cl84</td><td>以 Canadair CL-84 命名：三旋翼配置，前兩顆馬達二段傾轉（TYPE 1），傾轉舵機約 7 秒轉完。模擬的是馬達傾轉，機翼本身不轉。</td></tr>
       <tr><td class="p">firefly</td><td>FireFly6 型 Y6 傾轉（Q_FRAME_TYPE=11 Y6F）。</td></tr>
     </table></div>
   </div>
@@ -761,8 +754,8 @@ img{max-width:100%}
 <section class="sec" id="s4" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 4 節<span class="spk"> · 12 分鐘</span></div>
-    <h2>尾座式 VTOL：Tailsitter</h2>
-    <p class="goal">不加任何東西——整架飛機立起來。機構最簡單，但懸停時是一片豎直的機翼在對抗風，控制律也最不像多旋翼。</p>
+    <h2>尾座式 VTOL（Tailsitter）</h2>
+    <p class="goal">整架飛機以機頭朝上的姿態起降，不需要額外的升力馬達或傾轉機構。代價是懸停時整片機翼豎直迎風，控制方式也和多旋翼差異最大。</p>
   </div></div>
 
   <div class="spec">
@@ -790,8 +783,8 @@ img{max-width:100%}
       <h3>Tailsitter</h3>
       <div class="alias">尾座式 · 立式起降 · 歷史：Convair XFY Pogo（1954 年完成完整過渡）</div>
       <div class="pm">
-        <div class="plus"><b>優點</b><ul><li>零額外機構、零死重，巡航效率最高</li><li>整機最輕、最便宜，適合手拋尺寸的小機</li><li>ArduPilot 支援 1～多顆馬達的各種變體</li></ul></div>
-        <div class="minus"><b>代價</b><ul><li>懸停時機翼豎直迎風，陣風下姿態最難保持</li><li>控制權威來自滑流吹舵面，低油門時舵面「沒風」</li><li>酬載（相機）在起降與巡航時朝向差 90°</li><li>操縱者視角混亂：懸停時滾轉／偏航軸互換</li></ul></div>
+        <div class="plus"><b>優點</b><ul><li>沒有額外機構與閒置重量，巡航效率最高</li><li>整機最輕、最便宜，適合手拋尺寸的小機</li><li>ArduPilot 支援 1～多顆馬達的各種變體</li></ul></div>
+        <div class="minus"><b>代價</b><ul><li>懸停時機翼豎直迎風，陣風下姿態最難保持</li><li>控制力來自滑流吹過舵面，低油門時舵面幾乎沒有作用</li><li>酬載（相機）在起降與巡航時朝向差 90°</li><li>操縱時容易混淆：懸停時滾轉軸與偏航軸互換</li></ul></div>
       </div>
       <div class="rate">
         <span class="k">懸停效率</span><span class="bar"><i style="width:60%"></i></span><span class="v">3/5</span>
@@ -805,20 +798,20 @@ img{max-width:100%}
   </div>
 
   <div class="grid3">
-    <div class="card"><h3 style="font-size:16px">矢量式 Vectored</h3><p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0">兩顆馬達各自可以小角度傾轉，懸停時像雙旋翼直接推姿態，不完全依賴舵面。<span class="adv">增益：<code>Q_TAILSIT_VHGAIN</code>（懸停，預設 0.5）、<code>Q_TAILSIT_VFGAIN</code>（平飛，預設 0）。</span></p></div>
-    <div class="card"><h3 style="font-size:16px">非矢量 · 單／雙馬達</h3><p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0">馬達固定，靠大面積舵面吃滑流。雙馬達可用差動推力幫忙。<span class="adv"><code>Q_FRAME_CLASS=10</code>、<code>Q_TAILSIT_MOTMX=0</code>。</span></p></div>
+    <div class="card"><h3 style="font-size:16px">矢量式 Vectored</h3><p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0">兩顆馬達可以各自小角度傾轉，懸停時直接用推力方向控制姿態，不完全依賴舵面。<span class="adv">增益：<code>Q_TAILSIT_VHGAIN</code>（懸停，預設 0.5）、<code>Q_TAILSIT_VFGAIN</code>（平飛，預設 0）。</span></p></div>
+    <div class="card"><h3 style="font-size:16px">非矢量（單／雙馬達）</h3><p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0">馬達固定，靠大面積舵面承受滑流來控制。雙馬達可以再加上差動推力。<span class="adv"><code>Q_FRAME_CLASS=10</code>、<code>Q_TAILSIT_MOTMX=0</code>。</span></p></div>
     <div class="card"><h3 style="font-size:16px">多旋翼式 CopterMotor</h3><p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0">機翼上裝 3 顆以上馬達，懸停像多旋翼、平飛時部分馬達關掉。可以沒有舵面。<span class="adv"><code>Q_TAILSIT_MOTMX</code> 指定平飛保留的馬達；NYT（無 yaw 力矩）佈局用 <code>Q_FRAME_TYPE</code> 16/17。</span></p></div>
   </div>
 
-<div class="ytwrap"><div class="ytlab">課堂影片 · 點縮圖即在頁內播放</div><div class="ytgrid"><figure class="yt" data-id="Hd5wz_RppNk"><button class="yt-play" type="button" aria-label="播放：Ardupilot 尾座機過渡"><img src="https://i.ytimg.com/vi/Hd5wz_RppNk/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Ardupilot 尾座機過渡<small>正反向過渡</small><a href="https://www.youtube.com/watch?v=Hd5wz_RppNk" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="IgEJyc5znMI"><button class="yt-play" type="button" aria-label="播放：非矢量雙馬達尾座機（ArduPilot）"><img src="https://i.ytimg.com/vi/IgEJyc5znMI/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>非矢量雙馬達尾座機（ArduPilot）<small>只靠舵面</small><a href="https://www.youtube.com/watch?v=IgEJyc5znMI" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="2xctOQexsHs"><button class="yt-play" type="button" aria-label="播放：WingtraOne 懸停與後向過渡"><img src="https://i.ytimg.com/vi/2xctOQexsHs/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>WingtraOne 懸停與後向過渡<small>商用尾座機</small><a href="https://www.youtube.com/watch?v=2xctOQexsHs" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="h9pxxu1muyQ"><button class="yt-play" type="button" aria-label="播放：Convair XFY-1 Pogo 過渡飛行（1950s）"><img src="https://i.ytimg.com/vi/h9pxxu1muyQ/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Convair XFY-1 Pogo 過渡飛行（1950s）<small>歷史影片</small><a href="https://www.youtube.com/watch?v=h9pxxu1muyQ" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
+<div class="ytwrap"><div class="ytlab">相關影片（點縮圖播放）</div><div class="ytgrid"><figure class="yt" data-id="Hd5wz_RppNk"><button class="yt-play" type="button" aria-label="播放：Ardupilot 尾座機過渡"><img src="https://i.ytimg.com/vi/Hd5wz_RppNk/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Ardupilot 尾座機過渡<small>正反向過渡</small><a href="https://www.youtube.com/watch?v=Hd5wz_RppNk" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="IgEJyc5znMI"><button class="yt-play" type="button" aria-label="播放：非矢量雙馬達尾座機（ArduPilot）"><img src="https://i.ytimg.com/vi/IgEJyc5znMI/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>非矢量雙馬達尾座機（ArduPilot）<small>只靠舵面</small><a href="https://www.youtube.com/watch?v=IgEJyc5znMI" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="2xctOQexsHs"><button class="yt-play" type="button" aria-label="播放：WingtraOne 懸停與後向過渡"><img src="https://i.ytimg.com/vi/2xctOQexsHs/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>WingtraOne 懸停與後向過渡<small>商用尾座機</small><a href="https://www.youtube.com/watch?v=2xctOQexsHs" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="h9pxxu1muyQ"><button class="yt-play" type="button" aria-label="播放：Convair XFY-1 Pogo 過渡飛行（1950s）"><img src="https://i.ytimg.com/vi/h9pxxu1muyQ/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Convair XFY-1 Pogo 過渡飛行（1950s）<small>歷史影片</small><a href="https://www.youtube.com/watch?v=h9pxxu1muyQ" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
   <div class="prose">
-    <p><b>過渡怎麼發生？</b>切到固定翼模式後，飛控以 <code>Q_TAILSIT_RAT_FW</code>（預設 50°/s）把機頭往下壓；機頭壓過 <code>Q_TAILSIT_ANGLE</code>（預設 45°）就換成固定翼控制律。反向則以 <code>Q_TAILSIT_RAT_VT</code> 拉起，過 <code>Q_TAILSIT_ANG_VT</code>（0 = 沿用 ANGLE）換回 VTOL 控制律。<b>過渡期間搖桿輸入被忽略</b>，姿態與油門完全由飛控接管——這一點與 QuadPlane 不同。</p>
+    <p><b>過渡流程：</b>切到固定翼模式後，飛控以 <code>Q_TAILSIT_RAT_FW</code>（預設 50°/s）把機頭往下壓；機頭壓過 <code>Q_TAILSIT_ANGLE</code>（預設 45°）就換成固定翼控制律。反向則以 <code>Q_TAILSIT_RAT_VT</code> 拉起，過 <code>Q_TAILSIT_ANG_VT</code>（0 = 沿用 ANGLE）換回 VTOL 控制律。<b>過渡期間會忽略搖桿輸入</b>，姿態與油門完全由飛控控制，這點和 QuadPlane 不同。</p>
   </div>
 
-  <div class="callout"><div class="lab">關鍵設定觀念</div><p>尾座機的 <code>AHRS_ORIENTATION</code>、加速度計校正與水平校正，都要<b>以平飛姿態</b>為準做。飛控眼裡它永遠是一架固定翼，只是「起飛時抬頭 90°」。</p></div>
+  <div class="callout"><div class="lab">注意</div><p>尾座機的 <code>AHRS_ORIENTATION</code>、加速度計校正與水平校正，都要<b>以平飛姿態</b>為準做。飛控把它當成固定翼處理，起降時只是機頭朝上 90°。</p></div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">參數：Q_TAILSIT_* 一覽</h3>
+    <h3 style="font-size:17px">尾座機參數（Q_TAILSIT_*）</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>範圍</th><th>說明</th></tr>
       <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0</td><td class="d">0/1/2</td><td>1 一般尾座機；2 強制 Q-assist 常開（無舵面的純馬達型必用）。</td></tr>
@@ -827,28 +820,28 @@ img{max-width:100%}
       <tr><td class="p">Q_TAILSIT_ANG_VT</td><td class="d">0</td><td class="d">5–80°</td><td>FW→VTOL 的門檻；0 = 用 ANGLE。</td></tr>
       <tr><td class="p">Q_TAILSIT_RAT_FW / RAT_VT</td><td class="d">50 / 50</td><td class="d">10–500°/s</td><td>兩個方向的過渡俯仰速率。</td></tr>
       <tr><td class="p">Q_TAILSIT_THR_VT</td><td class="d">-1</td><td class="d">-1–100%</td><td>FW→VTOL 過渡時的油門；-1 = 用懸停油門。</td></tr>
-      <tr><td class="p">Q_TAILSIT_INPUT</td><td class="d">0</td><td class="d">—</td><td>懸停時搖桿慣例：0 多旋翼式（地面座標 yaw/roll）；1 機體座標滾轉（3D 飛機式）。<a class="fn" href="#notes" title="見註記 8">8</a></td></tr>
+      <tr><td class="p">Q_TAILSIT_INPUT</td><td class="d">0</td><td class="d">bitmask</td><td>懸停時的搖桿慣例。0 = 多旋翼式（滾轉桿、方向舵分別控制地面座標的滾轉與偏航）；bit0 PlaneMode：滾轉桿與方向舵對調，像 3D 飛機懸停；bit1 BodyFrameRoll：滾轉桿改在機體座標滾轉，方向舵控制偏航速率。</td></tr>
       <tr><td class="p">Q_TAILSIT_VHGAIN / VFGAIN</td><td class="d">0.5 / 0</td><td class="d">0–1</td><td>矢量推力在懸停／平飛的使用量（矢量式專用）。VHPOW（預設 2.5）在大俯仰誤差時加碼。</td></tr>
       <tr><td class="p">Q_TAILSIT_RLL_MX</td><td class="d">0</td><td class="d">0–80°</td><td>尾座機允許的最大滾轉角。</td></tr>
-      <tr><td class="p">Q_TAILSIT_GSCMSK</td><td class="d">Throttle</td><td class="d">bitmask</td><td>增益縮放方式：bit0 油門、bit1 高油門／傾角降增益、bit2 盤負荷理論、bit3 高度修正。舵面權威隨滑流變，所以要縮放。</td></tr>
+      <tr><td class="p">Q_TAILSIT_GSCMSK</td><td class="d">Throttle</td><td class="d">bitmask</td><td>增益縮放方式：bit0 油門、bit1 高油門／傾角降增益、bit2 盤負荷理論、bit3 高度修正。舵面控制力會隨滑流變化，所以需要縮放增益。</td></tr>
       <tr><td class="p">Q_TAILSIT_GSCMIN / GSCMAX</td><td class="d">0.4 / 2</td><td class="d">0.1–1 / 1–5</td><td>增益縮放的上下限。</td></tr>
       <tr><td class="p">Q_TAILSIT_DSKLD</td><td class="d">0</td><td class="d">0–50 kg/m²</td><td>盤負荷 = 全機重量 ÷ 螺旋槳盤總面積；bit2 盤負荷理論會用它估算滑流速度。</td></tr>
       <tr><td class="p">Q_TAILSIT_MIN_VO</td><td class="d">0</td><td class="d">0–15 m/s</td><td>盤負荷理論假設的最小滑流速度。</td></tr>
       <tr><td class="p">Q_TAILSIT_VT_R_P / P_P / Y_P</td><td class="d">1</td><td class="d">0–2</td><td>VTOL 時 PID 輸出到舵面的縮放（滾轉／俯仰／偏航）。</td></tr>
     </table></div>
-    <h4 style="font-size:14px;margin:12px 0 4px">SITL 模擬模型<a class="fn" href="#notes" title="見註記 2">2</a></h4>
+    <h4 style="font-size:14px;margin:12px 0 4px">SITL 模擬模型</h4>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f plane-tailsitter --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane-copter_tailsitter --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
-    <p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0"><code>plane-tailsitter</code> 是雙馬達矢量式飛翼；<code>quadplane-copter_tailsitter</code> 是機翼上四顆馬達的多旋翼式。在 SITL 裡看 <code>Q_TAILSIT_ANGLE</code> 的效果最直觀：把它改成 70 再過渡，會看到飛控「更晚」交棒給固定翼控制律。</p>
+    <p style="font-size:13.5px;color:var(--ink-2);margin:6px 0 0"><code>plane-tailsitter</code> 是單馬達、靠滑流吹舵面控制的尾座機；它的預設參數只設了 <code>Q_ENABLE=1</code> 與 <code>Q_FRAME_CLASS=10</code>，要練尾座機過渡請再設 <code>Q_TAILSIT_ENABLE=1</code> 並重新開機。<code>quadplane-copter_tailsitter</code> 是機翼上裝四顆馬達（Plus 配置）的多旋翼式尾座機。在 SITL 中把 <code>Q_TAILSIT_ANGLE</code> 改成 70 再過渡，可以看到飛控比較晚才切換到固定翼控制律。</p>
   </div>
-  <div class="lecturer"><div class="lab">講師備註</div>示範時故意在 QHOVER 裡打滿方向舵，讓大家看到尾座機「滾轉」其實是繞著螺旋槳軸轉——這就是 Q_TAILSIT_INPUT 存在的理由。</div>
+  <div class="lecturer"><div class="lab">講師備註</div>示範時故意在 QHOVER 裡打滿方向舵，讓大家看到尾座機的「滾轉」其實是繞著螺旋槳軸轉，這就是 Q_TAILSIT_INPUT 存在的原因。</div>
 </section>
 <!-- ============ S5 ============ -->
 <section class="sec" id="s5" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 5 節<span class="spk"> · 10 分鐘</span></div>
-    <h2>過渡機制與飛行模式：升力如何從旋翼交棒給機翼</h2>
-    <p class="goal">三種構型過渡的差別，就是「誰在等空速、等到了做什麼」。拉動滑桿，同一個空速進度下看三架飛機各自在做什麼。</p>
+    <h2>過渡機制與飛行模式</h2>
+    <p class="goal">三種構型都要等空速足夠，才能把升力交給機翼，差別在等待期間怎麼維持高度、到速後怎麼切換。下方滑桿可以在同一個空速下比較三者。</p>
   </div></div>
 
   <div class="fig-frame">
@@ -876,7 +869,7 @@ img{max-width:100%}
             <line id="a-lw" x1="190" y1="118" x2="190" y2="118" stroke="var(--wing)" marker-end="url(#arr-w)"/>
           </g>
         </svg>
-        <div class="tnote" id="a-note">旋翼全力撐住，推進槳開始加速</div>
+        <div class="tnote" id="a-note">旋翼全力維持高度，推進槳開始加速</div>
         <div class="share"><span>旋翼出力</span><span class="b h"><i id="a-sh" style="width:100%"></i></span><span>機翼升力</span><span class="b w"><i id="a-sw" style="width:0%"></i></span></div>
       </div>
       <div class="pane">
@@ -921,30 +914,30 @@ img{max-width:100%}
         <div class="share"><span>推力垂直分量</span><span class="b h"><i id="c-sh" style="width:100%"></i></span><span>機翼升力</span><span class="b w"><i id="c-sw" style="width:0%"></i></span></div>
       </div>
     </div>
-    <p style="font-size:13px;color:var(--muted);margin:10px 0 0">升力分配為示意（機翼升力 ∝ 空速²）<a class="fn" href="#notes" title="見註記 6">6</a>。三張圖共用同一個空速進度：QuadPlane 與傾轉式都在 <code>AIRSPEED_MIN</code>（進度 80%）才開始「收旋翼／傾到底」；尾座機則是按角度而不是空速交棒控制律。</p>
+    <p style="font-size:13px;color:var(--muted);margin:10px 0 0">升力分配為示意（機翼升力 ∝ 空速²，AIRSPEED_MIN 以進度 80% 表示）。三張圖使用相同的空速進度：QuadPlane 與傾轉式在達到 <code>AIRSPEED_MIN</code> 後才開始降低旋翼出力或傾到水平；尾座機則依俯仰角而非空速切換控制律。</p>
   </div>
 
-<div class="ytwrap"><div class="ytlab">課堂影片 · 點縮圖即在頁內播放</div><div class="ytgrid"><figure class="yt" data-id="o6o5IcTAwgM"><button class="yt-play" type="button" aria-label="播放：Mission Planner 使用 SITL"><img src="https://i.ytimg.com/vi/o6o5IcTAwgM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner 使用 SITL<small>模擬環境設定</small><a href="https://www.youtube.com/watch?v=o6o5IcTAwgM" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="RI1IJzWL9_I"><button class="yt-play" type="button" aria-label="播放：Tridge：QuadPlane 降落的大改變（SITL）"><img src="https://i.ytimg.com/vi/RI1IJzWL9_I/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Tridge：QuadPlane 降落的大改變（SITL）<small>進場／空氣煞車的由來</small><a href="https://www.youtube.com/watch?v=RI1IJzWL9_I" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="BJcrsSfCSsI"><button class="yt-play" type="button" aria-label="播放：Mission Planner VTOL 飛行操作"><img src="https://i.ytimg.com/vi/BJcrsSfCSsI/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner VTOL 飛行操作<small>任務規劃</small><a href="https://www.youtube.com/watch?v=BJcrsSfCSsI" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
-  <h3 style="font-size:19px;margin:26px 0 6px">飛行模式：Q 開頭的是多旋翼腦，其餘是固定翼腦</h3>
-  <p class="prose" style="color:var(--ink-2)">QuadPlane 沒有「過渡模式」這個東西。過渡是<b>切換模式的副作用</b>：從任何 Q 模式切到固定翼模式就開始前向過渡，反之開始後向過渡。</p>
+<div class="ytwrap"><div class="ytlab">相關影片（點縮圖播放）</div><div class="ytgrid"><figure class="yt" data-id="o6o5IcTAwgM"><button class="yt-play" type="button" aria-label="播放：Mission Planner 使用 SITL"><img src="https://i.ytimg.com/vi/o6o5IcTAwgM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner 使用 SITL<small>模擬環境設定</small><a href="https://www.youtube.com/watch?v=o6o5IcTAwgM" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="RI1IJzWL9_I"><button class="yt-play" type="button" aria-label="播放：Tridge：QuadPlane 降落的大改變（SITL）"><img src="https://i.ytimg.com/vi/RI1IJzWL9_I/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Tridge：QuadPlane 降落的大改變（SITL）<small>進場／空氣煞車的由來</small><a href="https://www.youtube.com/watch?v=RI1IJzWL9_I" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="BJcrsSfCSsI"><button class="yt-play" type="button" aria-label="播放：Mission Planner VTOL 飛行操作"><img src="https://i.ytimg.com/vi/BJcrsSfCSsI/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Mission Planner VTOL 飛行操作<small>任務規劃</small><a href="https://www.youtube.com/watch?v=BJcrsSfCSsI" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
+  <h3 style="font-size:19px;margin:26px 0 6px">飛行模式</h3>
+  <p class="prose" style="color:var(--ink-2)">Q 開頭的是 VTOL 模式，其餘是固定翼模式。QuadPlane 沒有獨立的過渡模式，<b>過渡是切換飛行模式時自動發生的</b>：從 Q 模式切到固定翼模式就開始前向過渡，反過來則開始後向過渡。</p>
   <div class="modes">
-    <div class="mode h"><b>QSTABILIZE</b><span>手動姿態，油門直控。多旋翼的 Stabilize。</span></div>
+    <div class="mode h"><b>QSTABILIZE</b><span>手動姿態、油門直接控制，相當於多旋翼的 Stabilize。</span></div>
     <div class="mode h"><b>QHOVER</b><span>油門桿控升降率，定高。</span></div>
     <div class="mode h"><b>QLOITER</b><span>定高＋定點（需 GPS）。</span></div>
     <div class="mode h"><b>QLAND</b><span>原地垂直降落，Q_LAND_FINAL_ALT 以下改用 Q_LAND_FINAL_SPD。</span></div>
     <div class="mode h"><b>QRTL</b><span>VTOL 方式返航並降落。</span></div>
     <div class="mode h"><b>QACRO</b><span>速率模式特技，唯一不做後向過渡俯仰限制的模式。</span></div>
     <div class="mode h"><b>QAUTOTUNE</b><span>VTOL 姿態環自動調參。</span></div>
-    <div class="mode w"><b>MANUAL / ACRO</b><span>切入即<b>立刻關閉 VTOL 馬達</b>；傾轉機馬達瞬間轉到前推。空速不夠會直接失速。</span></div>
-    <div class="mode w"><b>FBWA / STABILIZE</b><span>油門桿直接給推進槳；過渡期間旋翼維持高度、升降舵當升降率。</span></div>
+    <div class="mode w"><b>MANUAL / ACRO</b><span>切入後<b>立即關閉 VTOL 馬達</b>，傾轉機的馬達會直接轉到前推。空速不足會直接失速。</span></div>
+    <div class="mode w"><b>FBWA / STABILIZE</b><span>油門桿直接控制推進槳；過渡期間由旋翼維持高度，升降舵控制升降率。</span></div>
     <div class="mode w"><b>FBWB / CRUISE</b><span>油門桿改成空速指令，過渡時套用 TKOFF_THR_MIN 或 TRIM_THROTTLE 當最低推力。</span></div>
     <div class="mode w"><b>AUTO</b><span>任務模式：VTOL_TAKEOFF / VTOL_LAND / DO_VTOL_TRANSITION。</span></div>
     <div class="mode w"><b>RTL</b><span>固定翼返航；Q_RTL_MODE 決定回到家後怎麼落。</span></div>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">Q-assist：固定翼模式裡的「安全網」</h3>
-    <p style="font-size:14px;color:var(--ink-2)">平飛時只要滿足任一條件，VTOL 馬達會自動介入提供升力與穩定：空速低於 <code>Q_ASSIST_SPEED</code>、姿態誤差超過 <code>Q_ASSIST_ANGLE</code>、或離地高度低於 <code>Q_ASSIST_ALT</code>。MANUAL／ACRO 例外——那兩個模式馬達是關死的。</p>
+    <h3 style="font-size:17px">Q-assist：固定翼模式下的 VTOL 輔助</h3>
+    <p style="font-size:14px;color:var(--ink-2)">平飛時只要滿足任一條件，VTOL 馬達會自動介入提供升力與穩定：空速低於 <code>Q_ASSIST_SPEED</code>、姿態誤差超過 <code>Q_ASSIST_ANGLE</code>、或離地高度低於 <code>Q_ASSIST_ALT</code>。MANUAL 與 ACRO 例外，這兩個模式不會啟動 VTOL 馬達。</p>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
       <tr><td class="p">Q_ASSIST_SPEED</td><td class="d">0 m/s</td><td>低於此空速就輔助。0 = 不用空速觸發；<b>-1 = 完全關閉輔助</b>並消除 pre-arm 警告。</td></tr>
@@ -956,7 +949,7 @@ img{max-width:100%}
     </table></div>
   </div>
 
-  <h3 style="font-size:19px;margin:26px 0 6px">AUTO 任務裡的一趟完整飛行</h3>
+  <h3 style="font-size:19px;margin:26px 0 6px">AUTO 任務流程</h3>
   <figure class="fig-frame">
     <svg viewBox="0 0 900 200" role="img" aria-label="QuadPlane 自動任務流程：VTOL_TAKEOFF 垂直爬升、前向過渡、固定翼航點、固定翼進場與減速、後向過渡、VTOL_LAND 垂直降落，並標示各段對應參數">
       <defs><linearGradient id="g-hw" x1="0" x2="1"><stop offset="0" stop-color="var(--hover)"/><stop offset="1" stop-color="var(--wing)"/></linearGradient><linearGradient id="g-wh" x1="0" x2="1"><stop offset="0" stop-color="var(--wing)"/><stop offset="1" stop-color="var(--hover)"/></linearGradient></defs>
@@ -981,14 +974,14 @@ img{max-width:100%}
         <text x="827" y="148">Q_LAND_FINAL_ALT</text><text x="880" y="185" text-anchor="end" fill="var(--muted)">Q_LAND_FINAL_SPD 0.5 m/s</text>
       </g>
     </svg>
-    <figcaption>一趟典型 VTOL 任務與每段對應的參數。4.1 以後 <code>VTOL_LAND</code> 預設先以固定翼方式進場、接近落點才做「空氣煞車」再轉垂直降落，所以不必像舊版那樣在落點前 60–80 m 手動排航點。<code>Q_RTL_MODE=1</code> 讓 RTL 也走同樣流程。</figcaption>
+    <figcaption>典型 VTOL 任務的各階段與對應參數。4.1 版起 <code>VTOL_LAND</code> 預設先以固定翼方式進場，接近落點時才減速（空氣煞車）再轉為垂直降落，不必像舊版那樣在落點前 60–80 m 手動安排航點。<code>Q_RTL_MODE=1</code> 讓 RTL 也走同樣流程。</figcaption>
   </figure>
 
   <div class="adv-block adv">
     <h3 style="font-size:17px">過渡相關參數與 Q_OPTIONS 重要位元</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
-      <tr><td class="p">AIRSPEED_MIN<a class="fn" href="#notes" title="見註記 1">1</a></td><td class="d">—</td><td>自動油門模式的最低空速，建議 = 平飛失速速度 × 1.2。它同時是前向過渡「收旋翼」的門檻。</td></tr>
+      <tr><td class="p">AIRSPEED_MIN</td><td class="d">—</td><td>自動油門模式的最低空速，建議 = 平飛失速速度 × 1.2。也是前向過渡開始降低旋翼出力的門檻。4.5 版以前名為 ARSPD_FBW_MIN。</td></tr>
       <tr><td class="p">Q_TRANSITION_MS</td><td class="d">5000 ms</td><td>達到 AIRSPEED_MIN 後 VTOL 馬達收力的時間（500–30000）。</td></tr>
       <tr><td class="p">Q_TRANS_DECEL</td><td class="d">2.0 m/s²</td><td>後向過渡估算停止距離用的減速度（0.2–5）。</td></tr>
       <tr><td class="p">Q_TRANS_FAIL / _ACT</td><td class="d">0 s / 0</td><td>前向過渡超過此秒數仍未達空速 → 執行 ACT（-1 只警告、0 QLAND、1 QRTL）。0 = 不限時。</td></tr>
@@ -1001,7 +994,7 @@ img{max-width:100%}
     </table></div>
     <div class="tscroll"><table class="tbl">
       <tr><th>Q_OPTIONS bit</th><th>效果</th></tr>
-      <tr><td class="d">0</td><td>Level Transition：過渡時把滾轉限制在 LEVEL_ROLL_LIMIT，並讓升降舵不再當升降率指令。</td></tr>
+      <tr><td class="d">0</td><td>Level Transition：過渡時把滾轉限制在 LEVEL_ROLL_LIMIT，爬升只用前推馬達。</td></tr>
       <tr><td class="d">1 / 2</td><td>允許固定翼起飛／固定翼降落（在 VTOL AUTO 下）。</td></tr>
       <tr><td class="d">4 / 16</td><td>4 永遠用固定翼螺旋進場；16 關閉 VTOL_LAND 的進場與空氣煞車階段。</td></tr>
       <tr><td class="d">7 / 8</td><td>Q-assist 常開／尾座機只用馬達輔助。</td></tr>
@@ -1012,36 +1005,36 @@ img{max-width:100%}
     </table></div>
   </div>
 
-  <div class="callout"><div class="lab">最常見的三種摔法</div><p><b>1. 空速不夠就切 MANUAL</b>——VTOL 馬達瞬間關閉，直接失速。用 QSTABILIZE／QLOITER 取代。<b>2. 後向過渡電壓崩潰</b>——所有馬達同時高出力，LiPo 掉到 3.0 V/cell 以下；用高 C 值電池或分開供電。<b>3. 傾轉舵機沒校準</b>——地面先在 MANUAL ⇄ QSTABILIZE 之間切換看傾轉是否平順。</p></div>
+  <div class="callout"><div class="lab">常見的三種失誤</div><ol><li><b>空速不足時切到 MANUAL：</b>VTOL 馬達立即關閉，飛機直接失速，應改用 QSTABILIZE 或 QLOITER。</li><li><b>後向過渡時電壓驟降：</b>所有馬達同時高出力，LiPo 可能掉到 3.0 V/cell 以下，需要高放電率電池或分開供電。</li><li><b>傾轉舵機未校準：</b>起飛前先在地面於 MANUAL ⇄ QSTABILIZE 之間切換，確認傾轉平順。</li></ol></div>
 </section>
 
 <section class="sec spk" id="brk" data-track="misc" style="padding:24px 0">
-  <div class="sec-head" style="margin:0"><div class="strip"></div><div><div class="kicker">休息 · 10 分鐘</div><h2 style="font-size:20px">休息。下半場換一種思路：不帶旋翼，把起飛速度壓低。</h2></div></div>
+  <div class="sec-head" style="margin:0"><div class="strip"></div><div><div class="kicker">休息 · 10 分鐘</div><h2 style="font-size:20px">休息（下半場：短距起降）</h2></div></div>
 </section>
 <!-- ============ S6 ============ -->
 <section class="sec" id="s6" data-track="stol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 6 節<span class="spk"> · 20 分鐘</span></div>
-    <h2>短距起降 STOL：把起飛速度壓到最低的每一種辦法</h2>
-    <p class="goal">STOL 飛機沒有旋翼可以偷懶，所有功夫都在一條升力方程式上：想在低速產生同樣的升力，只能加大翼面積、拉高升力係數，或兩者都做。</p>
+    <h2>短距起降（STOL）原理</h2>
+    <p class="goal">短距起降飛機沒有旋翼輔助，要縮短起降距離就得降低失速速度，方法不外乎加大翼面積、提高升力係數，或兩者並用。</p>
   </div></div>
 
   <div class="stats">
     <div class="stat"><div class="n">1 500<small>ft</small></div><div class="l">DOD／NATO 對 STOL 的定義：從起跑到越過 50 ft（15 m）障礙物，或從越過障礙到停住，都在 1 500 ft（457 m）內。</div></div>
-    <div class="stat"><div class="n">11<small>ft</small></div><div class="l">2018 Valdez STOL 競賽起飛紀錄，Frank Knapp 的改裝 Piper Cub——約 3.4 m。<a class="fn" href="#notes" title="見註記 5">5</a></div></div>
-    <div class="stat"><div class="n">9.5<small>ft</small></div><div class="l">同年降落紀錄，Dan Reynolds 的 Birdman Chinook——約 2.9 m。<a class="fn" href="#notes" title="見註記 5">5</a></div></div>
+    <div class="stat"><div class="n">11<small>ft</small></div><div class="l">2018 年 Valdez STOL 競賽起飛紀錄，Frank Knapp 駕駛改裝 Piper Cub，約 3.4 m（AOPA 報導）。</div></div>
+    <div class="stat"><div class="n">9.5<small>ft</small></div><div class="l">同年降落紀錄，Dan Reynolds 駕駛 Birdman Chinook，約 2.9 m。</div></div>
     <div class="stat"><div class="n">V<small>²</small></div><div class="l">起飛滾行距離大致與離地速度的平方成正比：失速速度降 20%，滾行距離約少 36%。</div></div>
   </div>
 
   <div class="prose">
     <p>升力 <span class="mono">L = ½ ρ V² S C<sub>L</sub></span>。飛機要離地，L 至少要等於重量 W；把式子反過來解速度，就是失速速度：</p>
     <p style="font-family:var(--font-display);font-size:20px;text-align:center;margin:8px 0 14px">V<sub>s</sub> = √( 2W ／ (ρ · S · C<sub>L,max</sub>) )</p>
-    <p>分母裡只有兩個東西是設計者能動的：<b>翼面積 S</b>（大主翼、低翼負荷）和<b>最大升力係數 C<sub>L,max</sub></b>（襟翼、縫翼、大攻角）。STOL 飛機所有看起來「怪怪的」設計，都是在推這兩個數字。<span class="adv">推重比、螺旋槳滑流吹翼與大輪胎不在公式裡，但它們決定你多快能到達 V<sub>s</sub>、能不能在低速維持舵面權威、以及落地時受不受得了。</span></p>
+    <p>分母中設計者能改變的只有兩項：<b>翼面積 S</b>（大主翼、低翼負荷）和<b>最大升力係數 C<sub>L,max</sub></b>（襟翼、縫翼、大攻角）。STOL 飛機外型上的特殊設計，大多是為了加大這兩個數值。<span class="adv">推重比、螺旋槳滑流與大輪胎不在公式裡，但會影響加速到 V<sub>s</sub> 的快慢、低速時的舵面控制力，以及落地時的承受能力。</span></p>
   </div>
 
-<div class="ytwrap"><div class="ytlab">課堂影片 · 點縮圖即在頁內播放</div><div class="ytgrid"><figure class="yt" data-id="hPakbghLe38"><button class="yt-play" type="button" aria-label="播放：Valdez 世界紀錄：9 ft 5 in 最短降落"><img src="https://i.ytimg.com/vi/hPakbghLe38/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Valdez 世界紀錄：9 ft 5 in 最短降落<small>STOL 極限</small><a href="https://www.youtube.com/watch?v=hPakbghLe38" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="T-jWeWhCLzs"><button class="yt-play" type="button" aria-label="播放：Frank Knapp Lil’Cub 起飛"><img src="https://i.ytimg.com/vi/T-jWeWhCLzs/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Frank Knapp Lil’Cub 起飛<small>大攻角、掛在螺旋槳上</small><a href="https://www.youtube.com/watch?v=T-jWeWhCLzs" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="5YlsHFhJmXg"><button class="yt-play" type="button" aria-label="播放：Zenith CH 701 起降與縫翼特寫"><img src="https://i.ytimg.com/vi/5YlsHFhJmXg/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Zenith CH 701 起降與縫翼特寫<small>固定縫翼</small><a href="https://www.youtube.com/watch?v=5YlsHFhJmXg" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="SyWOBCiFzg8"><button class="yt-play" type="button" aria-label="播放：CH 701 失速測試"><img src="https://i.ytimg.com/vi/SyWOBCiFzg8/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>CH 701 失速測試<small>失速特性</small><a href="https://www.youtube.com/watch?v=SyWOBCiFzg8" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="eBBZF_3DLCU"><button class="yt-play" type="button" aria-label="播放：煙風洞：可動襟翼翼型"><img src="https://i.ytimg.com/vi/eBBZF_3DLCU/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>煙風洞：可動襟翼翼型<small>看流線</small><a href="https://www.youtube.com/watch?v=eBBZF_3DLCU" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="3Ahtc-uePY4"><button class="yt-play" type="button" aria-label="播放：失速：氣流分離"><img src="https://i.ytimg.com/vi/3Ahtc-uePY4/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>失速：氣流分離<small>對照互動圖紅色區</small><a href="https://www.youtube.com/watch?v=3Ahtc-uePY4" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
+<div class="ytwrap"><div class="ytlab">相關影片（點縮圖播放）</div><div class="ytgrid"><figure class="yt" data-id="hPakbghLe38"><button class="yt-play" type="button" aria-label="播放：Valdez 世界紀錄：9 ft 5 in 最短降落"><img src="https://i.ytimg.com/vi/hPakbghLe38/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Valdez 世界紀錄：9 ft 5 in 最短降落<small>STOL 極限</small><a href="https://www.youtube.com/watch?v=hPakbghLe38" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="T-jWeWhCLzs"><button class="yt-play" type="button" aria-label="播放：Frank Knapp Lil’Cub 起飛"><img src="https://i.ytimg.com/vi/T-jWeWhCLzs/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Frank Knapp Lil’Cub 起飛<small>大攻角、掛在螺旋槳上</small><a href="https://www.youtube.com/watch?v=T-jWeWhCLzs" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="5YlsHFhJmXg"><button class="yt-play" type="button" aria-label="播放：Zenith CH 701 起降與縫翼特寫"><img src="https://i.ytimg.com/vi/5YlsHFhJmXg/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Zenith CH 701 起降與縫翼特寫<small>固定縫翼</small><a href="https://www.youtube.com/watch?v=5YlsHFhJmXg" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="SyWOBCiFzg8"><button class="yt-play" type="button" aria-label="播放：CH 701 失速測試"><img src="https://i.ytimg.com/vi/SyWOBCiFzg8/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>CH 701 失速測試<small>失速特性</small><a href="https://www.youtube.com/watch?v=SyWOBCiFzg8" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="eBBZF_3DLCU"><button class="yt-play" type="button" aria-label="播放：煙風洞：可動襟翼翼型"><img src="https://i.ytimg.com/vi/eBBZF_3DLCU/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>煙風洞：可動襟翼翼型<small>看流線</small><a href="https://www.youtube.com/watch?v=eBBZF_3DLCU" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure><figure class="yt" data-id="3Ahtc-uePY4"><button class="yt-play" type="button" aria-label="播放：失速：氣流分離"><img src="https://i.ytimg.com/vi/3Ahtc-uePY4/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>失速：氣流分離<small>對照互動圖紅色區</small><a href="https://www.youtube.com/watch?v=3Ahtc-uePY4" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure></div></div>
   <div class="fig-frame">
-    <h3 style="font-size:17px;margin-bottom:6px">互動：高升力裝置與攻角，看 C<sub>L</sub>–α 曲線怎麼動</h3>
+    <h3 style="font-size:17px;margin-bottom:6px">高升力裝置與攻角：C<sub>L</sub>–α 曲線</h3>
     <div class="ctl">
       <label>高升力裝置 <select id="hlSel">
         <option value="none">無（乾淨翼型）</option>
@@ -1094,11 +1087,11 @@ img{max-width:100%}
       </figure>
     </div>
     <div class="readout" style="margin-top:10px"><span>目前 C<sub>L</sub> <b id="clV">0.76</b></span><span>C<sub>L,max</sub> <b id="clMaxV">1.52</b> <span class="u">@ α<sub>stall</sub> <span id="asV">14°</span></span></span><span id="stallFlag" style="color:var(--note);font-weight:600"></span></div>
-    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">曲線為教學示意<a class="fn" href="#notes" title="見註記 6">6</a>：襟翼把曲線<b>往上抬</b>（同攻角更多升力，但失速攻角略降），縫翼把曲線<b>往右延</b>（能飛到更大攻角才失速）。兩者一起用，才會同時得到高 C<sub>L,max</sub> 與寬容的失速特性。</p>
+    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">曲線為示意，非實測數據。襟翼讓曲線<b>整體上移</b>（同攻角升力較大，失速攻角略降），縫翼讓曲線<b>延伸到更大攻角</b>才失速；兩者並用，可以同時得到較高的 C<sub>L,max</sub> 與較和緩的失速特性。</p>
   </div>
 
   <div class="fig-frame" style="margin-top:18px">
-    <h3 style="font-size:17px;margin-bottom:6px">互動：你的飛機失速速度是多少？</h3>
+    <h3 style="font-size:17px;margin-bottom:6px">失速速度計算</h3>
     <div class="ctl">
       <label>全機重量 <input type="number" id="mass" value="2.0" min="0.1" step="0.1"> kg</label>
       <label>翼面積 <input type="number" id="area" value="40" min="1" step="1"> dm²</label>
@@ -1117,28 +1110,28 @@ img{max-width:100%}
       <rect x="190" y="54" width="460" height="12" rx="4" fill="var(--surface-2)"/><rect id="rb1" x="190" y="54" width="460" height="12" rx="4" fill="var(--wing)"/><text id="rt1" x="0" y="64" font-family="Saira" font-size="12" fill="var(--ink)" font-weight="600"></text>
       <rect x="190" y="90" width="460" height="12" rx="4" fill="var(--surface-2)"/><rect id="rb2" x="190" y="90" width="460" height="12" rx="4" fill="var(--wing)"/><text id="rt2" x="0" y="100" font-family="Saira" font-size="12" fill="var(--ink)" font-weight="600"></text>
     </svg>
-    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">滾行距離指數 ∝ V<sub>s</sub>²（忽略推力、滾動阻力與地面效應的差異）。這就是 STOL 飛機為什麼「翼面積越大越好、襟翼越誇張越好」的數學理由。</p>
+    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">滾行距離指數 ∝ V<sub>s</sub>²（忽略推力、滾動阻力與地面效應的差異）。這也說明了 STOL 飛機為什麼偏好大翼面積與大面積襟翼。</p>
   </div>
 
-  <h3 style="font-size:19px;margin:28px 0 4px">STOL 飛機的招牌特徵，以及它們各自在推哪個數字</h3>
+  <h3 style="font-size:19px;margin:28px 0 4px">STOL 飛機的常見設計</h3>
   <div class="tiles">
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><rect x="3" y="12" width="28" height="10" rx="3" fill="var(--wing-soft)" stroke="var(--wing)"/><rect x="14" y="8" width="6" height="18" rx="3" fill="var(--wing)"/></svg>大主翼、低翼負荷</h4><p>直接放大 S。高翼、長翼展、大弦長；RC 的 STOL 泡沫機翼負荷常落在 15–35 g/dm²<a class="fn" href="#notes" title="見註記 7">7</a>，一般練習機 40–70。</p><div class="ap">推的數字：<b>S</b></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,17 C4,10 14,8 22,10 L22,20 C14,22 4,22 4,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M22,10 L31,20 L22,20Z" fill="var(--wing)"/></svg>襟翼 Flap</h4><p>加大彎度，同攻角升力更多。平板 → 開縫 → 富勒（同時後移加大面積），效果依序加強；大型 STOL 機甚至用雙／三開縫。</p><div class="ap">推的數字：<b>C<sub>L,max</sub></b>（富勒也推 S）· ArduPilot <code>FLAP_*</code></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M10,17 C10,10 18,8 28,10 L28,20 C18,22 10,22 10,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M3,12 C3,9 7,8 9,9 L9,15 C6,15 3,15 3,12Z" fill="var(--wing)"/></svg>前緣縫翼／縫隙 Slat · Slot</h4><p>讓下表面高壓氣流穿到上表面替邊界層「補氣」，延後分離，能飛到更大攻角。固定縫隙（Zenith CH 701 式）或自動彈出式。</p><div class="ap">推的數字：<b>α<sub>stall</sub> → C<sub>L,max</sub></b></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><g transform="rotate(-20 17 17)"><path d="M6,17 C6,11 16,9 28,11 L28,19 C16,21 6,21 6,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/></g><line x1="4" y1="26" x2="30" y2="26" stroke="var(--muted)" stroke-dasharray="2 2"/></svg>大攻角進場</h4><p>STOL 降落是「掛在螺旋槳上」以接近失速攻角慢慢下來。飛控需要準確空速與失速保護，否則一個陣風就掉翼。</p><div class="ap">ArduPilot <code>STALL_PREVENTION</code>、<code>AIRSPEED_STALL</code>、<code>LAND_PITCH_DEG</code></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="8" cy="17" rx="2.5" ry="9" fill="var(--hover-soft)" stroke="var(--hover)"/><path d="M12,11 H30 M12,17 H30 M12,23 H30" stroke="var(--wing)" stroke-width="1.5"/></svg>螺旋槳滑流吹翼</h4><p>螺旋槳在機翼前，滑流讓翼根「看到」比真實空速更快的氣流，低速時仍有升力與舵面權威（尾座機也靠這個）。大直徑、低轉速的槳效果最好。</p><div class="ap">推的數字：<b>局部 V</b></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M17,30 V8" stroke="var(--hover)" stroke-width="3" stroke-linecap="round"/><path d="M9,15 L17,6 L25,15" fill="none" stroke="var(--hover)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>高推重比</h4><p>公式管的是「離地速度」，推力管的是「多快到那個速度」。RC STOL 機推重比常接近或超過 1，短場起飛只需幾個機身長。</p><div class="ap">ArduPilot <code>TKOFF_THR_MAX</code>、<code>TKOFF_ROTATE_SPD</code></div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><circle cx="10" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="26" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><path d="M10,12 H26" stroke="var(--ink-2)" stroke-width="2"/></svg>大輪胎、長行程起落架</h4><p>Tundra tire 讓飛機能在草地、河床、碎石落地；長行程避震吸收高下沉率——STOL 落地本來就是「摔」下來的。</p><div class="ap">ArduPilot <code>TECS_LAND_SINK</code>（目標觸地下沉率）</div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,22 H30" stroke="var(--line)"/><path d="M8,22 L11,15 L14,22 M16,22 L19,15 L22,22 M24,22 L27,15 L30,22" fill="none" stroke="var(--wing)" stroke-width="1.5"/></svg>渦流產生器、翼刀、前緣延伸</h4><p>細節手段：VG 給邊界層加能量延後分離；翼刀擋住展向流讓翼尖晚失速（副翼保住）；drooped cuff 改善外翼段的失速。</p><div class="ap">推的數字：<b>失速特性</b>（可控性）</div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="10" cy="17" rx="2.5" ry="9" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M28,17 H15" stroke="var(--hover)" stroke-width="2.5" marker-end="url(#arr-h)"/></svg>反推力、煞車</h4><p>落地距離的另一半。可反轉的電調＋螺旋槳讓 RC 機也能反推；ArduPilot 支援在進場與滑行時自動使用負油門。</p><div class="ap">ArduPilot <code>USE_REV_THRUST</code>、<code>THR_MIN&lt;0</code></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><rect x="3" y="12" width="28" height="10" rx="3" fill="var(--wing-soft)" stroke="var(--wing)"/><rect x="14" y="8" width="6" height="18" rx="3" fill="var(--wing)"/></svg>大主翼、低翼負荷</h4><p>直接加大 S。高翼、長翼展、大弦長；RC 的 STOL 泡沫機翼負荷常落在 15–35 g/dm²，一般練習機 40–70。</p><div class="ap">影響：<b>S</b></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,17 C4,10 14,8 22,10 L22,20 C14,22 4,22 4,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M22,10 L31,20 L22,20Z" fill="var(--wing)"/></svg>襟翼 Flap</h4><p>加大彎度，同攻角升力更多。平板 → 開縫 → 富勒（同時後移加大面積），效果依序加強；大型 STOL 機甚至用雙／三開縫。</p><div class="ap">影響：<b>C<sub>L,max</sub></b>（富勒也推 S）· ArduPilot <code>FLAP_*</code></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M10,17 C10,10 18,8 28,10 L28,20 C18,22 10,22 10,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M3,12 C3,9 7,8 9,9 L9,15 C6,15 3,15 3,12Z" fill="var(--wing)"/></svg>前緣縫翼／縫隙 Slat · Slot</h4><p>讓下表面高壓氣流穿到上表面為邊界層注入能量，延後氣流分離，能飛到更大攻角。固定縫隙（Zenith CH 701 式）或自動彈出式。</p><div class="ap">影響：<b>α<sub>stall</sub> → C<sub>L,max</sub></b></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><g transform="rotate(-20 17 17)"><path d="M6,17 C6,11 16,9 28,11 L28,19 C16,21 6,21 6,17Z" fill="var(--wing-soft)" stroke="var(--wing)"/></g><line x1="4" y1="26" x2="30" y2="26" stroke="var(--muted)" stroke-dasharray="2 2"/></svg>大攻角進場</h4><p>STOL 降落時以接近失速的大攻角、靠推力維持，緩慢下降。飛控需要準確的空速與失速保護，否則陣風容易造成單側失速。</p><div class="ap">ArduPilot <code>STALL_PREVENTION</code>、<code>AIRSPEED_STALL</code>、<code>LAND_PITCH_DEG</code></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="8" cy="17" rx="2.5" ry="9" fill="var(--hover-soft)" stroke="var(--hover)"/><path d="M12,11 H30 M12,17 H30 M12,23 H30" stroke="var(--wing)" stroke-width="1.5"/></svg>螺旋槳滑流吹翼</h4><p>螺旋槳在機翼前，滑流讓機翼局部承受比實際空速更快的氣流，低速時仍有升力與舵面控制力（尾座機也靠這個原理）。大直徑、低轉速的槳效果最好。</p><div class="ap">影響：<b>局部 V</b></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M17,30 V8" stroke="var(--hover)" stroke-width="3" stroke-linecap="round"/><path d="M9,15 L17,6 L25,15" fill="none" stroke="var(--hover)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>高推重比</h4><p>公式決定離地速度，推力決定多快達到這個速度。RC STOL 機推重比常接近或超過 1，短場起飛只需幾個機身長。</p><div class="ap">ArduPilot <code>TKOFF_THR_MAX</code>、<code>TKOFF_ROTATE_SPD</code></div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><circle cx="10" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="26" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><path d="M10,12 H26" stroke="var(--ink-2)" stroke-width="2"/></svg>大輪胎、長行程起落架</h4><p>Tundra tire 讓飛機能在草地、河床、碎石落地；長行程避震可以吸收較大的下沉率，STOL 降落的下沉率本來就比一般飛機大。</p><div class="ap">ArduPilot <code>TECS_LAND_SINK</code>（目標觸地下沉率）</div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,22 H30" stroke="var(--line)"/><path d="M8,22 L11,15 L14,22 M16,22 L19,15 L22,22 M24,22 L27,15 L30,22" fill="none" stroke="var(--wing)" stroke-width="1.5"/></svg>渦流產生器、翼刀、前緣延伸</h4><p>VG 為邊界層注入能量、延後分離；翼刀擋住展向流，讓翼尖較晚失速、保住副翼效果；drooped cuff 改善外翼段的失速。</p><div class="ap">影響：<b>失速特性</b>（可控性）</div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="10" cy="17" rx="2.5" ry="9" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M28,17 H15" stroke="var(--hover)" stroke-width="2.5" marker-end="url(#arr-h)"/></svg>反推力、煞車</h4><p>用來縮短落地滑行距離。可反轉的電調＋螺旋槳讓 RC 機也能反推；ArduPilot 支援在進場與滑行時自動使用負油門。</p><div class="ap">ArduPilot <code>USE_REV_THRUST</code>、<code>THR_MIN&lt;0</code></div></div>
   </div>
 
-  <div class="callout w"><div class="lab">尺度效應 · 小航模不要照抄全尺寸 STOL</div>
-    <p>全尺寸 STOL 機的複雜機構（富勒滑軌、雙開縫襟翼、可收放縫翼）是在高雷諾數下、機翼已經很重的前提下划算的。RC 尺寸（翼弦 15–30 cm、空速 8–15 m/s）雷諾數大約只有 10⁵ 量級<a class="fn" href="#notes" title="見註記 13">13</a>，邊界層以層流為主、本來就容易分離，同一個裝置的 ΔC<sub>L,max</sub> 常常打對折；而每多一組舵機、鉸鏈、滑軌，翼負荷就往上走，V<sub>s</sub> 跟著升。小航模真正划算的是：<b>減重</b>（公式裡最直接的分子）、<b>大直徑低轉速槳的滑流</b>、<b>平板襟翼／襟副翼</b>（用現成舵機）、<b>湍流帶或渦流產生器</b>（幾乎零重量，低雷諾數下反而最有感）、<b>可反轉電調</b>做反推。固定縫翼要看機型——有的抬高失速攻角很明顯，有的只是多阻力，得實測。</p>
+  <div class="callout w"><div class="lab">小尺寸機的尺度效應</div>
+    <p>全尺寸 STOL 機的複雜機構（富勒滑軌、雙開縫襟翼、可收放縫翼）是在高雷諾數、機翼本身已經很重的條件下才划算。RC 尺寸（翼弦 15–30 cm、空速 8–15 m/s）雷諾數約為 10⁵ 量級（海平面 Re ≈ 68 500 × V × c，V 以 m/s、c 以 m 計），邊界層以層流為主、本來就容易分離，同一種裝置的 ΔC<sub>L,max</sub> 增量常常只剩一半左右；而每多一組舵機、鉸鏈、滑軌，翼負荷就往上走，V<sub>s</sub> 跟著升。對小航模比較划算的做法是：<b>減重</b>（公式中最直接的分子）、<b>大直徑低轉速槳的滑流</b>、<b>平板襟翼／襟副翼</b>（用現成舵機）、<b>湍流帶或渦流產生器</b>（幾乎零重量，低雷諾數下反而最有感）、<b>可反轉電調</b>做反推。固定縫翼的效果依機型而定，有的明顯提高失速攻角，有的只增加阻力，需要實測。</p>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">各種高升力裝置大概能加多少 C<sub>L,max</sub>？</h3>
+    <h3 style="font-size:17px">高升力裝置的 C<sub>L,max</sub> 增量</h3>
     <svg viewBox="0 0 720 230" role="img" aria-label="各高升力裝置對二維翼型最大升力係數增量的教科書近似值橫條圖">
       <g font-family="Noto Sans TC" font-size="12.5" fill="var(--ink-2)" text-anchor="end">
         <text x="150" y="30">平板襟翼</text><text x="150" y="60">分裂襟翼</text><text x="150" y="90">單開縫襟翼</text><text x="150" y="120">富勒襟翼</text><text x="150" y="150">雙開縫襟翼</text><text x="150" y="180">前緣縫翼 Slat</text><text x="150" y="210">前緣襟翼 Kruger</text>
@@ -1152,8 +1145,8 @@ img{max-width:100%}
       <line x1="165" y1="222" x2="665" y2="222" stroke="var(--line)"/>
       <g font-family="Saira" font-size="10.5" fill="var(--muted)"><text x="165" y="229">0</text><text x="415" y="229" text-anchor="middle">1.0</text><text x="665" y="229" text-anchor="end">2.0</text></g>
     </svg>
-    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">二維翼型的 ΔC<sub>L,max</sub> 近似值<a class="fn" href="#notes" title="見註記 3">3</a>；c′/c 是放襟翼後的弦長比（富勒襟翼後移，弦長變長）。三維機翼還要乘上襟翼展占比與後掠修正，實際增量約打七到八折。</p>
-    <h4 style="font-size:14px;margin:14px 0 4px">翼負荷的量級感（RC 尺度，g/dm²）<a class="fn" href="#notes" title="見註記 7">7</a></h4>
+    <p style="font-size:13px;color:var(--muted);margin:6px 0 0">二維翼型的 ΔC<sub>L,max</sub> 設計初估值；c′/c 是放襟翼後的弦長比（富勒襟翼後移，弦長變長）。三維機翼還要乘上襟翼展占比與後掠修正，實際增量約打七到八折。</p>
+    <h4 style="font-size:14px;margin:14px 0 4px">RC 機的翼負荷範圍（g/dm²）</h4>
     <svg viewBox="0 0 720 150" role="img" aria-label="不同類型 RC 飛機翼負荷範圍">
       <g font-family="Noto Sans TC" font-size="12.5" fill="var(--ink-2)" text-anchor="end"><text x="150" y="28">室內機／慢飛機</text><text x="150" y="58">泡沫 STOL 練習機</text><text x="150" y="88">一般運動機</text><text x="150" y="118">競速翼／噴射</text></g>
       <g stroke="var(--grid)"><line x1="165" y1="10" x2="165" y2="130"/><line x1="332" y1="10" x2="332" y2="130"/><line x1="499" y1="10" x2="499" y2="130"/><line x1="666" y1="10" x2="666" y2="130"/></g>
@@ -1165,14 +1158,14 @@ img{max-width:100%}
       <g font-family="Saira" font-size="10.5" fill="var(--muted)"><text x="165" y="145">0</text><text x="332" y="145" text-anchor="middle">50</text><text x="499" y="145" text-anchor="middle">100</text><text x="666" y="145" text-anchor="end">150</text></g>
     </svg>
   </div>
-  <div class="lecturer"><div class="lab">講師備註</div>互動時先固定攻角 6°，切換裝置讓大家看「曲線上抬」；再選「前緣縫翼」把攻角拉到 20°，看它還沒失速，最後切回「無」在同一攻角看紅色分離區——這就是縫翼的價值。失速速度計算器可以請一位學生報自己飛機的重量與翼面積現場算。</div>
+  <div class="lecturer"><div class="lab">講師備註</div>互動時先固定攻角 6°，切換裝置讓大家看「曲線上抬」；再選「前緣縫翼」把攻角拉到 20°，看它還沒失速，最後切回「無」，在同一攻角看紅色分離區，這就是縫翼的作用。失速速度計算器可以請一位學生報自己飛機的重量與翼面積現場算。</div>
 </section>
 <!-- ============ S7 ============ -->
 <section class="sec" id="s7" data-track="stol">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 7 節<span class="spk"> · 8 分鐘</span></div>
-    <h2>STOL 的 ArduPilot 設定：襟翼排程、自動起飛、自動降落</h2>
-    <p class="goal">ArduPilot Plane 沒有「STOL 模式」，但它把短距起降需要的每一件事——依空速放襟翼、旋轉離地、拉平、反推——都做成參數。</p>
+    <h2>STOL 的 ArduPilot 設定</h2>
+    <p class="goal">ArduPilot Plane 沒有專用的 STOL 模式，短距起降需要的功能（依空速放襟翼、抬頭離地、拉平、反推）都透過參數設定。</p>
   </div></div>
 
   <figure class="fig-frame">
@@ -1207,25 +1200,25 @@ img{max-width:100%}
       <text x="520" y="26" font-family="Noto Sans TC" font-size="13" font-weight="500" fill="var(--ink)">自動降落（NAV_LAND）</text>
       <text x="520" y="44" font-family="Noto Sans TC" font-size="11" fill="var(--muted)">襟翼：LAND_FLAP_PERCNT · 反推：USE_REV_THRUST · 坡度建議 ≤ 10%</text>
     </svg>
-    <figcaption>自動起飛與自動降落的剖面與參數對照。STOL 化的關鍵在三處：<b>旋轉速度</b>（<code>TKOFF_ROTATE_SPD</code> 至少比失速快 2 m/s）、<b>進場空速</b>（<code>LAND_PF_ARSPD</code> 可以再壓低）、<b>拉平時機</b>（<code>LAND_FLARE_SEC</code> 與 <code>LAND_FLARE_ALT</code> 先到者觸發）。</figcaption>
+    <figcaption>自動起飛與自動降落的剖面與參數對照。調整 STOL 性能主要看三處：<b>旋轉速度</b>（<code>TKOFF_ROTATE_SPD</code> 至少比失速快 2 m/s）、<b>進場空速</b>（<code>LAND_PF_ARSPD</code> 可以再壓低）、<b>拉平時機</b>（<code>LAND_FLARE_SEC</code> 與 <code>LAND_FLARE_ALT</code> 先到者觸發）。</figcaption>
   </figure>
 
   <div class="grid2">
     <div class="card">
-      <h3 style="font-size:16px">襟翼排程：依目標空速自動放</h3>
+      <h3 style="font-size:16px">自動襟翼</h3>
       <p style="font-size:14px;color:var(--ink-2);margin:6px 0 8px">把襟翼舵機的 <code>SERVOn_FUNCTION</code> 設 3（Flap），或 24／25 做 flaperon（副翼兼襟翼）。之後只要目標空速低於 <code>FLAP_1_SPEED</code> 就放 <code>FLAP_1_PERCNT</code>，再低於 <code>FLAP_2_SPEED</code> 就放 <code>FLAP_2_PERCNT</code>；起飛與降落另有專屬百分比。</p>
       <div class="chips"><span class="chip w">FLAP_1_SPEED / _PERCNT</span><span class="chip w">FLAP_2_SPEED / _PERCNT</span><span class="chip w">TKOFF_FLAP_PCNT</span><span class="chip w">LAND_FLAP_PERCNT</span><span class="chip">FLAP_SLEWRATE 75 %/s</span></div>
-      <p class="adv" style="font-size:13px;color:var(--muted);margin:0"><code>FLIGHT_OPTIONS</code> bit 15：在手動油門模式也啟用自動襟翼，並改用「目標與實際空速取小」——STOL 落地時很實用。手動襟翼可綁 RC 選項 Flap。<a class="fn" href="#notes" title="見註記 9">9</a></p>
+      <p class="adv" style="font-size:13px;color:var(--muted);margin:0"><code>FLIGHT_OPTIONS</code> bit 15：在手動油門模式也啟用自動襟翼，並改用目標空速與實際空速中較小者判斷，對 STOL 降落很有幫助。手動襟翼可設 <code>RCx_OPTION</code> = 208（Flap）。</p>
     </div>
     <div class="card">
-      <h3 style="font-size:16px">失速保護：讓飛控知道你的極限</h3>
-      <p style="font-size:14px;color:var(--ink-2);margin:6px 0 8px"><code>AIRSPEED_MIN</code> 設為失速速度 × 1.2，<code>AIRSPEED_STALL</code> 填真實失速速度，<code>STALL_PREVENTION=1</code>（預設開）會在低空速時自動限制滾轉角——因為轉彎時失速速度會隨 √(負載因子) 上升。STOL 慢飛能力越強，這幾個值就越要準：沒有空速計的 STOL 機是在賭運氣。</p>
+      <h3 style="font-size:16px">失速保護</h3>
+      <p style="font-size:14px;color:var(--ink-2);margin:6px 0 8px"><code>AIRSPEED_MIN</code> 設為失速速度 × 1.2，<code>AIRSPEED_STALL</code> 填真實失速速度，<code>STALL_PREVENTION=1</code>（預設開）會在低空速時自動限制滾轉角，因為轉彎時失速速度會隨 √(負載因子) 上升。STOL 機常在接近失速的速度飛行，這幾個值要設得準，也建議一定要裝空速計。</p>
       <div class="chips"><span class="chip w">AIRSPEED_MIN</span><span class="chip w">AIRSPEED_STALL</span><span class="chip w">STALL_PREVENTION=1</span><span class="chip">ARSPD_USE=1</span></div>
     </div>
   </div>
 
   <div class="adv-block adv">
-    <h3 style="font-size:17px">參數表：起飛、降落、反推</h3>
+    <h3 style="font-size:17px">起飛、降落與反推參數</h3>
     <div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
       <tr class="wi"><td class="p">TKOFF_ROTATE_SPD</td><td class="d">0 m/s</td><td>到達此空速才抬頭旋轉；建議 ≥ 失速速度 + 2 m/s。0 = 不等，直接依任務俯仰爬升。</td></tr>
@@ -1238,14 +1231,14 @@ img{max-width:100%}
       <tr><td class="p">LAND_FLAP_PERCNT</td><td class="d">0 %</td><td>進場與拉平時的襟翼量。</td></tr>
       <tr class="wi"><td class="p">LAND_PF_ALT / PF_SEC / PF_ARSPD</td><td class="d">10 m / 6 s / 0</td><td>預拉平階段：高度或「到地時間」先到者觸發，PF_ARSPD 為此段目標空速（0 = 不改）。STOL 機可在此把空速壓到接近 AIRSPEED_MIN。</td></tr>
       <tr class="wi"><td class="p">LAND_FLARE_ALT / FLARE_SEC</td><td class="d">3 m / 2 s</td><td>拉平觸發：離地高度或「以目前下沉率幾秒到地」先到者。拉平後鎖定航向、收油門。</td></tr>
-      <tr><td class="p">LAND_PITCH_DEG</td><td class="d">0°</td><td>拉平末段的最低俯仰角，防止機頭先著地；很依機型，通常小正值。</td></tr>
+      <tr><td class="p">LAND_PITCH_DEG</td><td class="d">0°</td><td>拉平末段的最低俯仰角，防止機頭先著地；依機型而定，通常是小的正值。4.5 版以前為 LAND_PITCH_CD（單位 0.01°）。</td></tr>
       <tr><td class="p">TECS_LAND_SINK</td><td class="d">0.25 m/s</td><td>拉平後的目標觸地下沉率。</td></tr>
-      <tr><td class="p">TECS_LAND_ARSPD<a class="fn" href="#notes" title="見註記 10">10</a></td><td class="d">-1</td><td>進場目標空速；-1 = 用 AIRSPEED_MIN。</td></tr>
-      <tr><td class="p">LAND_TYPE</td><td class="d">0</td><td>0 標準下滑道；<b>1 深失速（Deepstall）降落</b>——刻意失速垂直落下，是無起落架 STOL 小機的極端解。</td></tr>
+      <tr><td class="p">TECS_LAND_ARSPD</td><td class="d">-1</td><td>進場目標空速；負值時取 AIRSPEED_MIN 與 AIRSPEED_CRUISE 的中間值。</td></tr>
+      <tr><td class="p">LAND_TYPE</td><td class="d">0</td><td>0 標準下滑道；<b>1 深失速（Deepstall）降落</b>：刻意失速後垂直落下，適合沒有起落架的小型機。</td></tr>
       <tr><td class="p">LAND_ABORT_THR</td><td class="d">0</td><td>1 = 進場中油門桿 ≥ 90% 即重飛。</td></tr>
       <tr><td class="p">LAND_DISARMDELAY / THEN_NEUTRL</td><td class="d">20 s / 0</td><td>落地靜止後幾秒上鎖；上鎖後舵面回中或關 PWM。</td></tr>
       <tr><td class="p">USE_REV_THRUST</td><td class="d">AUTO_LAND_APPROACH</td><td>哪些飛行階段允許負油門（bitmask）；需 THR_MIN 為負且電調支援反轉。</td></tr>
-      <tr><td class="p">RNGFND_LANDING</td><td class="d">0</td><td>用測距儀（Lidar）量離地高度，讓拉平時機不受氣壓高度誤差影響——短場落地強烈建議。</td></tr>
+      <tr><td class="p">RNGFND_LANDING</td><td class="d">0</td><td>用測距儀（Lidar）量離地高度，讓拉平時機不受氣壓高度誤差影響，短場降落強烈建議使用。</td></tr>
     </table></div>
   </div>
   <div class="lecturer"><div class="lab">講師備註</div>把 <code>LAND_TYPE=1</code>（深失速）當彩蛋講：它和尾座機一樣，是「刻意把飛機放到它最不想去的姿態」來換場地。有時間的話問學生：深失速降落需要什麼樣的重心與尾翼設計？</div>
@@ -1255,8 +1248,8 @@ img{max-width:100%}
 <section class="sec" id="s8" data-track="misc">
   <div class="sec-head"><div class="strip"></div><div>
     <div class="kicker">第 8 節<span class="spk"> · 12 分鐘</span></div>
-    <h2>選型、常見失敗，以及 Q&amp;A</h2>
-    <p class="goal">回收開場那個「巡輸電線」的問題。任務條件 → 構型的對應，不是品味問題，是懸停時間、風、場地與預算的算術。</p>
+    <h2>構型選擇與常見問題</h2>
+    <p class="goal">回到開場的輸電線巡檢問題。選擇構型主要取決於懸停時間、風況、起降場地與預算。</p>
   </div></div>
 
   <figure class="fig-frame">
@@ -1285,14 +1278,14 @@ img{max-width:100%}
         <rect x="750" y="285" width="140" height="42" rx="10" fill="var(--hover-soft)" stroke="var(--hover)"/><text x="820" y="311" fill="var(--ink)" font-weight="500">尾座式</text>
       </g>
     </svg>
-    <figcaption>一條夠用的決策路徑。巡輸電線的答案通常落在 QuadPlane 或尾座式：懸停只在起降用、要長航時、山區風大則偏向 QuadPlane。</figcaption>
+    <figcaption>簡化的構型選擇流程。輸電線巡檢通常選 QuadPlane 或尾座式：懸停只用在起降、需要長航時；山區風大時則偏向 QuadPlane。</figcaption>
   </figure>
 
   <div class="tscroll"><table class="tbl">
     <tr><th>面向</th><th>QuadPlane 標準式</th><th>傾轉式</th><th>尾座式</th><th>STOL 固定翼</th></tr>
     <tr><td>懸停升力來源</td><td>專用垂直旋翼</td><td>同一組馬達，朝上</td><td>推進槳直接朝上</td><td>— （不能懸停）</td></tr>
     <tr><td>巡航時的閒置重量</td><td>4 顆馬達＋支臂</td><td>只有傾轉機構</td><td>無</td><td>無（但機翼較大）</td></tr>
-    <tr><td>過渡的風險區</td><td>小，兩系統獨立</td><td>中～大，半傾斜區</td><td>中，俯仰 90° 時舵面權威低</td><td>—</td></tr>
+    <tr><td>過渡的風險區</td><td>小，兩系統獨立</td><td>中～大，半傾斜區</td><td>中，俯仰 90° 時舵面控制力低</td><td>—</td></tr>
     <tr><td>懸停抗風</td><td>中</td><td>中～好（tilt-wing 差）</td><td>差</td><td>—</td></tr>
     <tr><td>入門難度</td><td>低</td><td>高</td><td>中～高</td><td>低</td></tr>
     <tr><td>ArduPilot 開關</td><td class="p">Q_ENABLE=1</td><td class="p">Q_TILT_ENABLE=1</td><td class="p">Q_TAILSIT_ENABLE=1</td><td class="p">FLAP_* / TKOFF_* / LAND_*</td></tr>
@@ -1301,21 +1294,21 @@ img{max-width:100%}
   </table></div>
 
   <div class="grid2">
-    <div class="card"><h3 style="font-size:16px">常見失敗 × 對應的參數／檢查</h3>
+    <div class="card"><h3 style="font-size:16px">常見問題與對應檢查</h3>
       <ul style="font-size:14px;color:var(--ink-2);padding-left:1.2em;margin:8px 0 0;line-height:1.7">
-        <li>前向過渡一直到不了空速 → 空速計未校正、推進槳不足；設 <code>Q_TRANS_FAIL</code> 讓它自己 QLAND。</li>
-        <li>VTOL 模式一直向前漂 → <code>Q_TRIM_PITCH</code> 沒補償，或水平校正是用垂直姿態做的（尾座機大忌）。</li>
-        <li>後向過渡電壓警報 → 電池 C 值、分開供電，或放大 <code>Q_TRANS_DECEL</code> 讓它減速更緩。</li>
-        <li>傾轉機 yaw 亂飄 → <code>Q_TILT_MASK</code>／舵機左右功能（75/76）接反。</li>
-        <li>尾座機低油門懸停亂晃 → 增益縮放 <code>Q_TAILSIT_GSCMSK</code> 沒開，舵面在低滑流下增益過高。</li>
-        <li>STOL 機自動落地機頭撞地 → <code>LAND_PITCH_DEG</code> 太低、<code>LAND_FLARE_SEC</code> 太短；加測距儀。</li>
+        <li>前向過渡一直到不了空速 → 空速計未校正、推進槳不足；可設 <code>Q_TRANS_FAIL</code> 讓飛機自動 QLAND。</li>
+        <li>VTOL 模式一直向前漂 → <code>Q_TRIM_PITCH</code> 沒補償，或水平校正是用垂直姿態做的（尾座機特別要注意）。</li>
+        <li>後向過渡電壓警報 → 電池 C 值、分開供電，或調小 <code>Q_TRANS_DECEL</code> 讓減速更和緩。</li>
+        <li>傾轉機偏航不穩 → <code>Q_TILT_MASK</code>／舵機左右功能（75/76）接反。</li>
+        <li>尾座機低油門懸停時晃動 → 增益縮放 <code>Q_TAILSIT_GSCMSK</code> 沒開，舵面在低滑流下增益過高。</li>
+        <li>STOL 機自動降落時機頭先著地 → <code>LAND_PITCH_DEG</code> 太低、<code>LAND_FLARE_SEC</code> 太短；加測距儀。</li>
       </ul></div>
-    <div class="card"><h3 style="font-size:16px">留給 Q&amp;A 的提問方向</h3>
+    <div class="card"><h3 style="font-size:16px">討論題</h3>
       <ul style="font-size:14px;color:var(--ink-2);padding-left:1.2em;margin:8px 0 0;line-height:1.7">
         <li>如果把 QuadPlane 的四顆旋翼全部改成可傾轉，它會變成哪一種？犧牲了什麼？</li>
-        <li>尾座機要掛雲台相機，該怎麼解決「起降時鏡頭朝天」？</li>
-        <li>一架 STOL 機加一組小旋翼只做「起飛輔助」，這算 VTOL 嗎？ArduPilot 上要怎麼設？（提示：Q_ASSIST_ALT）</li>
-        <li>沒有空速計的垂起機，前向過渡怎麼判斷「到速了」？（提示：合成空速與 <code>Q_OPTIONS</code> bit 12）</li>
+        <li>尾座機要掛雲台相機，起降時鏡頭會朝上，該怎麼解決？</li>
+        <li>一架 STOL 機加一組小旋翼只用來輔助起飛，這算 VTOL 嗎？ArduPilot 上要怎麼設？（提示：Q_ASSIST_ALT）</li>
+        <li>沒有空速計的垂起機，前向過渡時怎麼判斷空速已經足夠？（提示：合成空速與 <code>Q_OPTIONS</code> bit 12）</li>
       </ul></div>
   </div>
 </section>
@@ -1384,29 +1377,24 @@ img{max-width:100%}
     <li>Wikipedia：STOL、Tail-sitter、Tiltrotor、Flap (aeronautics)、Knapp Lil Cub</li>
     <li>AOPA，〈Valdez STOL distances get shorter〉，2018</li>
   </ul>
+  <p>本講義使用 ArduPlane 4.5 版以後的參數名稱。4.5 版以前的韌體請對照：<code>AIRSPEED_MIN</code>／<code>AIRSPEED_MAX</code> 原為 <code>ARSPD_FBW_MIN</code>／<code>ARSPD_FBW_MAX</code>，<code>AIRSPEED_CRUISE</code> 原為 <code>TRIM_ARSPD_CM</code>，<code>PTCH_LIM_MAX_DEG</code>／<code>PTCH_LIM_MIN_DEG</code> 原為 <code>LIM_PITCH_MAX</code>／<code>LIM_PITCH_MIN</code>，<code>LAND_PITCH_DEG</code> 原為 <code>LAND_PITCH_CD</code>。更早的版本以 <code>FLAP_IN_CHANNEL</code> 指定手動襟翼通道。</p>
 </section>
 
 <!-- ============ NOTES ============ -->
 <section class="notes spk" id="notes">
-  <h2><span style="color:var(--note)">▲</span> 註記與查證狀態</h2>
-  <p style="font-size:14px;color:var(--ink-2)">正文中的紅色 ▲ 對應以下編號。參數名稱、預設值與說明均對照 ArduPilot 官方文件與原始碼（ArduPlane <code>quadplane.cpp</code>、<code>tailsitter.cpp</code>、<code>tiltrotor.cpp</code>、<code>Parameters.cpp</code>、<code>AP_Landing.cpp</code>、<code>mode_takeoff.cpp</code>，master 分支）整理；下列項目屬於未能完整查證或版本相依的內容，上課前建議再確認一次。</p>
+  <h2>上課前待確認</h2>
+  <p>參數名稱、預設值、SITL 模型與馬達編號已於 2026-09 對照 ArduPilot master 與 ArduPlane-stable（V4.7.1）原始碼。以下內容無法從原始碼確認，上課前建議再核對：</p>
   <ol>
-    <li><b>參數更名：</b>ArduPlane 4.5 起 <code>ARSPD_FBW_MIN/MAX</code> 更名為 <code>AIRSPEED_MIN/MAX</code>、<code>TRIM_ARSPD_CM</code> 改為 <code>AIRSPEED_CRUISE</code>、<code>LIM_PITCH_MAX/MIN</code> 改為 <code>PTCH_LIM_MAX/MIN_DEG</code>。本講義採新名稱；若學生用舊韌體請對照。更名版本號依記憶整理，未於本次查證。</li>
-    <li><b>SITL 模型說明：</b>模型清單（quadplane、quadplane-tri、tilttri、tilttrivec、tilthvec、tilt、cl84、firefly、plane-tailsitter、copter_tailsitter）取自 ArduPilot <code>vehicleinfo.json</code> 與 SITL 文件；各模型「代表哪種構型」的描述依預設參數檔名稱與原始碼理解整理，未逐一於本次執行 <code>sim_vehicle.py</code> 驗證。</li>
-    <li><b>ΔC<sub>L,max</sub> 數值：</b>採教科書（Raymer, <i>Aircraft Design: A Conceptual Approach</i>）常見的二維翼型近似值，屬設計初估用途，本次未取得原書頁面核對。</li>
-    <li><b>定性評分與比較圖：</b>第 0 節四面向比較圖與各構型 1–5 分評分為講師主觀整理，用於課堂討論，非量測數據；可依自身經驗調整。</li>
-    <li><b>Valdez STOL 紀錄：</b>2018 年起飛 11 ft（Frank Knapp，改裝 Piper Cub）、降落 9.5 ft（Dan Reynolds，Birdman Chinook）取自 AOPA 2018 年 5 月報導；維基百科另載 2017 年 Knapp Lil Cub 起飛 13 ft 8 in、降落 10 ft 5 in。不同年份與量測規則會有差異。</li>
-    <li><b>示意曲線：</b>第 5 節升力分配（機翼升力 ∝ 空速²、AIRSPEED_MIN 定在進度 80%）與第 6 節 C<sub>L</sub>–α 曲線皆為教學示意，參數為假設值，非風洞或飛測數據。</li>
-    <li><b>翼負荷範圍：</b>RC 各類機種翼負荷區間為常見經驗值，未於本次查證來源。</li>
-    <li><b>Q_TAILSIT_INPUT：</b>官方 wiki 描述為 0～3 的數值（多旋翼式／3D 飛機式／依俯仰混合），原始碼 master 則定義為 bitmask（0 PlaneMode、1 BodyFrameRoll）；兩者為不同韌體版本的寫法，請依實際版本確認。</li>
-    <li><b>手動襟翼 RC 選項：</b><code>RCx_OPTION</code> 的 Flap 選項編號（記憶中為 208）未於本次查證；舊版另有 <code>FLAP_IN_CHANNEL</code>。</li>
-    <li><b>TECS_LAND_ARSPD：</b>其存在與「-1 = 用 AIRSPEED_MIN」的行為依記憶整理，本次未從 TECS 原始碼核對。</li>
-    <li><b>馬達編號與轉向：</b>Q_FRAME_CLASS 圖解中 Quad X／Plus、Hexa X、Tri 的編號與轉向依 ArduPilot <code>AP_MotorsMatrix</code> 的慣例整理，Octa／X8／Y6 只畫位置與交替轉向、未標編號；接線前請以官方「Connect ESCs and Motors」的 Motor Order 圖為準。</li>
-    <li><b>同軸效率損失「一到兩成」：</b>為常見經驗值（同軸下槳處於上槳下洗流中），未於本次查證特定來源，實際依槳距、間距與負載而異。</li>
-    <li><b>雷諾數量級：</b>Re ≈ 68 500 × V × c（海平面，V 以 m/s、c 以 m）；翼弦 0.2 m、10 m/s 約 1.4×10⁵。「ΔC<sub>L,max</sub> 常打對折」為低雷諾數下的定性經驗，非特定量測值。</li>
-    <li><b>影片清單：</b>各連結為依 YouTube 搜尋結果標題挑選，本次未逐支觀看確認內容、長度與畫質；上課前請先看過並記下時間點。若連結失效，用同樣標題重新搜尋即可。</li>
+    <li><b>ΔC<sub>L,max</sub> 表格（第 6 節）：</b>教科書常用的二維翼型初估值，尚未對照原書（Raymer, <i>Aircraft Design: A Conceptual Approach</i>）頁面。</li>
+    <li><b>翼負荷範圍（第 6 節）：</b>RC 各類機種的區間為經驗值，沒有特定出處。</li>
+    <li><b>同軸懸停效率損失約一到兩成（第 2 節）：</b>常見經驗值，實際依槳距、上下間距與負載而定。</li>
+    <li><b>低雷諾數下 ΔC<sub>L,max</sub> 增量只剩一半左右（第 6 節）：</b>定性經驗，非特定量測；雷諾數算式本身已驗算。</li>
+    <li><b>Valdez STOL 紀錄（第 6 節）：</b>2018 年起飛 11 ft、降落 9.5 ft 取自 AOPA 2018 年 5 月報導；維基百科另載 2017 年 Knapp Lil Cub 起飛 13 ft 8 in、降落 10 ft 5 in，年份與量測規則不同。</li>
+    <li><b>Tri 螺旋槳轉向（第 2 節圖解）：</b>馬達位置已對照原始碼；Tri 靠尾舵機控偏航，原始碼沒有規定轉向，接線前請看官方 Motor Order 圖。</li>
+    <li><b>定性比較（開場比較圖、第 8 節比較表）：</b>講師主觀整理，不是量測數據。</li>
+    <li><b>影片：</b>依 YouTube 標題挑選，尚未逐支看過內容、長度與畫質。先看過並記下要播的時間點；連結失效時用同樣標題重新搜尋。</li>
   </ol>
-  <p style="font-size:12.5px;color:var(--muted)">主要來源：ardupilot.org QuadPlane 文件（frame setup、tilt-rotor、tailsitter、transitions、assisted fixed-wing flight、AUTO missions、simulation）、automatic takeoff／landing、automatic flaps 頁面；GitHub ArduPilot/ardupilot master 原始碼；Wikipedia「STOL」「Tail-sitter」「Tiltrotor」「Flap (aeronautics)」「Knapp Lil Cub」；AOPA〈Valdez STOL distances get shorter〉(2018)。</p>
+  <p>2026-09 查證時更正過的內容：TECS_LAND_ARSPD 負值的行為、Q_TAILSIT_INPUT 的位元定義、Q_OPTIONS bit 0 說明、Q_TRANS_DECEL 的調整方向，以及 quadplane-tilt、quadplane-cl84、plane-tailsitter 三個 SITL 模型的描述。</p>
 </section>
 <script>
 (function(){
@@ -1438,7 +1426,7 @@ img{max-width:100%}
   function setT(t){
     var v=t*VSCALE,wing=t*t;
     $('trV').textContent=v.toFixed(1);
-    $('trPhase').textContent=t<=0?'懸停':(t<0.8?'加速中（VTOL 馬達撐住）':(t<1?'已達 AIRSPEED_MIN，交棒中':'巡航'));
+    $('trPhase').textContent=t<=0?'懸停':(t<0.8?'加速中（VTOL 馬達維持升力）':(t<1?'已達 AIRSPEED_MIN，切換中':'巡航'));
     ['a','b','c'].forEach(function(p){$(p+'-air').setAttribute('x2',22+110*t)});
     /* A: SLT */
     var rot=clamp(1-t*t,0,1);if(t>0.8)rot*=clamp(1-(t-0.8)/0.2,0,1);
@@ -1446,7 +1434,7 @@ img{max-width:100%}
     setLen($('a-l1'),125,96,125,96-46*rot);setLen($('a-l2'),255,96,255,96-46*rot);setLen($('a-lw'),190,118,190,118-60*wing);
     $('a-push').style.opacity=0.35+0.65*clamp(t*2,0,1);
     $('a-sh').style.width=(rot*100)+'%';$('a-sw').style.width=(wing*100)+'%';
-    $('a-note').textContent=t<=0?'旋翼全力撐住，推進槳開始加速':(t<0.8?'等待空速到 AIRSPEED_MIN，旋翼持續提供升力與穩定':(t<1?'已達 AIRSPEED_MIN：旋翼在 Q_TRANSITION_MS 內收力':'過渡完成：純固定翼飛行'));
+    $('a-note').textContent=t<=0?'旋翼全力維持高度，推進槳開始加速':(t<0.8?'等待空速到 AIRSPEED_MIN，旋翼持續提供升力與穩定':(t<1?'已達 AIRSPEED_MIN：旋翼在 Q_TRANSITION_MS 內收力':'過渡完成：純固定翼飛行'));
     /* B: tilt */
     var ang=t<0.8?45*(t/0.8):45+45*((t-0.8)/0.2);ang=clamp(ang,0,90);
     $('b-nac').setAttribute('transform','translate(230,126) rotate('+(-(90-ang)).toFixed(1)+')');
@@ -1523,7 +1511,7 @@ img{max-width:100%}
 
   /* ---- YouTube click-to-load ---- */
   var isFile=location.protocol==='file:';
-  if(isFile){document.querySelectorAll('.ytlab').forEach(function(l){l.textContent='課堂影片 · 目前是直接開本機檔案，YouTube 不允許頁內播放（Error 153）；點縮圖會另開 YouTube。放上 GitHub Pages 後即可頁內播放。'});}
+  if(isFile){document.querySelectorAll('.ytlab').forEach(function(l){l.textContent='相關影片（以本機檔案開啟時 YouTube 不允許內嵌播放，點縮圖會另開 YouTube）'});}
   document.querySelectorAll('.yt-play').forEach(function(b){b.addEventListener('click',function(){var f=b.closest('.yt'),id=f.getAttribute('data-id');
     if(isFile){window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener');return}
     var ifr=document.createElement('iframe');ifr.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0';ifr.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen');ifr.setAttribute('allowfullscreen','');ifr.setAttribute('referrerpolicy','strict-origin-when-cross-origin');ifr.setAttribute('title',b.getAttribute('aria-label')||'YouTube video');b.replaceWith(ifr)})});
