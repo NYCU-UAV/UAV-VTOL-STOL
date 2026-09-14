@@ -234,6 +234,24 @@ img{max-width:100%}
 .vidlist{display:flex;flex-direction:column;gap:18px;margin:14px 0}
 .vidgroup h4{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .vidgroup h4 .sw{margin:0}
+
+/* expandable explanations */
+.dt{border:1px solid var(--line);background:var(--surface);color:var(--wing);font-size:13px;line-height:1.4;padding:1px 9px;border-radius:999px;cursor:pointer;margin-left:6px;vertical-align:middle;white-space:nowrap}
+.dt:hover{background:var(--wing-soft)}
+.dt[aria-expanded="true"]{background:var(--wing);color:#fff;border-color:var(--wing)}
+tr.detail[hidden]{display:none}
+tr.detail>td{padding:0 10px 14px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.dtl{font-size:15px;line-height:1.7;color:var(--ink);padding:10px 14px 4px;max-width:78ch}
+.dtl p{margin:0 0 .6em}
+.dtl ul{margin:0 0 .7em;padding-left:1.4em}
+.dtl li{margin:.3em 0}
+.dtl p.lb{font-weight:700;color:var(--wing);font-size:14px;margin:.5em 0 .2em}
+.dtl p.lb:first-child{margin-top:0}
+.mode .dt{margin:8px 0 0;display:inline-block}
+.mode .dtl{margin-top:8px;padding:10px 12px 4px;background:var(--surface-2);border-radius:6px;font-size:14px;line-height:1.6}
+.mode .dtl[hidden]{display:none}
+.dt-all{display:flex;justify-content:flex-end;margin:8px 0 -6px}
+@media print{tr.detail[hidden]{display:table-row} .mode .dtl[hidden]{display:block} .dt,.dt-all{display:none}}
 </style>
 <script>if(/[?&]speaker(=|&|$)/.test(location.search))document.documentElement.classList.add("speaker")</script>
 </head>
@@ -409,12 +427,17 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">ArduPilot 用哪些參數區分三種構型</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>值</th><th>意義</th></tr>
-      <tr class="hi"><td class="p">Q_ENABLE</td><td class="d">1</td><td>開啟 QuadPlane：輸出 1–4 留給固定翼舵面／推進，VTOL 馬達從輸出 5 開始。設 2 = 切進 AUTO 時一開始就是 VTOL AUTO，以 VTOL 方式執行任務。</td></tr>
-      <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1 / 2 / 3 / 4 / 5 / 7 / 10</td><td>VTOL 馬達的佈局類別：Quad、Hexa、Octa、OctaQuad、Y6、Tri、Single/Dual（單／雙馬達尾座機用 10）。每一種的圖解與取捨見<a href="#s2">第 2 節</a>。</td></tr>
-      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0 → 1</td><td>設 1 進入傾轉式邏輯，再用 <code>Q_TILT_TYPE</code>、<code>Q_TILT_MASK</code> 指定傾轉方式與哪幾顆馬達傾轉。</td></tr>
-      <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0 → 1 / 2</td><td>設 1 進入尾座式邏輯；2 = 強制 Q-assist 一直開（給沒有舵面的純馬達尾座機）。</td></tr>
+      <tr class="hi"><td class="p">Q_ENABLE</td><td class="d">1</td><td>開啟 QuadPlane：輸出 1–4 留給固定翼舵面／推進，VTOL 馬達從輸出 5 開始。設 2 = 切進 AUTO 時一開始就是 VTOL AUTO，以 VTOL 方式執行任務。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>QuadPlane 功能的總開關。設 1 並重開機後，飛控才把這架飛機當成「固定翼＋一組垂直旋翼」：所有 <code>Q_</code> 開頭的參數才會出現、多出 Q 開頭的飛行模式、輸出 5 以後的腳位自動配給 VTOL 馬達，主迴圈也自動提高到 300 Hz。</p><p class="lb">什麼時候要動它</p><p>組一架新的垂起機，第一件事就是設它；純固定翼保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0</b>：關閉，就是一架普通固定翼。</li><li><b>1</b>：開啟。</li><li><b>2</b>：開啟，而且切進 AUTO 模式時一開始就以 VTOL 方式執行任務。</li></ul><p>改完一定要重開機，其他參數才會全部出現。</p></div></td></tr>
+      <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1 / 2 / 3 / 4 / 5 / 7 / 10</td><td>VTOL 馬達的佈局類別：Quad、Hexa、Octa、OctaQuad、Y6、Tri、Single/Dual（單／雙馬達尾座機用 10）。每一種的圖解與取捨見<a href="#s2">第 2 節</a>。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>告訴飛控懸停用的那組馬達長什麼樣：幾顆、怎麼排。它只描述懸停馬達，和機翼、推進槳無關。</p><p class="lb">什麼時候要動它</p><p>組機時依馬達數選一次就好，改了要重開機。三顆以上馬達的尾座機也在這裡選對應類別，再用 <code>Q_TAILSIT_MOTMX</code> 標示平飛時留哪幾顆。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>1 Quad</b>：四顆，最常見。</li><li><b>2 Hexa</b>：六顆。</li><li><b>3 Octa</b>：八臂八顆。</li><li><b>4 OctaQuad</b>：四臂八顆、上下同軸（X8）。</li><li><b>5 Y6</b>：三臂六顆同軸。</li><li><b>7 Tri</b>：三顆加尾舵機。</li><li><b>10 Single/Dual</b>：單或雙馬達的尾座機。</li><li><b>12、14、15、17</b>：十二軸、十軸與腳本自訂矩陣，一般用不到。</li></ul><p>選錯類別，馬達數對不上，解鎖後推油門就會往一邊翻。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0 → 1</td><td>設 1 進入傾轉式邏輯，再用 <code>Q_TILT_TYPE</code>、<code>Q_TILT_MASK</code> 指定傾轉方式與哪幾顆馬達傾轉。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>把這架飛機標成「傾轉式」。設 1 重開機後，飛控改用傾轉式的過渡邏輯，並出現 <code>Q_TILT_TYPE</code>、<code>Q_TILT_MASK</code> 等參數。</p><p class="lb">什麼時候要動它</p><p>馬達或機翼會轉向的機型才開；標準式 QuadPlane 保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p><b>0</b> 關閉、<b>1</b> 開啟，重開機生效。它和 <code>Q_TAILSIT_ENABLE</code> 不能同時為 1，同時開飛控會報設定錯誤、拒絕啟動。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0 → 1 / 2</td><td>設 1 進入尾座式邏輯；2 = 強制 Q-assist 一直開（給沒有舵面的純馬達尾座機）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>把這架飛機標成「尾座式」。飛控會把它當成一架固定翼，只是起降時機頭朝上 90°；過渡邏輯改成按俯仰角交棒，而不是按空速。</p><p class="lb">什麼時候要動它</p><p>整架飛機立起來起降的機型才開。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>1</b>：一般尾座機，有舵面。</li><li><b>2</b>：強制 Q-assist 常開，而且固定翼模式也用零油門仍穩定的 airmode；給沒有舵面、純靠馬達的機型。設 2 時固定翼模式不能解鎖。</li></ul><p>和 <code>Q_TILT_ENABLE</code> 互斥。</p></div></td></tr>
     </table></div>
     <p style="font-size:15px;color:var(--ink-2);margin:0">這幾個 enable 參數決定使用哪一套過渡邏輯，傾轉式與尾座式不能同時開啟；其餘 <code>Q_*</code> 參數（姿態 PID、位置控制、著陸速度）三種構型共用。</p>
   </div>
@@ -591,17 +614,27 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">QuadPlane 基本參數</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
-      <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1</td><td>1 Quad · 2 Hexa · 3 Octa · 4 OctaQuad · 5 Y6 · 7 Tri · 10 Single/Dual（尾座機）· 12 DodecaHexa · 14 Deca · 15/17 Scripting Matrix</td></tr>
-      <tr><td class="p">Q_FRAME_TYPE</td><td class="d">1</td><td>0 Plus · 1 X · 2 V · 3 H · 4 V-Tail · 5 A-Tail · 10 Y6B · 11 Y6F · 12 BetaFlightX · 13 DJIX · 14 ClockwiseX · 15 I · 16 NYT_PLUS · 17 NYT_X · 18 BetaFlightXReversed · 19 Y4</td></tr>
-      <tr><td class="p">SERVO5–8_FUNCTION</td><td class="d">33–36</td><td>Motor1–Motor4（33、34、35、36）；Motor5–8 為 37–40。Q_ENABLE=1 後會自動填好。Tricopter 預設用輸出 5、6、8 與 11（尾舵機）。</td></tr>
-      <tr><td class="p">Q_M_PWM_MIN / MAX</td><td class="d">1000 / 2000</td><td>VTOL 馬達的 PWM 範圍，優先於 SERVOx_MIN/MAX。</td></tr>
-      <tr><td class="p">Q_M_SPIN_ARM</td><td class="d">0.10</td><td>解鎖後 VTOL 馬達開始轉動的輸出比例（0–1），應低於 Q_M_SPIN_MIN。</td></tr>
-      <tr><td class="p">Q_A_RAT_RLL_P / PIT_P</td><td class="d">0.25</td><td>VTOL 姿態速率環 P。官方文件指出 QuadPlane 通常需要明顯更高的值，因為機翼與支臂讓轉動慣量比同尺寸多旋翼大得多。</td></tr>
-      <tr><td class="p">Q_A_ANGLE_MAX</td><td class="d">30°</td><td>VTOL 模式的最大傾角；QuadPlane 建議保守，機翼在大傾角會產生額外升力／阻力。</td></tr>
-      <tr><td class="p">Q_M_YAW_SV_ANGLE</td><td class="d">30°</td><td>Tricopter 尾舵機最大傾角（僅 Q_FRAME_CLASS=7）。</td></tr>
-      <tr><td class="p">SCHED_LOOP_RATE</td><td class="d">300</td><td>主迴圈頻率。固定翼預設 50，Q_ENABLE 開啟後預設改為 300；&lt;1 kg 的小機可用 400。</td></tr>
+      <tr><td class="p">Q_FRAME_CLASS</td><td class="d">1</td><td>1 Quad · 2 Hexa · 3 Octa · 4 OctaQuad · 5 Y6 · 7 Tri · 10 Single/Dual（尾座機）· 12 DodecaHexa · 14 Deca · 15/17 Scripting Matrix <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>懸停馬達的類別：幾顆、怎麼排。飛控靠它決定用哪一套混控（每顆馬達分到多少推力）。</p><p class="lb">什麼時候要動它</p><p>組機時選一次，重開機生效。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>1 Quad</b>、<b>2 Hexa</b>、<b>3 Octa</b>：四、六、八顆各一臂。</li><li><b>4 OctaQuad</b>：四臂八顆同軸（X8）。</li><li><b>5 Y6</b>：三臂六顆同軸。</li><li><b>7 Tri</b>：三顆加尾舵機控偏航。</li><li><b>10 Single/Dual</b>：單／雙馬達尾座機，靠舵面與差動推力控制。</li><li><b>12 DodecaHexa、14 Deca</b>：十二軸、十軸。</li><li><b>15、17</b>：用 Lua 腳本自訂的混控矩陣。</li></ul></div></td></tr>
+      <tr><td class="p">Q_FRAME_TYPE</td><td class="d">1</td><td>0 Plus · 1 X · 2 V · 3 H · 4 V-Tail · 5 A-Tail · 10 Y6B · 11 Y6F · 12 BetaFlightX · 13 DJIX · 14 ClockwiseX · 15 I · 16 NYT_PLUS · 17 NYT_X · 18 BetaFlightXReversed · 19 Y4 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>同一個 CLASS 底下，馬達擺的角度和每顆的轉向。飛控靠它決定「要滾轉時哪幾顆加速、哪幾顆減速」。</p><p class="lb">什麼時候要動它</p><p>組機時和 <code>Q_FRAME_CLASS</code> 一起選，重開機生效。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0 Plus</b>：有一顆馬達正對機頭。</li><li><b>1 X</b>：兩顆馬達夾著機頭，QuadPlane 幾乎都用這個。</li><li><b>3 H</b>：馬達位置和 X 一樣，但每顆轉向相反。</li><li><b>2 V、4 V-Tail、5 A-Tail</b>：特殊臂形。</li><li><b>10 Y6B、11 Y6F</b>：Y6 的兩種上下轉向配置，FireFly6 用 Y6F。</li><li><b>12～15、18</b>：BetaFlight、DJI 等其他廠商的編號慣例。</li><li><b>16 NYT_PLUS、17 NYT_X</b>：不產生偏航力矩的配置，給多旋翼式尾座機。</li><li><b>19 Y4</b>。</li></ul><p>轉向設反的典型症狀：解鎖一推油門，飛機往一邊翻或原地打轉。接線前對照官方 Motor Order 圖。</p></div></td></tr>
+      <tr><td class="p">SERVO5–8_FUNCTION</td><td class="d">33–36</td><td>Motor1–Motor4（33、34、35、36）；Motor5–8 為 37–40。Q_ENABLE=1 後會自動填好。Tricopter 預設用輸出 5、6、8 與 11（尾舵機）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>飛控每個輸出腳位都有一個 <code>SERVOn_FUNCTION</code>，填一個代碼告訴韌體「這個腳位接什麼」。</p><p class="lb">什麼時候要動它</p><p>設 <code>Q_ENABLE=1</code> 重開機後，韌體會自動把輸出 5～8 填成 Motor1～4；只有接線位置和預設不同、或馬達更多時才要自己改。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>33、34、35、36</b>：Motor1～Motor4，編號對應圖上的馬達位置。</li><li><b>37～40</b>：Motor5～Motor8，六軸、八軸才用。</li><li><b>39</b>：同時兼作三旋翼的尾舵機（Motor7/TailTiltServo）。</li><li><b>4、19、70、21</b>：副翼、升降舵、推進槳油門、方向舵，通常在輸出 1～4。</li><li><b>41、75、76、45、46、47</b>：傾轉舵機，見第 3 節。</li></ul><p>三旋翼只用 Motor1、2、4，所以預設是輸出 5、6、8 接馬達、輸出 11 接尾舵機，輸出 7 空著。電調插在哪個腳位，就要和這裡的對應一致。</p></div></td></tr>
+      <tr><td class="p">Q_M_PWM_MIN / MAX</td><td class="d">1000 / 2000</td><td>VTOL 馬達的 PWM 範圍，優先於 SERVOx_MIN/MAX。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>VTOL 馬達電調收到的 PWM 訊號範圍，單位微秒：MIN 是停轉、MAX 是滿油門。飛控把 0～100% 的推力需求換算到這個範圍輸出。</p><p class="lb">什麼時候要動它</p><p>用一般 PWM 電調時，依電調校正的結果填，多數是 1000／2000。用 DShot 這類數位協定則不看這兩個值。</p><p class="lb">怎麼設／設錯會怎樣</p><p>它優先於 <code>SERVOn_MIN/MAX</code>。MIN 設太高，解鎖馬達就轉太快；MAX 設太低，油門推不到頂、懸停可能不夠力。</p></div></td></tr>
+      <tr><td class="p">Q_M_SPIN_ARM</td><td class="d">0.10</td><td>解鎖後 VTOL 馬達開始轉動的輸出比例（0–1），應低於 Q_M_SPIN_MIN。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>解鎖後、還沒推油門時馬達要轉多快，用 0～1 的輸出比例表示（0.10 = 全行程的 10%）。</p><p class="lb">什麼時候要動它</p><p>讓人一眼看出飛機已解鎖，也讓電調先轉起來；換電調或馬達後可能要調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>要比 <code>Q_M_SPIN_MIN</code>（飛行時的最低輸出）低。設太高解鎖就想抬頭甚至跳起來；設太低有些電調會停轉、抖動。</p></div></td></tr>
+      <tr><td class="p">Q_A_RAT_RLL_P / PIT_P</td><td class="d">0.25</td><td>VTOL 姿態速率環 P。官方文件指出 QuadPlane 通常需要明顯更高的值，因為機翼與支臂讓轉動慣量比同尺寸多旋翼大得多。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>VTOL 姿態控制是兩層迴圈：外圈把「角度差」換成「應該轉多快」，內圈（速率環）把「實際轉速和要求的差」換成馬達推力差。這兩個就是內圈的比例增益，P 越大、同樣的誤差出手越重。</p><p class="lb">什麼時候要動它</p><p>新機第一次懸停調校時；換翼、換重量之後也要重調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>QuadPlane 預設 0.25（Copter 是 0.135），因為機翼和支臂讓轉動慣量大很多，要出手更重才轉得動；官方說常常還要再往上加。慢慢加到開始高頻抖動再退一點；太小飛機會軟、飄、跟不上搖桿。也可以用 QuickTune（RC 選項 181）自動調。</p></div></td></tr>
+      <tr><td class="p">Q_A_ANGLE_MAX</td><td class="d">30°</td><td>VTOL 模式的最大傾角；QuadPlane 建議保守，機翼在大傾角會產生額外升力／阻力。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>VTOL 模式下飛控允許的最大傾斜角。傾越多、水平加速越快，但機翼在大傾角會產生額外升力和阻力，讓姿態控制變難。</p><p class="lb">什麼時候要動它</p><p>新機先保守；QLOITER 抗風不夠時再考慮放大。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 30°，範圍 10～80。尾座機的滾轉另有 <code>Q_TAILSIT_RLL_MX</code> 可以單獨設。</p></div></td></tr>
+      <tr><td class="p">Q_M_YAW_SV_ANGLE</td><td class="d">30°</td><td>Tricopter 尾舵機最大傾角（僅 Q_FRAME_CLASS=7）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>三旋翼的尾馬達裝在舵機上左右偏擺來控制偏航，這個值是舵機最大偏角。</p><p class="lb">什麼時候要動它</p><p>只有 <code>Q_FRAME_CLASS=7</code> 用得到。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 30°。飛控假設 <code>SERVOn_MIN/MAX</code> 對應 ±90°、TRIM 是正中，所以舵機行程要先校準好，這個值才準。</p></div></td></tr>
+      <tr><td class="p">SCHED_LOOP_RATE</td><td class="d">300</td><td>主迴圈頻率。固定翼預設 50，Q_ENABLE 開啟後預設改為 300；&lt;1 kg 的小機可用 400。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>飛控主迴圈每秒跑幾次。多旋翼式的姿態控制需要高更新率才穩。</p><p class="lb">什麼時候要動它</p><p>固定翼預設 50 Hz 就夠；設 <code>Q_ENABLE=1</code> 後韌體自動把預設改成 300。</p><p class="lb">怎麼設／設錯會怎樣</p><p>1 kg 以下的小機可以設 400 讓反應更快；大機慣量大、反應本來就慢，設更高沒有幫助。改了要重開機。</p></div></td></tr>
     </table></div>
     <h4 style="font-size:15px;margin:12px 0 4px">SITL 模擬模型</h4>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f quadplane --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
@@ -691,17 +724,27 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">傾轉參數（Q_TILT_*）</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>範圍</th><th>說明</th></tr>
-      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0</td><td class="d">0/1</td><td>0 = 關閉，1 = 開啟傾轉功能（重開機生效）。</td></tr>
-      <tr><td class="p">Q_TILT_TYPE</td><td class="d">0</td><td class="d">0–3</td><td><b>0 Continuous</b> 連續：從垂直到水平任意角度。<b>1 Binary</b> 二段：只有全上／全前。<b>2 VectoredYaw</b> 矢量：左右馬達可獨立傾轉控 yaw。<b>3 Bicopter</b> 雙旋翼（需 Q_FRAME_CLASS=10）。</td></tr>
-      <tr><td class="p">Q_TILT_MASK</td><td class="d">0</td><td class="d">bitmask</td><td>哪些馬達會傾轉；bit 0 = Motor 1。三旋翼前兩顆 = 3（1+2），四顆全傾 = 15。</td></tr>
-      <tr><td class="p">Q_TILT_MAX</td><td class="d">45</td><td class="d">20–80°</td><td>等待過渡空速時馬達停留的最大角度，也是仍使用多旋翼控制律的界線。</td></tr>
-      <tr><td class="p">Q_TILT_RATE_UP</td><td class="d">40</td><td class="d">10–300°/s</td><td>懸停→前飛的傾轉速率上限。</td></tr>
-      <tr><td class="p">Q_TILT_RATE_DN</td><td class="d">0</td><td class="d">10–300°/s</td><td>前飛→懸停的速率；0 = 沿用 RATE_UP。文件建議約 15°/s 起手。</td></tr>
-      <tr><td class="p">Q_TILT_YAW_ANGLE</td><td class="d">0</td><td class="d">0–30°</td><td>VTOL 模式最小輸出時馬達可以超過 90°（向後傾）的角度；TYPE=2 矢量 yaw 必須設非 0 才會生效。</td></tr>
-      <tr><td class="p">Q_TILT_FIX_ANGLE / _GAIN</td><td class="d">0 / 0</td><td class="d">0–30° / 0–1</td><td>平飛時用馬達傾轉輔助滾轉／俯仰（固定翼矢量），GAIN 從 0.1 慢慢加。</td></tr>
-      <tr><td class="p">Q_TILT_WING_FLAP</td><td class="d">0</td><td class="d">0–15°</td><td>tilt-wing 專用：全襟翼時機翼上仰的角度；機翼到此角度即視為過渡完成。</td></tr>
+      <tr><td class="p">Q_TILT_ENABLE</td><td class="d">0</td><td class="d">0/1</td><td>0 = 關閉，1 = 開啟傾轉功能（重開機生效）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>傾轉功能的開關。開了之後飛控才會讀 <code>Q_TILT_*</code> 的其他參數，過渡也改成「先傾到 Q_TILT_MAX 等空速、再傾平」的邏輯。</p><p class="lb">什麼時候要動它</p><p>馬達或機翼會轉向的機型設 1；標準式保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p><b>0</b> 關閉、<b>1</b> 開啟，重開機生效。和 <code>Q_TAILSIT_ENABLE</code> 互斥。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_TYPE</td><td class="d">0</td><td class="d">0–3</td><td><b>0 Continuous</b> 連續：從垂直到水平任意角度。<b>1 Binary</b> 二段：只有全上／全前。<b>2 VectoredYaw</b> 矢量：左右馬達可獨立傾轉控 yaw。<b>3 Bicopter</b> 雙旋翼（需 Q_FRAME_CLASS=10）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>傾轉機構有幾種做法，飛控控制的方式不同，所以要先告訴它你是哪一種。</p><p class="lb">什麼時候要動它</p><p>組機時依機構選一次。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0 連續</b>：舵機可以停在任何角度。過渡時飛控先傾到 Q_TILT_MAX 等空速，到速再傾平；大部分傾轉機選這個。</li><li><b>1 二段</b>：像起落架收放那種舵機，只有「全朝上」和「全朝前」兩檔，中間停不住。飛控只能決定何時翻，<code>Q_TILT_RATE</code> 要填舵機實際翻過去的速度。</li><li><b>2 矢量偏航</b>：左右馬達各有自己的舵機、可以分開傾。懸停時一邊往前一邊往後，就能把機頭扭過去，偏航靠這個而不靠馬達反扭力；傾轉三旋翼常用，還要設 <code>Q_TILT_YAW_ANGLE</code>。</li><li><b>3 雙旋翼</b>：只有左右兩顆馬達各自傾轉的特殊機型，要搭配 <code>Q_FRAME_CLASS=10</code>。</li></ul></div></td></tr>
+      <tr><td class="p">Q_TILT_MASK</td><td class="d">0</td><td class="d">bitmask</td><td>哪些馬達會傾轉；bit 0 = Motor 1。三旋翼前兩顆 = 3（1+2），四顆全傾 = 15。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>哪幾顆馬達會傾轉，用位元遮罩表示：bit 0 是 Motor 1、bit 1 是 Motor 2……每顆的值是 2 的次方（1、2、4、8……），會傾的加起來就是答案。</p><p class="lb">什麼時候要動它</p><p>組傾轉機時設一次。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li>前兩顆（Motor 1、2）傾轉：1 + 2 = <b>3</b>，傾轉三旋翼常用。</li><li>四顆全傾：1 + 2 + 4 + 8 = <b>15</b>。</li><li>Quad X 只傾前兩顆（Motor 1、3）：1 + 4 = <b>5</b>。</li></ul><p>設錯的話，該傾的不動、不該傾的跟著轉，過渡一定失敗。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_MAX</td><td class="d">45</td><td class="d">20–80°</td><td>等待過渡空速時馬達停留的最大角度，也是仍使用多旋翼控制律的界線。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>過渡等待空速時，馬達傾到幾度就停住等（0° 是垂直）。同時也是分界線：傾角在這以內用多旋翼控制律，超過就交給固定翼控制律。</p><p class="lb">什麼時候要動它</p><p>大多數機型預設 45° 就好；加不起速才調大，等待期掉高度才調小。</p><p class="lb">怎麼設／設錯會怎樣</p><p>範圍 20～80。設太大，等空速的期間垂直分量不夠、會掉高；設太小，往前的推力不夠、加不到 AIRSPEED_MIN。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_RATE_UP</td><td class="d">40</td><td class="d">10–300°/s</td><td>懸停→前飛的傾轉速率上限。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>馬達從前飛位置往上轉回垂直時，每秒最多轉幾度。</p><p class="lb">什麼時候要動它</p><p>新機測試先慢，穩了再加快。</p><p class="lb">怎麼設／設錯會怎樣</p><p>官方建議兩個方向都從 15°/s 左右開始，預設 40，範圍 10～300。二段型的速度由機構決定，這裡要填實際量到的翻轉速度。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_RATE_DN</td><td class="d">0</td><td class="d">10–300°/s</td><td>前飛→懸停的速率；0 = 沿用 RATE_UP。文件建議約 15°/s 起手。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>馬達從垂直往前傾（懸停→前飛）時，每秒最多轉幾度。</p><p class="lb">什麼時候要動它</p><p>想讓兩個方向速度不同時才設；0 = 和 <code>Q_TILT_RATE_UP</code> 一樣。</p><p class="lb">怎麼設／設錯會怎樣</p><p>有兩個自動例外：切到 MANUAL 模式、或前向過渡已完成時，韌體會以至少 90°/s 把剩下的角度轉完，讓你隨時能快速拿回固定翼控制。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_YAW_ANGLE</td><td class="d">0</td><td class="d">0–30°</td><td>VTOL 模式最小輸出時馬達可以超過 90°（向後傾）的角度；TYPE=2 矢量 yaw 必須設非 0 才會生效。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>懸停時舵機在「最小輸出」那一端可以往後傾超過垂直幾度。矢量偏航就是靠一邊往前、一邊往後來扭機頭，這個值決定能扭多少。</p><p class="lb">什麼時候要動它</p><p><code>Q_TILT_TYPE=2</code> 一定要設非 0 才會有矢量偏航；雙旋翼型也用它限制前傾角。</p><p class="lb">怎麼設／設錯會怎樣</p><p>例如前馬達從前飛位置到最後方總共能轉 110°，超過垂直的部分是 20°，就填 20。範圍 0～30。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_FIX_ANGLE / _GAIN</td><td class="d">0 / 0</td><td class="d">0–30° / 0–1</td><td>平飛時用馬達傾轉輔助滾轉／俯仰（固定翼矢量），GAIN 從 0.1 慢慢加。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>平飛時也借用馬達傾轉來幫忙滾轉和俯仰，像矢量噴嘴。ANGLE 是最多可以傾幾度，GAIN 是多少控制量換成多少傾轉。</p><p class="lb">什麼時候要動它</p><p>矢量式機型想要平飛更靈活時才開；二段型不能用。</p><p class="lb">怎麼設／設錯會怎樣</p><p>GAIN 從 0.1 開始慢慢加到反應夠為止，範圍 0～1；ANGLE 範圍 0～30。兩個都是 0 就是關閉。</p></div></td></tr>
+      <tr><td class="p">Q_TILT_WING_FLAP</td><td class="d">0</td><td class="d">0–15°</td><td>tilt-wing 專用：全襟翼時機翼上仰的角度；機翼到此角度即視為過渡完成。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>傾轉翼專用。平飛放襟翼時，整片機翼跟著往上抬的角度，讓機翼本身當襟翼用。</p><p class="lb">什麼時候要動它</p><p>只有整片機翼會轉的機型才設；傾轉馬達的機型保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p>範圍 0～15°，全襟翼時抬到這個角度。韌體也把「機翼到達這個角度」當成前向過渡完成的判斷點。</p></div></td></tr>
     </table></div>
     <h4 style="font-size:15px;margin:12px 0 4px">傾轉舵機的輸出功能（SERVOn_FUNCTION）</h4>
     <div class="chips"><span class="chip">41 TiltMotorsFront</span><span class="chip">45 TiltMotorsRear</span><span class="chip">75 TiltMotorFrontLeft</span><span class="chip">76 TiltMotorFrontRight</span><span class="chip">46 TiltMotorRearLeft</span><span class="chip">47 TiltMotorRearRight</span></div>
@@ -778,22 +821,37 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">尾座機參數（Q_TAILSIT_*）</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>範圍</th><th>說明</th></tr>
-      <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0</td><td class="d">0/1/2</td><td>1 一般尾座機；2 強制 Q-assist 常開（無舵面的純馬達型必用）。</td></tr>
-      <tr><td class="p">Q_TAILSIT_MOTMX</td><td class="d">0</td><td class="d">bitmask</td><td>平飛時保持運轉的馬達；0 = 單／雙馬達型，非 0 = CopterMotor 型。</td></tr>
-      <tr><td class="p">Q_TAILSIT_ANGLE</td><td class="d">45</td><td class="d">5–80°</td><td>VTOL→FW：機頭壓到此俯仰角即切固定翼控制。</td></tr>
-      <tr><td class="p">Q_TAILSIT_ANG_VT</td><td class="d">0</td><td class="d">5–80°</td><td>FW→VTOL 的門檻；0 = 用 ANGLE。</td></tr>
-      <tr><td class="p">Q_TAILSIT_RAT_FW / RAT_VT</td><td class="d">50 / 50</td><td class="d">10–500°/s</td><td>兩個方向的過渡俯仰速率。</td></tr>
-      <tr><td class="p">Q_TAILSIT_THR_VT</td><td class="d">-1</td><td class="d">-1–100%</td><td>FW→VTOL 過渡時的油門；-1 = 用懸停油門。</td></tr>
-      <tr><td class="p">Q_TAILSIT_INPUT</td><td class="d">0</td><td class="d">bitmask</td><td>懸停時的搖桿慣例。0 = 多旋翼式（滾轉桿、方向舵分別控制地面座標的滾轉與偏航）；bit0 PlaneMode：滾轉桿與方向舵對調，像 3D 飛機懸停；bit1 BodyFrameRoll：滾轉桿改在機體座標滾轉，方向舵控制偏航速率。</td></tr>
-      <tr><td class="p">Q_TAILSIT_VHGAIN / VFGAIN</td><td class="d">0.5 / 0</td><td class="d">0–1</td><td>矢量推力在懸停／平飛的使用量（矢量式專用）。VHPOW（預設 2.5）在大俯仰誤差時加碼。</td></tr>
-      <tr><td class="p">Q_TAILSIT_RLL_MX</td><td class="d">0</td><td class="d">0–80°</td><td>尾座機允許的最大滾轉角；0 = 用 Q_A_ANGLE_MAX。</td></tr>
-      <tr><td class="p">Q_TAILSIT_GSCMSK</td><td class="d">Throttle</td><td class="d">bitmask</td><td>增益縮放方式：bit0 油門、bit1 高油門／傾角降增益、bit2 盤負荷理論、bit3 高度修正。舵面控制力會隨滑流變化，所以需要縮放增益。</td></tr>
-      <tr><td class="p">Q_TAILSIT_GSCMIN / GSCMAX</td><td class="d">0.4 / 2</td><td class="d">0.1–1 / 1–5</td><td>增益縮放的上下限。</td></tr>
-      <tr><td class="p">Q_TAILSIT_DSKLD</td><td class="d">0</td><td class="d">0–50 kg/m²</td><td>盤負荷 = 全機重量 ÷ 螺旋槳盤總面積；bit2 盤負荷理論會用它估算滑流速度。</td></tr>
-      <tr><td class="p">Q_TAILSIT_MIN_VO</td><td class="d">0</td><td class="d">0–15 m/s</td><td>盤負荷理論用的最小滑流速度，不足時（例如下降中）會提高油門；0 = 關閉。</td></tr>
-      <tr><td class="p">Q_TAILSIT_VT_R_P / P_P / Y_P</td><td class="d">1</td><td class="d">0–2</td><td>VTOL 時 PID 輸出到舵面的縮放（滾轉／俯仰／偏航）。</td></tr>
+      <tr><td class="p">Q_TAILSIT_ENABLE</td><td class="d">0</td><td class="d">0/1/2</td><td>1 一般尾座機；2 強制 Q-assist 常開（無舵面的純馬達型必用）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>尾座機功能的開關。開了之後飛控把它當固定翼處理、起降時機頭朝上 90°，過渡改成按俯仰角交棒。</p><p class="lb">什麼時候要動它</p><p>整架立起來起降的機型才開。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>1</b>：一般尾座機（有舵面）。</li><li><b>2</b>：強制 Q-assist 常開，固定翼模式零油門也用 airmode 穩定；給沒有舵面的純馬達型，且固定翼模式不能解鎖。</li></ul><p>重開機生效，和 <code>Q_TILT_ENABLE</code> 互斥。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_MOTMX</td><td class="d">0</td><td class="d">bitmask</td><td>平飛時保持運轉的馬達；0 = 單／雙馬達型，非 0 = CopterMotor 型。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>平飛時要留哪幾顆馬達繼續轉，位元遮罩（bit 0 = Motor 1）。只要不是 0，飛控就把它當「多旋翼式尾座機」，懸停時用 <code>Q_FRAME_CLASS</code>／<code>Q_FRAME_TYPE</code> 的多旋翼佈局。</p><p class="lb">什麼時候要動它</p><p>機翼上裝三顆以上馬達的尾座機才設；單／雙馬達靠舵面的機型保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p>例如四顆馬達平飛只留 Motor 1、2：1 + 2 = 3。留下的馬達要能提供足夠推力，其餘會關掉。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_ANGLE</td><td class="d">45</td><td class="d">5–80°</td><td>VTOL→FW：機頭壓到此俯仰角即切固定翼控制。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>從懸停切到固定翼模式時，飛控會把機頭往下壓；壓過這個俯仰角，就從 VTOL 控制律換成固定翼控制律。</p><p class="lb">什麼時候要動它</p><p>交棒太早（機翼還沒升力就被當固定翼）或太晚（已經平飛還在用多旋翼邏輯）時調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 45°，範圍 5～80。數字越大、交棒越晚。在 SITL 改成 70 再過渡，可以清楚看到差別。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_ANG_VT</td><td class="d">0</td><td class="d">5–80°</td><td>FW→VTOL 的門檻；0 = 用 ANGLE。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>反方向：從固定翼切回 VTOL 模式時，機頭拉起超過這個角度才換回 VTOL 控制律。</p><p class="lb">什麼時候要動它</p><p>想讓兩個方向的交棒角度不同時才設。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 = 沿用 <code>Q_TAILSIT_ANGLE</code>，範圍 5～80。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_RAT_FW / RAT_VT</td><td class="d">50 / 50</td><td class="d">10–500°/s</td><td>兩個方向的過渡俯仰速率。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>過渡時機頭壓下（RAT_FW）或拉起（RAT_VT）的俯仰速率，單位 °/s。過渡期間飛控用這個速率排程俯仰角，不聽搖桿。</p><p class="lb">什麼時候要動它</p><p>過渡太猛掉高度、或太慢拖很久時調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設各 50，範圍 10～500。越快越乾脆，但越容易失速或掉高。RAT_FW 沒設過時，韌體會用 ANGLE ÷ (Q_TRANSITION_MS/2000) 自動算一個。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_THR_VT</td><td class="d">-1</td><td class="d">-1–100%</td><td>FW→VTOL 過渡時的油門；-1 = 用懸停油門。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>固定翼切回 VTOL 的過渡期間用多少油門（%）。</p><p class="lb">什麼時候要動它</p><p>拉起時掉高度太多，就把它設高一點。</p><p class="lb">怎麼設／設錯會怎樣</p><p>-1 = 用懸停油門（且不低於巡航油門對應的推力），範圍 -1～100。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_INPUT</td><td class="d">0</td><td class="d">bitmask</td><td>懸停時的搖桿慣例。0 = 多旋翼式（滾轉桿、方向舵分別控制地面座標的滾轉與偏航）；bit0 PlaneMode：滾轉桿與方向舵對調，像 3D 飛機懸停；bit1 BodyFrameRoll：滾轉桿改在機體座標滾轉，方向舵控制偏航速率。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>懸停時搖桿要照多旋翼的習慣、還是照飛機的習慣。尾座機立起來後，機體的滾轉軸其實指向天空，兩種習慣會差 90°。</p><p class="lb">什麼時候要動它</p><p>依飛手是多旋翼背景還是固定翼背景決定；第一次懸停前先想清楚。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0</b>：多旋翼式。滾轉桿讓飛機在地面座標左右傾，方向舵讓它原地轉向。</li><li><b>bit 0 PlaneMode</b>：滾轉桿和方向舵對調，像 3D 飛機懸停：滾轉桿控地面座標的偏航、方向舵控滾轉。</li><li><b>bit 1 BodyFrameRoll</b>：滾轉桿改成在機體座標滾轉（繞螺旋槳軸轉），方向舵控偏航速率。</li></ul><p>位元可以相加。設錯只是操作不順，不會壞，但第一次飛請貼地測。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_VHGAIN / VFGAIN</td><td class="d">0.5 / 0</td><td class="d">0–1</td><td>矢量推力在懸停／平飛的使用量（矢量式專用）。VHPOW（預設 2.5）在大俯仰誤差時加碼。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>矢量式尾座機（馬達可以小角度傾轉）在懸停（VH）和平飛（VF）時，姿態控制有多少比例交給馬達傾轉、而不是舵面。</p><p class="lb">什麼時候要動它</p><p>只有矢量式才有意義；非矢量機保持預設沒影響。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設懸停 0.5、平飛 0，範圍 0～1。<code>Q_TAILSIT_VHPOW</code>（預設 2.5）在俯仰誤差大時再加碼。低油門懸停舵面沒風時，把 VHGAIN 調高會比較穩。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_RLL_MX</td><td class="d">0</td><td class="d">0–80°</td><td>尾座機允許的最大滾轉角；0 = 用 Q_A_ANGLE_MAX。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>尾座機允許的最大滾轉角，可以和俯仰的限制分開設。</p><p class="lb">什麼時候要動它</p><p>翼展大、滾轉起來危險，或想讓俯仰能傾更多但滾轉保守時。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 = 和俯仰一樣用 <code>Q_A_ANGLE_MAX</code>，範圍 0～80。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_GSCMSK</td><td class="d">Throttle</td><td class="d">bitmask</td><td>增益縮放方式：bit0 油門、bit1 高油門／傾角降增益、bit2 盤負荷理論、bit3 高度修正。舵面控制力會隨滑流變化，所以需要縮放增益。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>尾座機靠螺旋槳滑流吹舵面來控制：油門大風就大、舵面效力就強，同樣的 PID 增益在高低油門下效果差很多。這個遮罩選要用哪些方法自動縮放增益。</p><p class="lb">什麼時候要動它</p><p>低油門懸停晃、高油門又太敏感，代表縮放沒設好。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>bit 0 Throttle</b>：依油門縮放，預設開。</li><li><b>bit 1 ATT_THR</b>：高油門或大傾角時降低增益。</li><li><b>bit 2 Disk Theory</b>：用槳盤負荷理論估滑流速度來縮放，要先設 <code>Q_TAILSIT_DSKLD</code>，且不能和 bit 1 同時開。</li><li><b>bit 3 Altitude correction</b>：依空氣密度修正。</li></ul></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_GSCMIN / GSCMAX</td><td class="d">0.4 / 2</td><td class="d">0.1–1 / 1–5</td><td>增益縮放的上下限。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>上面那套增益縮放最多把增益縮到幾倍、放大到幾倍。</p><p class="lb">什麼時候要動它</p><p>縮放後極端狀況還是不穩時才動。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0.4～2，範圍分別是 0.1～1 與 1～5。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_DSKLD</td><td class="d">0</td><td class="d">0–50 kg/m²</td><td>盤負荷 = 全機重量 ÷ 螺旋槳盤總面積；bit2 盤負荷理論會用它估算滑流速度。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>槳盤負荷：全機重量（kg）除以所有螺旋槳的槳盤總面積（m²）。槳盤負荷越高，同樣推力下滑流越快。</p><p class="lb">什麼時候要動它</p><p><code>Q_TAILSIT_GSCMSK</code> 開了 bit 2 才會用到。</p><p class="lb">怎麼設／設錯會怎樣</p><p>自己算：重量 ÷（π × 半徑² × 槳數）。範圍 0～50。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_MIN_VO</td><td class="d">0</td><td class="d">0–15 m/s</td><td>盤負荷理論用的最小滑流速度，不足時（例如下降中）會提高油門；0 = 關閉。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>搭配槳盤理論用：假設吹過舵面的最低氣流速度。低於這個速度時飛控會提高油門，保住舵面的控制力，例如下降時。</p><p class="lb">什麼時候要動它</p><p>用槳盤理論縮放、且下降時控制變差才設。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 = 關閉，範圍 0～15 m/s。</p></div></td></tr>
+      <tr><td class="p">Q_TAILSIT_VT_R_P / P_P / Y_P</td><td class="d">1</td><td class="d">0–2</td><td>VTOL 時 PID 輸出到舵面的縮放（滾轉／俯仰／偏航）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="4"><div class="dtl"><p class="lb">它管什麼</p><p>多旋翼式尾座機同一個軸常常同時有馬達和舵面在控制。這三個值是 PID 輸出送到舵面的縮放比例（滾轉／俯仰／偏航）。</p><p class="lb">什麼時候要動它</p><p>想讓某個軸多靠舵面、少靠馬達時。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 1，範圍 0～2。調大 = 舵面出力多，同時可以把該軸的 PID 增益調小以減少馬達出力。</p></div></td></tr>
     </table></div>
     <h4 style="font-size:15px;margin:12px 0 4px">SITL 模擬模型</h4>
     <div class="cmd"><code>sim_vehicle.py -v ArduPlane -f plane-tailsitter --console --map</code><button class="btn" type="button" data-copy>複製</button></div>
@@ -868,7 +926,7 @@ img{max-width:100%}
           <text x="252" y="46" font-family="Noto Sans TC, sans-serif" font-size="10" fill="var(--hover)">Q_TAILSIT_ANGLE 45°</text>
           <g id="c-body" transform="translate(180,125) rotate(-90)">
             <rect x="-70" y="-6" width="130" height="12" rx="6" fill="var(--ink)"/>
-            <polygon points="-70,6 -70,30 -56,30 -48,6" fill="var(--ink-2)"/>
+            <polygon points="-70,-6 -70,-30 -56,-30 -48,-6" fill="var(--ink-2)"/>
             <rect x="-30" y="-3" width="60" height="6" rx="3" fill="var(--surface-2)" stroke="var(--line)"/>
             <g transform="translate(64,0)"><ellipse id="c-prop" rx="3.5" ry="24" fill="var(--hover-soft)" stroke="var(--hover)" stroke-width="1.5"/></g>
             <line id="c-th" x1="70" y1="0" x2="126" y2="0" stroke="var(--hover)" stroke-width="3" stroke-linecap="round" marker-end="url(#arr-h)"/>
@@ -887,31 +945,38 @@ img{max-width:100%}
   <h3 style="font-size:21px;margin:26px 0 6px">飛行模式</h3>
   <p class="prose" style="color:var(--ink-2)">Q 開頭的是 VTOL 模式，其餘是固定翼模式。QuadPlane 沒有獨立的過渡模式，<b>過渡是切換飛行模式時自動發生的</b>：從 Q 模式切到固定翼模式就開始前向過渡，反過來則開始後向過渡。</p>
   <div class="modes">
-    <div class="mode h"><b>QSTABILIZE</b><span>手動姿態、油門直接控制，相當於多旋翼的 Stabilize。</span></div>
-    <div class="mode h"><b>QHOVER</b><span>油門桿控升降率，定高。</span></div>
-    <div class="mode h"><b>QLOITER</b><span>定高＋定點（需 GPS）。</span></div>
-    <div class="mode h"><b>QLAND</b><span>原地垂直降落，Q_LAND_FINAL_ALT 以下改用 Q_LAND_FINAL_SPD。</span></div>
-    <div class="mode h"><b>QRTL</b><span>VTOL 方式返航並降落。</span></div>
-    <div class="mode h"><b>QACRO</b><span>速率模式特技，唯一不做後向過渡俯仰限制的模式。</span></div>
-    <div class="mode h"><b>QAUTOTUNE</b><span>VTOL 姿態環自動調參。</span></div>
-    <div class="mode w"><b>MANUAL / ACRO / TRAINING</b><span>切入後<b>立即關閉 VTOL 馬達</b>（尾座機除外），傾轉機的馬達會直接轉到前推。空速不足會直接失速；手動飛行請用 FBWA。</span></div>
-    <div class="mode w"><b>FBWA / STABILIZE</b><span>油門桿直接控制推進槳；過渡期間由旋翼維持高度，升降舵控制升降率。</span></div>
-    <div class="mode w"><b>FBWB / CRUISE</b><span>油門桿改成空速指令，過渡時套用 TKOFF_THR_MIN 或 TRIM_THROTTLE 當最低推力。</span></div>
-    <div class="mode w"><b>AUTO</b><span>任務模式：VTOL_TAKEOFF / VTOL_LAND / DO_VTOL_TRANSITION。</span></div>
-    <div class="mode w"><b>RTL</b><span>固定翼返航；Q_RTL_MODE 決定回到家後怎麼落。</span></div>
+    <div class="mode h"><b>QSTABILIZE</b><span>手動姿態、油門直接控制，相當於多旋翼的 Stabilize。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：VTOL 的手動姿態模式。放開搖桿飛機會自動回水平，但高度和位置都不保持。</p><p><b>怎麼操作</b>：滾轉／俯仰桿 = 傾斜角（最多 Q_A_ANGLE_MAX），方向舵 = 轉向速率，油門桿直接控制總推力，要自己維持高度。</p><p><b>什麼時候用</b>：第一次懸停測試，確認馬達方向與 PID 正常。</p></div></div>
+    <div class="mode h"><b>QHOVER</b><span>油門桿控升降率，定高。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：在 QSTABILIZE 之上加高度保持。</p><p><b>怎麼操作</b>：油門桿放中間就定高，推上去爬升、拉下來下降，速率由 Q_PILOT_SPD_UP 等參數限制；滾轉／俯仰和 QSTABILIZE 一樣。</p><p><b>注意</b>：不保持位置，有風會漂，要自己修。</p></div></div>
+    <div class="mode h"><b>QLOITER</b><span>定高＋定點（需 GPS）。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：定高加定點，放開搖桿飛機就停在原地。</p><p><b>怎麼操作</b>：搖桿推向哪邊就往哪邊移動，放開就煞停；油門桿控升降。需要良好的 GPS。</p><p><b>什麼時候用</b>：最適合當「出事就切」的保命模式，也是懸停作業的預設。</p></div></div>
+    <div class="mode h"><b>QLAND</b><span>原地垂直降落，Q_LAND_FINAL_ALT 以下改用 Q_LAND_FINAL_SPD。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：在目前位置直接垂直降落，落地後自動上鎖。</p><p><b>流程</b>：先以較快的下降率下降，到 Q_LAND_FINAL_ALT（預設 6 m）以下改用 Q_LAND_FINAL_SPD（預設 0.5 m/s）慢慢觸地。</p><p><b>注意</b>：它不會飛回家，切在哪就落在哪；過渡失敗的預設動作也是它。</p></div></div>
+    <div class="mode h"><b>QRTL</b><span>VTOL 方式返航並降落。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：用 VTOL 方式飛回家，再垂直降落。</p><p><b>注意</b>：全程用多旋翼的速度飛，很慢、很耗電，只適合離家近。離家遠請用 RTL 配 Q_RTL_MODE，讓它先用固定翼飛回來。</p></div></div>
+    <div class="mode h"><b>QACRO</b><span>速率模式特技，唯一不做後向過渡俯仰限制的模式。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：速率模式，搖桿推多少就轉多快，放開不會自動回水平，可以翻滾。</p><p><b>怎麼操作</b>：轉速上限由 Q_ACRO_RLL_RATE、Q_ACRO_PIT_RATE、Q_ACRO_YAW_RATE 決定。</p><p><b>注意</b>：給有多旋翼特技經驗的人。它是唯一不套後向過渡俯仰限制的 Q 模式，高速切進來要小心。</p></div></div>
+    <div class="mode h"><b>QAUTOTUNE</b><span>VTOL 姿態環自動調參。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：像 Copter 的 AutoTune，自動來回擺動飛機找 VTOL 姿態環的 PID。</p><p><b>注意</b>：官方已標為過時，多數韌體版本沒有內建。新版建議改用 QuickTune（RC 選項 181），在 QLOITER 懸停時用開關啟動。</p></div></div>
+    <div class="mode w"><b>MANUAL / ACRO / TRAINING</b><span>切入後<b>立即關閉 VTOL 馬達</b>（尾座機除外），傾轉機的馬達會直接轉到前推。空速不足會直接失速；手動飛行請用 FBWA。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：純固定翼模式，VTOL 馬達完全關閉、Q-assist 也不會介入（尾座機除外，因為它的馬達就是推進馬達）。</p><p><b>什麼時候用</b>：檢查固定翼配平、地面滑行。</p><p><b>注意</b>：從懸停直接切進來，旋翼瞬間關閉、傾轉機馬達瞬間轉向前，空速不夠會立刻失速。手動飛行請用 FBWA。</p></div></div>
+    <div class="mode w"><b>FBWA / STABILIZE</b><span>油門桿直接控制推進槳；過渡期間由旋翼維持高度，升降舵控制升降率。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：固定翼自動穩定模式，搖桿 = 傾斜角，放開回水平；油門桿直接給推進槳。</p><p><b>過渡時</b>：從 Q 模式切進來就開始前向過渡，VTOL 馬達繼續維持高度，升降舵桿變成升降率指令（Q_OPTIONS bit 0 設定時除外）。傾轉機油門桿低於中位時馬達會按比例轉回垂直。</p><p><b>什麼時候用</b>：手動飛固定翼的建議模式；Q-assist 在這裡有效。</p></div></div>
+    <div class="mode w"><b>FBWB / CRUISE</b><span>油門桿改成空速指令，過渡時套用 TKOFF_THR_MIN 或 TRIM_THROTTLE 當最低推力。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：在 FBWA 之上加定高，油門桿變成「要多快」的空速指令（有空速計時）。CRUISE 再加上鎖定航向。</p><p><b>過渡時</b>：推進槳有最低推力，TKOFF_THR_MIN 非 0 就用它，否則用 TRIM_THROTTLE；過渡完成前油門桿對傾轉角沒有作用。</p></div></div>
+    <div class="mode w"><b>AUTO</b><span>任務模式：VTOL_TAKEOFF / VTOL_LAND / DO_VTOL_TRANSITION。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：照任務航點飛。</p><p><b>垂起相關指令</b>：VTOL_TAKEOFF 垂直爬到指定高度再過渡；VTOL_LAND 先以固定翼進場、接近落點減速，再垂直降落；DO_VTOL_TRANSITION 可以在任務中強制切換，參數 3 = 多旋翼、4 = 固定翼。</p><p><b>注意</b>：Q_ENABLE=2 時進入 AUTO 一開始就是 VTOL 方式。</p></div></div>
+    <div class="mode w"><b>RTL</b><span>固定翼返航；Q_RTL_MODE 決定回到家後怎麼落。</span><button class="dt" type="button" aria-expanded="false">詳細</button><div class="dtl" hidden><p><b>做什麼</b>：固定翼返航，回到家上空以 RTL 高度盤旋。</p><p><b>垂起機</b>：Q_RTL_MODE 決定回家後怎麼落：0 只盤旋、1 進入 RTL_RADIUS 內轉 QRTL、2 VTOL 進場、3 直接 QRTL。</p></div></div>
   </div>
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">Q-assist：固定翼模式下的 VTOL 輔助</h3>
     <p style="font-size:15px;color:var(--ink-2)">平飛時，只要 <code>Q_ASSIST_SPEED</code> 設為正值，VTOL 馬達就會在下列任一條件成立時自動介入提供升力與穩定：空速低於 <code>Q_ASSIST_SPEED</code>、姿態誤差超過 <code>Q_ASSIST_ANGLE</code>、或離地高度低於 <code>Q_ASSIST_ALT</code>。<code>Q_ASSIST_SPEED</code> 設 0 或 -1 時，角度與高度條件也一起停用，只剩 RC 開關的強制開啟。MANUAL、ACRO、TRAINING 三個模式不會啟動 VTOL 馬達。</p>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
-      <tr><td class="p">Q_ASSIST_SPEED</td><td class="d">0 m/s</td><td>低於此空速就輔助；<b>必須設為正值，角度與高度輔助才會生效</b>。0 = 全部關閉但會有 pre-arm 警告；-1 = 全部關閉且不警告（過渡期間除外）。不確定時設在你會飛的最低空速以下 3 m/s（無空速計則 5 m/s）。</td></tr>
-      <tr><td class="p">Q_ASSIST_ANGLE</td><td class="d">30°</td><td>滾轉或俯仰誤差超過此值、且姿態超出正常限制 5° 以上並持續 Q_ASSIST_DELAY，即輔助（即使空速足夠）；0 = 關閉角度輔助。</td></tr>
-      <tr><td class="p">Q_ASSIST_ALT</td><td class="d">0 m</td><td>VTOL 馬達未運轉時離地高度低於此值即輔助；0 關閉。高度優先取測距儀（需 RNGFND_LANDING），其次地形資料，否則用相對家的高度。</td></tr>
-      <tr><td class="p">Q_ASSIST_DELAY</td><td class="d">0.5 s</td><td>條件成立後延遲多久才啟動。</td></tr>
-      <tr><td class="p">RCx_OPTION = 82</td><td class="d">—</td><td>三段開關：&lt;1200 µs 強制關、&gt;1800 µs 強制開、中間依門檻。</td></tr>
-      <tr><td class="p">Q_OPTIONS bit 7 / 8</td><td class="d">—</td><td>bit 7 輔助常開；bit 8 尾座機只用馬達輔助不動舵面。</td></tr>
+      <tr><td class="p">Q_ASSIST_SPEED</td><td class="d">0 m/s</td><td>低於此空速就輔助；<b>必須設為正值，角度與高度輔助才會生效</b>。0 = 全部關閉但會有 pre-arm 警告；-1 = 全部關閉且不警告（過渡期間除外）。不確定時設在你會飛的最低空速以下 3 m/s（無空速計則 5 m/s）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>固定翼模式下，空速低於這個值時 VTOL 馬達自動介入撐住飛機。它也是整套 Q-assist 的總開關：只有設成正值，角度和高度的觸發條件才會啟用。</p><p class="lb">什麼時候要動它</p><p>每一架垂起機都應該設；不想要輔助就明確設 -1。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>正值</b>：啟用。不確定就設在你會飛的最低空速以下 3 m/s；沒有空速計則 5 m/s。設太高容易誤觸發、浪費電，太低則反應太慢。</li><li><b>0</b>：全部關閉，但飛控會給 pre-arm 警告提醒你去設。</li><li><b>-1</b>：全部關閉且不警告（過渡期間仍會輔助）。</li></ul><p>RC 開關的強制開啟（選項 82 高位）不受這個值影響。</p></div></td></tr>
+      <tr><td class="p">Q_ASSIST_ANGLE</td><td class="d">30°</td><td>滾轉或俯仰誤差超過此值、且姿態超出正常限制 5° 以上並持續 Q_ASSIST_DELAY，即輔助（即使空速足夠）；0 = 關閉角度輔助。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>滾轉或俯仰誤差超過這個角度、而且姿態已超出正常限制 5° 以上，持續 <code>Q_ASSIST_DELAY</code> 後啟動輔助，就算空速夠也一樣。用來抓失速、被陣風打翻這類狀況。</p><p class="lb">什麼時候要動它</p><p>要 <code>Q_ASSIST_SPEED</code> 為正才有效。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 30°，範圍 0～90；0 = 關閉角度輔助。</p></div></td></tr>
+      <tr><td class="p">Q_ASSIST_ALT</td><td class="d">0 m</td><td>VTOL 馬達未運轉時離地高度低於此值即輔助；0 關閉。高度優先取測距儀（需 RNGFND_LANDING），其次地形資料，否則用相對家的高度。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>固定翼模式下、VTOL 馬達沒在轉時，離地高度低於這個值就啟動輔助，避免貼地掉下去。</p><p class="lb">什麼時候要動它</p><p>低空巡檢、或怕降落進場失速時開；要 <code>Q_ASSIST_SPEED</code> 為正才有效。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 = 關閉，範圍 0～120 m。高度來源依序是：測距儀（<code>RNGFND_LANDING</code> 要開）、地形資料（<code>TERRAIN_FOLLOW=1</code>）、否則用相對家的高度。</p></div></td></tr>
+      <tr><td class="p">Q_ASSIST_DELAY</td><td class="d">0.5 s</td><td>條件成立後延遲多久才啟動。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>條件成立後要持續多久才真的啟動輔助，避免陣風瞬間的誤觸發。</p><p class="lb">什麼時候要動它</p><p>誤觸發太頻繁就加長；反應太慢就縮短。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0.5 s，範圍 0～2。</p></div></td></tr>
+      <tr><td class="p">RCx_OPTION = 82</td><td class="d">—</td><td>三段開關：&lt;1200 µs 強制關、&gt;1800 µs 強制開、中間依門檻。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>把某個遙控通道設成 82（QAssist 3pos），就能用三段開關在飛行中切換 Q-assist。</p><p class="lb">什麼時候要動它</p><p>測試新機、或想在特定情況強制開／關輔助時很好用。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>低位（&lt;1200 µs）</b>：強制關閉。</li><li><b>中位</b>：正常，依門檻判斷。</li><li><b>高位（&gt;1800 µs）</b>：強制開啟，VTOL 馬達一直幫忙。</li></ul><p>例如 <code>RC7_OPTION=82</code> 就是用第 7 通道。</p></div></td></tr>
+      <tr><td class="p">Q_OPTIONS bit 7 / 8</td><td class="d">—</td><td>bit 7 輔助常開；bit 8 尾座機只用馬達輔助不動舵面。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p><code>Q_OPTIONS</code> 是一堆功能開關的位元集合，這兩個和 Q-assist 有關。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>bit 7 Force Qassist</b>：輔助永遠開著，不看門檻。</li><li><b>bit 8 Mtrs_Only_Qassist</b>：尾座機輔助時只用 VTOL 馬達、不動舵面，給沒有舵面或舵面低速會亂的機型。</li></ul><p>位元值是 2 的次方：bit 7 = 128、bit 8 = 256，加到 <code>Q_OPTIONS</code> 裡。</p></div></td></tr>
     </table></div>
   </div>
 
@@ -945,29 +1010,49 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">過渡相關參數與 Q_OPTIONS 重要位元</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
-      <tr><td class="p">AIRSPEED_MIN</td><td class="d">9 m/s</td><td>自動油門模式的最低空速，建議 = 平飛失速速度 × 1.2。也是前向過渡開始降低旋翼出力的門檻。4.5 版以前名為 ARSPD_FBW_MIN。</td></tr>
-      <tr><td class="p">Q_TRANSITION_MS</td><td class="d">5000 ms</td><td>達到 AIRSPEED_MIN 後 VTOL 馬達收力的時間（500–30000）。</td></tr>
-      <tr><td class="p">Q_TRANS_DECEL</td><td class="d">2.0 m/s²</td><td>後向過渡估算停止距離用的減速度（0.2–5）。</td></tr>
-      <tr><td class="p">Q_TRANS_FAIL / _ACT</td><td class="d">0 s / 0</td><td>前向過渡超過此秒數仍未達空速 → 執行 ACT（-1 只警告、0 QLAND、1 QRTL）。0 = 不限時。</td></tr>
-      <tr><td class="p">Q_BACKTRANS_MS</td><td class="d">3000 ms</td><td>後向過渡時俯仰上限從切換當下的俯仰角（最低 0°）逐漸放寬到 Q_A_ANGLE_MAX 與 PTCH_LIM_MAX_DEG 較小者所需的時間；0 = 關閉（QACRO 不適用）。</td></tr>
-      <tr><td class="p">Q_BCK_PIT_LIM</td><td class="d">10°</td><td>Q 模式中在 AIRSPEED_MIN 時允許的最大抬頭角，避免減速時結構過載；空速偏離時按 (AIRSPEED_MIN/IAS)² 調整。只在 Q_FWD_THR_USE 為 1 或 2 時生效。</td></tr>
-      <tr><td class="p">Q_VFWD_GAIN</td><td class="d">0</td><td>舊方法：非 0 時在速度控制的 Q 模式（如 QLOITER）用推進槳定點（0–0.5，可從 0.05 起）；官方已不建議，改用 Q_FWD_THR_USE。</td></tr>
-      <tr><td class="p">Q_FWD_THR_USE / _GAIN</td><td class="d">0 / 2.0</td><td>Q 模式用推進槳代替前傾產生前向加速：0 關、1 定位模式、2 所有 Q 模式（QAUTOTUNE/QACRO 除外）。</td></tr>
-      <tr><td class="p">Q_RTL_MODE</td><td class="d">0</td><td>0 關、1 進入 RTL_RADIUS 範圍內轉 QRTL、2 VTOL 進場、3 永遠 QRTL。</td></tr>
-      <tr><td class="p">Q_TRIM_PITCH</td><td class="d">0°</td><td>補償「固定翼水平校正」與「垂直飛行」之間的俯仰差，避免 VTOL 模式一直往前漂。</td></tr>
+      <tr><td class="p">AIRSPEED_MIN</td><td class="d">9 m/s</td><td>自動油門模式的最低空速，建議 = 平飛失速速度 × 1.2。也是前向過渡開始降低旋翼出力的門檻。4.5 版以前名為 ARSPD_FBW_MIN。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動油門模式（FBWB、CRUISE、AUTO…）允許的最低空速。對垂起機它還有第二個身分：前向過渡時，空速到這裡才開始收旋翼。</p><p class="lb">什麼時候要動它</p><p>每架飛機都要依實際失速速度設。</p><p class="lb">怎麼設／設錯會怎樣</p><p>建議 = 平飛失速速度 × 1.2，預設 9 m/s。設太低，收旋翼時機翼升力還不夠會掉高；設太高，過渡拖很久、耗電。4.5 版以前叫 <code>ARSPD_FBW_MIN</code>。</p></div></td></tr>
+      <tr><td class="p">Q_TRANSITION_MS</td><td class="d">5000 ms</td><td>達到 AIRSPEED_MIN 後 VTOL 馬達收力的時間（500–30000）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>空速到達 <code>AIRSPEED_MIN</code> 後，VTOL 馬達花多少毫秒慢慢收力到全關。</p><p class="lb">什麼時候要動它</p><p>過渡時明顯掉高度就加長；覺得旋翼撐太久浪費電就縮短。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 5000（5 秒），尾座機預設 2000，範圍 500～30000。</p></div></td></tr>
+      <tr><td class="p">Q_TRANS_DECEL</td><td class="d">2.0 m/s²</td><td>後向過渡估算停止距離用的減速度（0.2–5）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>後向過渡（固定翼切回 VTOL）時，飛控用這個減速度估算「還要多遠才停得住」，決定何時開始減速、減多猛。</p><p class="lb">什麼時候要動它</p><p>減速太猛（電壓驟降、俯仰太大）就調小；停不住、衝過落點就調大。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 2.0 m/s²，範圍 0.2～5。數字越大代表煞得越猛、越晚才開始煞。</p></div></td></tr>
+      <tr><td class="p">Q_TRANS_FAIL / _ACT</td><td class="d">0 s / 0</td><td>前向過渡超過此秒數仍未達空速 → 執行 ACT（-1 只警告、0 QLAND、1 QRTL）。0 = 不限時。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>前向過渡的逾時保護：超過 FAIL 秒還沒到空速，就執行 ACT 指定的動作。</p><p class="lb">什麼時候要動它</p><p>推進槳可能推不到空速（過重、逆風）的機型建議設，避免旋翼一直撐到沒電。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>Q_TRANS_FAIL</b>：秒數，0 = 不限時，範圍 0～20。</li><li><b>Q_TRANS_FAIL_ACT</b>：-1 只警告、0 QLAND、1 QRTL。</li></ul><p>另外 <code>Q_OPTIONS</code> bit 19 可以改成「逾時就直接完成過渡」，只對傾轉機且地速 &gt; AIRSPEED_MIN/2 時有效。</p></div></td></tr>
+      <tr><td class="p">Q_BACKTRANS_MS</td><td class="d">3000 ms</td><td>後向過渡時俯仰上限從切換當下的俯仰角（最低 0°）逐漸放寬到 Q_A_ANGLE_MAX 與 PTCH_LIM_MAX_DEG 較小者所需的時間；0 = 關閉（QACRO 不適用）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>切回 VTOL 模式的頭幾秒飛機還很快，如果立刻允許大幅抬頭會很暴力。這個值是俯仰上限從切換當下的角度逐漸放寬到正常上限所需的時間。</p><p class="lb">什麼時候要動它</p><p>後向過渡一開始抬頭太猛就加長。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 3000 ms，範圍 0～10000；0 = 關閉。放寬的終點是 <code>Q_A_ANGLE_MAX</code> 與 <code>PTCH_LIM_MAX_DEG</code> 較小者。QACRO 用速率控制，不套這個限制。</p></div></td></tr>
+      <tr><td class="p">Q_BCK_PIT_LIM</td><td class="d">10°</td><td>Q 模式中在 AIRSPEED_MIN 時允許的最大抬頭角，避免減速時結構過載；空速偏離時按 (AIRSPEED_MIN/IAS)² 調整。只在 Q_FWD_THR_USE 為 1 或 2 時生效。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>Q 模式減速時允許的最大抬頭角。減速靠抬頭增加阻力，但高速抬頭會讓機翼承受很大的負荷。</p><p class="lb">什麼時候要動它</p><p>只在 <code>Q_FWD_THR_USE</code> 設 1 或 2 時生效。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 10°，範圍 0～15。這是空速 = AIRSPEED_MIN 時的上限，空速偏離時按 (AIRSPEED_MIN/IAS)² 調整：飛越快、允許抬頭越少。</p></div></td></tr>
+      <tr><td class="p">Q_VFWD_GAIN</td><td class="d">0</td><td>舊方法：非 0 時在速度控制的 Q 模式（如 QLOITER）用推進槳定點（0–0.5，可從 0.05 起）；官方已不建議，改用 Q_FWD_THR_USE。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>舊方法：在速度控制的 Q 模式（QLOITER 等）用推進槳往前推來抵抗風、維持位置，而不是靠機身前傾。</p><p class="lb">什麼時候要動它</p><p>官方已不建議，新機請用 <code>Q_FWD_THR_USE</code>。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 = 關閉；要試的話從 0.05 開始，範圍 0～0.5。QSTABILIZE、QHOVER 不會用到。</p></div></td></tr>
+      <tr><td class="p">Q_FWD_THR_USE / _GAIN</td><td class="d">0 / 2.0</td><td>Q 模式用推進槳代替前傾產生前向加速：0 關、1 定位模式、2 所有 Q 模式（QAUTOTUNE/QACRO 除外）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>新方法：Q 模式要往前加速時，用推進槳出力代替機身前傾。機身能保持水平，阻力小、相機也不會一直往下看。</p><p class="lb">什麼時候要動它</p><p>有獨立推進槳或傾轉馬達的機型都可以開；抗風定點時特別有感。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>Q_FWD_THR_USE</b>：0 關；1 只在位置控制模式（QLOITER、QLAND、QRTL、VTOL 起飛）；2 所有 Q 模式（QAUTOTUNE、QACRO 除外）。</li><li><b>Q_FWD_THR_GAIN</b>：獨立推進槳的機型設「全機重量 ÷ 推進槳最大推力」，一般約 2；傾轉機設「升力馬達總數 ÷ 會傾轉的馬達數」。範圍 0～5。</li></ul></div></td></tr>
+      <tr><td class="p">Q_RTL_MODE</td><td class="d">0</td><td>0 關、1 進入 RTL_RADIUS 範圍內轉 QRTL、2 VTOL 進場、3 永遠 QRTL。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>RTL（固定翼返航）回到家附近之後要怎麼落地。</p><p class="lb">什麼時候要動它</p><p>想讓 RTL 最後用 VTOL 降落就設；純固定翼跑道降落保持 0。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0</b>：關閉，RTL 就是固定翼返航、在家上空盤旋。</li><li><b>1</b>：進入 <code>RTL_RADIUS</code> 範圍內就切成 QRTL 垂直降落。</li><li><b>2</b>：VTOL 進場：以 RTL 高度返航，用 <code>Q_FW_LND_APR_RAD</code> 的半徑盤旋下降到 <code>Q_RTL_ALT</code>，逆風過渡後 QRTL。</li><li><b>3</b>：永遠直接 QRTL，全程 VTOL，只適合離家很近。</li></ul></div></td></tr>
+      <tr><td class="p">Q_TRIM_PITCH</td><td class="d">0°</td><td>補償「固定翼水平校正」與「垂直飛行」之間的俯仰差，避免 VTOL 模式一直往前漂。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>加速度計校正的「水平」和飛機懸停時真正的垂直姿態通常差幾度；不補償的話，QHOVER 放手飛機會一直往前或往後漂。</p><p class="lb">什麼時候要動它</p><p>QSTABILIZE／QHOVER 放開搖桿仍漂移時調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>範圍 -10～10°，一次調 1° 試。它是相對加速度計校正的水平，不是相對固定翼配平（<code>PTCH_TRIM_DEG</code>）；尾座機則是相對 90° 直立。</p></div></td></tr>
     </table></div>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>Q_OPTIONS bit</th><th>效果</th></tr>
-      <tr><td class="d">0</td><td>Level Transition：過渡時把滾轉限制在 LEVEL_ROLL_LIMIT，爬升只用前推馬達。</td></tr>
-      <tr><td class="d">1 / 2</td><td>允許固定翼起飛／固定翼降落；不設時任務中的 NAV_TAKEOFF／NAV_LAND 會改成 VTOL 起降。</td></tr>
-      <tr><td class="d">4 / 16</td><td>4 永遠用固定翼螺旋進場；16 關閉 VTOL_LAND 的進場與空氣煞車階段。</td></tr>
-      <tr><td class="d">7 / 8</td><td>Q-assist 常開／尾座機只用馬達輔助。</td></tr>
-      <tr><td class="d">15 / 17</td><td>15 油門桿可調自動降落的下降率；17 AUTO 降落允許飛手微調位置。</td></tr>
-      <tr><td class="d">18</td><td>只允許在 VTOL 模式解鎖（或目前任務指令是 VTOL 起飛的 AUTO 模式）。</td></tr>
-      <tr><td class="d">19</td><td>Q_TRANS_FAIL 逾時改為「直接完成過渡」（傾轉機，地速 &gt; AIRSPEED_MIN/2 時）。</td></tr>
-      <tr><td class="d">21</td><td>傾轉機於固定翼模式未解鎖時馬達朝上（方便地面搬運）。</td></tr>
+      <tr><td class="d">0</td><td>Level Transition：過渡時把滾轉限制在 LEVEL_ROLL_LIMIT，爬升只用前推馬達。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>過渡時把飛機當「不會轉彎的火箭」：滾轉限制在 <code>LEVEL_ROLL_LIMIT</code> 內，爬升只用前推馬達，升降舵桿也不再當 VTOL 升降率指令。</p><p><b>什麼時候用</b>：不希望過渡期間轉彎或被搖桿干擾時。值 = 1。</p></div></td></tr>
+      <tr><td class="d">1 / 2</td><td>允許固定翼起飛／固定翼降落；不設時任務中的 NAV_TAKEOFF／NAV_LAND 會改成 VTOL 起降。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>任務裡的 NAV_TAKEOFF／NAV_LAND 是固定翼的起飛降落指令。垂起機預設會把它們改成 VTOL 起降；設了這兩個位元才允許真的用固定翼滾行起飛（bit 1）或跑道降落（bit 2）。</p><p><b>什麼時候用</b>：有跑道、想省電用固定翼起降時。值 = 2 與 4。</p></div></td></tr>
+      <tr><td class="d">4 / 16</td><td>4 永遠用固定翼螺旋進場；16 關閉 VTOL_LAND 的進場與空氣煞車階段。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>VTOL_LAND 的進場方式。</p><ul><li><b>bit 4</b>（值 16）：永遠先用固定翼盤旋進場、降到高度後才過渡，就算 bit 16 有設。</li><li><b>bit 16</b>（值 65536）：關閉固定翼進場與空氣煞車階段，一到 VTOL_LAND 就立刻過渡成 VTOL 飛過去，也就是 4.1 以前的行為。</li></ul></div></td></tr>
+      <tr><td class="d">7 / 8</td><td>Q-assist 常開／尾座機只用馬達輔助。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>Q-assist 相關。</p><ul><li><b>bit 7</b>（值 128）：輔助永遠開著。</li><li><b>bit 8</b>（值 256）：尾座機輔助只用 VTOL 馬達、不動舵面。</li></ul></div></td></tr>
+      <tr><td class="d">15 / 17</td><td>15 油門桿可調自動降落的下降率；17 AUTO 降落允許飛手微調位置。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>自動降落時給飛手一點控制權。</p><ul><li><b>bit 15</b>（值 32768）：油門桿可以調整自動降落的下降率。</li><li><b>bit 17</b>（值 131072）：AUTO 降落時飛手可以用搖桿微調落點，微調期間暫停下降。</li></ul></div></td></tr>
+      <tr><td class="d">18</td><td>只允許在 VTOL 模式解鎖（或目前任務指令是 VTOL 起飛的 AUTO 模式）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>只允許在 VTOL 模式解鎖（或目前任務指令是 VTOL 起飛的 AUTO 模式）。</p><p><b>什麼時候用</b>：避免在固定翼模式解鎖後誤推油門、螺旋槳在地上轉起來。值 = 262144。</p></div></td></tr>
+      <tr><td class="d">19</td><td>Q_TRANS_FAIL 逾時改為「直接完成過渡」（傾轉機，地速 &gt; AIRSPEED_MIN/2 時）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p><code>Q_TRANS_FAIL</code> 逾時的替代動作：不改成 QLAND，而是直接完成過渡、當固定翼飛。</p><p><b>限制</b>：只對傾轉機、而且地速已經超過 AIRSPEED_MIN 的一半時才會這樣做，否則仍照 <code>Q_TRANS_FAIL_ACT</code>。值 = 524288。</p></div></td></tr>
+      <tr><td class="d">21</td><td>傾轉機於固定翼模式未解鎖時馬達朝上（方便地面搬運）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="2"><div class="dtl"><p>傾轉機在固定翼模式未解鎖時，把馬達朝上，避免地面搬運或滑行時螺旋槳打到地。MANUAL 模式除外。</p><p>值 = 2097152。</p></div></td></tr>
     </table></div>
   </div>
 
@@ -1088,7 +1173,7 @@ img{max-width:100%}
     <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="8" cy="17" rx="2.5" ry="9" fill="var(--hover-soft)" stroke="var(--hover)"/><path d="M12,11 H30 M12,17 H30 M12,23 H30" stroke="var(--wing)" stroke-width="1.5"/></svg>螺旋槳滑流吹翼</h4><p>螺旋槳在機翼前，滑流讓機翼局部承受比實際空速更快的氣流，低速時仍有升力與舵面控制力（尾座機也靠這個原理）。大直徑、低轉速的槳效果最好。</p><div class="ap">影響：<b>局部 V</b></div></div>
     <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M17,30 V8" stroke="var(--hover)" stroke-width="3" stroke-linecap="round"/><path d="M9,15 L17,6 L25,15" fill="none" stroke="var(--hover)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>高推重比</h4><p>公式決定離地速度，推力決定多快達到這個速度。RC STOL 機推重比常接近或超過 1，短場起飛只需幾個機身長。</p><div class="ap">ArduPilot <code>TKOFF_THR_MAX</code>、<code>TKOFF_ROTATE_SPD</code></div></div>
     <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><circle cx="10" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="26" cy="22" r="7" fill="var(--surface-2)" stroke="var(--ink-2)" stroke-width="2"/><path d="M10,12 H26" stroke="var(--ink-2)" stroke-width="2"/></svg>大輪胎、長行程起落架</h4><p>Tundra tire 讓飛機能在草地、河床、碎石落地；長行程避震可以吸收較大的下沉率，STOL 降落的下沉率本來就比一般飛機大。</p><div class="ap">ArduPilot <code>TECS_LAND_SINK</code>（目標觸地下沉率）</div></div>
-    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,22 H30" stroke="var(--line)"/><path d="M8,22 L11,15 L14,22 M16,22 L19,15 L22,22 M24,22 L27,15 L30,22" fill="none" stroke="var(--wing)" stroke-width="1.5"/></svg>渦流產生器、翼刀、前緣延伸</h4><p>VG 為邊界層注入能量、延後分離；翼刀擋住展向流，讓翼尖較晚失速、保住副翼效果；drooped cuff 改善外翼段的失速。</p><div class="ap">影響：<b>失速特性</b>（可控性）</div></div>
+    <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><path d="M4,22 H30" stroke="var(--line)"/><path d="M8,22 L11,15 L14,22 M16,22 L19,15 L22,22 M24,22 L27,15 L30,22" fill="none" stroke="var(--wing)" stroke-width="1.5"/></svg>渦流產生器、翼刀、前緣下垂段</h4><p>三種貼在機翼上的小配件，目的不是多升力，而是讓失速晚一點、溫和一點。渦流產生器（VG）是翼面上一排小片，把氣流攪出小漩渦，讓貼著翼面的那層氣流不容易脫離；翼刀是翼面上一片垂直薄板，擋住往翼尖跑的氣流，讓翼尖不會先失速、副翼還能用；前緣下垂段（drooped cuff）是把外翼前緣往下彎一點，同樣讓外翼比內翼晚失速。</p><div class="ap">影響：<b>失速特性</b>（可控性）</div></div>
     <div class="tile"><h4><svg class="ic" viewBox="0 0 34 34"><ellipse cx="10" cy="17" rx="2.5" ry="9" fill="var(--wing-soft)" stroke="var(--wing)"/><path d="M28,17 H15" stroke="var(--hover)" stroke-width="2.5" marker-end="url(#arr-h)"/></svg>反推力、煞車</h4><p>用來縮短落地滑行距離。可反轉的電調＋螺旋槳讓 RC 機也能反推；ArduPilot 支援在進場與滑行時自動使用負油門。</p><div class="ap">ArduPilot <code>USE_REV_THRUST</code>、<code>THR_MIN&lt;0</code></div></div>
   </div>
 
@@ -1185,26 +1270,45 @@ img{max-width:100%}
 
   <div class="adv-block adv">
     <h3 style="font-size:18px">起飛、降落與反推參數</h3>
-    <div class="tscroll"><table class="tbl">
+    <div class="dt-all"><button class="btn dt-all-btn" type="button">全部展開</button></div>
+<div class="tscroll"><table class="tbl">
       <tr><th>參數</th><th>預設</th><th>說明</th></tr>
-      <tr class="wi"><td class="p">TKOFF_ROTATE_SPD</td><td class="d">0 m/s</td><td>到達此空速才抬頭旋轉。地面滾行起飛設在失速速度以上約 10–30%；手拋與彈射設 0。0 = 起飛一開始就用爬升俯仰。</td></tr>
-      <tr><td class="p">TKOFF_GND_PITCH</td><td class="d">5°</td><td>旋轉前地面滾行時要求的俯仰（−5～10）。</td></tr>
-      <tr><td class="p">TKOFF_TDRAG_ELEV / _SPD1</td><td class="d">0 % / 0 m/s</td><td>尾輪機：初段壓住尾輪的升降舵量（通常 100），到 SPD1 後交給方向舵控制。</td></tr>
-      <tr><td class="p">TKOFF_THR_MAX / _SLEW</td><td class="d">0 / 0</td><td>起飛油門上限（0 = THR_MAX）與油門斜率（%/s；0 = 用 THR_SLEWRATE，-1 = 不限）。滾行起飛可設低一點讓加速平緩、方便地面轉向：20 表示 5 秒推滿，低於 20 不建議。</td></tr>
-      <tr><td class="p">TKOFF_THR_MINSPD / MINACC / DELAY</td><td class="d">0 / 0 / 2 ds</td><td>手拋／彈射用。先要前向加速度 ≥ MINACC（手拋約 15），再等 DELAY×0.1 s（推進槳手拋至少 2，彈射可 30），之後地速 ≥ MINSPD（推進槳手拋不低於 4）才開油門。</td></tr>
-      <tr><td class="p">TKOFF_LVL_ALT / LVL_PITCH</td><td class="d">10 m / 15°</td><td>此高度以下保持水平翼；爬升俯仰。TAKEOFF 模式再用 TKOFF_ALT（50 m）／TKOFF_DIST（200 m）決定爬到哪、飛多遠開始盤旋。</td></tr>
-      <tr><td class="p">TKOFF_FLAP_PCNT</td><td class="d">0 %</td><td>自動起飛襟翼量。</td></tr>
-      <tr><td class="p">LAND_FLAP_PERCNT</td><td class="d">0 %</td><td>進場與拉平時的襟翼量。</td></tr>
-      <tr class="wi"><td class="p">LAND_PF_ALT / PF_SEC / PF_ARSPD</td><td class="d">10 m / 6 s / 0</td><td>預拉平階段：高度或「到地時間」先到者觸發，PF_ARSPD 為此段目標空速（0 = 不改）。STOL 機可在此把空速壓到接近 AIRSPEED_MIN。</td></tr>
-      <tr class="wi"><td class="p">LAND_FLARE_ALT / FLARE_SEC</td><td class="d">3 m / 2 s</td><td>拉平觸發：離地高度或「以目前下沉率幾秒到地」先到者。拉平後鎖定航向、收油門。</td></tr>
-      <tr><td class="p">LAND_PITCH_DEG</td><td class="d">0°</td><td>拉平末段的最低俯仰角，防止機頭先著地；依機型而定，通常是小的正值。4.5 版以前為 LAND_PITCH_CD（單位 0.01°）。</td></tr>
-      <tr><td class="p">TECS_LAND_SINK</td><td class="d">0.25 m/s</td><td>拉平後的目標觸地下沉率。</td></tr>
-      <tr><td class="p">TECS_LAND_ARSPD</td><td class="d">-1</td><td>進場目標空速；負值時取 AIRSPEED_MIN 與 AIRSPEED_CRUISE 的中間值。</td></tr>
-      <tr><td class="p">LAND_TYPE</td><td class="d">0</td><td>0 標準下滑道；<b>1 深失速（Deepstall）降落</b>：刻意失速後垂直落下，適合沒有起落架的小型機。</td></tr>
-      <tr><td class="p">LAND_ABORT_THR</td><td class="d">0</td><td>1 = 進場中油門桿 ≥ 90% 即重飛。</td></tr>
-      <tr><td class="p">LAND_DISARMDELAY / THEN_NEUTRL</td><td class="d">20 s / 0</td><td>落地靜止後幾秒上鎖；上鎖後舵面回中或關 PWM。</td></tr>
-      <tr><td class="p">USE_REV_THRUST</td><td class="d">2</td><td>哪些飛行階段允許負油門（bitmask，預設 2 = 只在自動降落）；需 THR_MIN 為負且電調支援反轉。MANUAL 模式只要 THR_MIN 為負就一定可以反推。</td></tr>
-      <tr><td class="p">RNGFND_LANDING</td><td class="d">0</td><td>bitmask，設 1（bit 0 = 所有用途）即用測距儀（Lidar）量離地高度，讓拉平時機不受氣壓高度誤差影響；短場降落強烈建議使用。</td></tr>
+      <tr class="wi"><td class="p">TKOFF_ROTATE_SPD</td><td class="d">0 m/s</td><td>到達此空速才抬頭旋轉。地面滾行起飛設在失速速度以上約 10–30%；手拋與彈射設 0。0 = 起飛一開始就用爬升俯仰。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動起飛時，空速到多少才抬頭離地。在那之前飛機會壓著跑道加速。</p><p class="lb">什麼時候要動它</p><p>地面滾行起飛的機型要設；手拋、彈射設 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p>設在失速速度以上約 10～30%。0 = 起飛一開始就用爬升俯仰。滾行期間的俯仰由 <code>TKOFF_GND_PITCH</code> 決定。</p></div></td></tr>
+      <tr><td class="p">TKOFF_GND_PITCH</td><td class="d">5°</td><td>旋轉前地面滾行時要求的俯仰（−5～10）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>滾行加速、還沒到旋轉速度時，飛控要求的俯仰角。</p><p class="lb">什麼時候要動它</p><p>尾輪機設成三點著地時的角度；前輪機設地面角度，需要減輕前輪負荷可以再加最多 5°。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 5°，範圍 -5～10。設太大會提早離地失速。</p></div></td></tr>
+      <tr><td class="p">TKOFF_TDRAG_ELEV / _SPD1</td><td class="d">0 % / 0 m/s</td><td>尾輪機：初段壓住尾輪的升降舵量（通常 100），到 SPD1 後交給方向舵控制。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>尾輪機起飛初段用升降舵把尾輪壓在地上，讓尾輪轉向有效；到 SPD1 空速後放開，改由方向舵控制方向。</p><p class="lb">什麼時候要動它</p><p>只有尾輪機要設；手拋、彈射、前三點都設 0。</p><p class="lb">怎麼設／設錯會怎樣</p><p>ELEV 通常設 100（全拉升降舵），範圍 -100～100；SPD1 是放開的空速，範圍 0～30 m/s。</p></div></td></tr>
+      <tr><td class="p">TKOFF_THR_MAX / _SLEW</td><td class="d">0 / 0</td><td>起飛油門上限（0 = THR_MAX）與油門斜率（%/s；0 = 用 THR_SLEWRATE，-1 = 不限）。滾行起飛可設低一點讓加速平緩、方便地面轉向：20 表示 5 秒推滿，低於 20 不建議。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動起飛的油門上限，以及油門推上去的速率（每秒幾 %）。</p><p class="lb">什麼時候要動它</p><p>滾行起飛想加速平緩、好控方向，就把 SLEW 設低一點。</p><p class="lb">怎麼設／設錯會怎樣</p><p>MAX 為 0 = 用 <code>THR_MAX</code>。SLEW 為 0 = 用 <code>THR_SLEWRATE</code>，-1 = 不限；20 表示 5 秒推滿，低於 20 不建議，爬升會推力不足。</p></div></td></tr>
+      <tr><td class="p">TKOFF_THR_MINSPD / MINACC / DELAY</td><td class="d">0 / 0 / 2 ds</td><td>手拋／彈射用。先要前向加速度 ≥ MINACC（手拋約 15），再等 DELAY×0.1 s（推進槳手拋至少 2，彈射可 30），之後地速 ≥ MINSPD（推進槳手拋不低於 4）才開油門。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>手拋和彈射的安全鎖：條件滿足前馬達不會轉，免得在手上就開槳。</p><p class="lb">什麼時候要動它</p><p>推進槳在後面的手拋機一定要設；滾行起飛不用。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li>先要前向加速度 ≥ <b>MINACC</b>（手拋、彈射約 15 m/s²）。</li><li>再等 <b>DELAY</b> × 0.1 秒（推進槳手拋至少 2，彈射可設 30 讓橡皮筋先脫離）。</li><li>之後 GPS 地速 ≥ <b>MINSPD</b> 才開油門（推進槳手拋不低於 4 m/s）。</li></ul><p>MINACC 設 0 會跳過加速度檢查，GPS 速度一跳動就可能誤啟動。</p></div></td></tr>
+      <tr><td class="p">TKOFF_LVL_ALT / LVL_PITCH</td><td class="d">10 m / 15°</td><td>此高度以下保持水平翼；爬升俯仰。TAKEOFF 模式再用 TKOFF_ALT（50 m）／TKOFF_DIST（200 m）決定爬到哪、飛多遠開始盤旋。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>起飛後離地多高以內把機翼保持水平不轉彎（LVL_ALT），以及爬升時的目標俯仰角（LVL_PITCH）。</p><p class="lb">什麼時候要動它</p><p>場地兩側有障礙、想更快開始轉彎時調 LVL_ALT；爬升太陡失速就降 LVL_PITCH。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 10 m／15°。TAKEOFF 模式另外用 <code>TKOFF_ALT</code>（預設 50 m）決定爬到多高、<code>TKOFF_DIST</code>（預設 200 m）決定飛多遠開始盤旋。</p></div></td></tr>
+      <tr><td class="p">TKOFF_FLAP_PCNT</td><td class="d">0 %</td><td>自動起飛襟翼量。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動起飛時襟翼放幾 %。</p><p class="lb">什麼時候要動它</p><p>短場起飛需要更多升力時設。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0，範圍 0～100。要先把襟翼舵機設成 FlapAuto（功能 3）。</p></div></td></tr>
+      <tr><td class="p">LAND_FLAP_PERCNT</td><td class="d">0 %</td><td>進場與拉平時的襟翼量。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動降落的進場與拉平階段襟翼放幾 %。</p><p class="lb">什麼時候要動它</p><p>想降低進場速度、縮短落地距離時設。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0，範圍 0～100。放襟翼後失速速度變低，可以配合 <code>LAND_PF_ARSPD</code> 一起壓低進場空速。</p></div></td></tr>
+      <tr class="wi"><td class="p">LAND_PF_ALT / PF_SEC / PF_ARSPD</td><td class="d">10 m / 6 s / 0</td><td>預拉平階段：高度或「到地時間」先到者觸發，PF_ARSPD 為此段目標空速（0 = 不改）。STOL 機可在此把空速壓到接近 AIRSPEED_MIN。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>「預拉平」階段：在拉平之前先把空速降到 PF_ARSPD。觸發條件是離地高度低於 PF_ALT，或以目前下沉率幾秒內會到地（PF_SEC），先到的算。</p><p class="lb">什麼時候要動它</p><p>STOL 機想用更慢的速度落地時設；PF_ARSPD 為 0 整個階段就關閉。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 10 m／6 s／0。PF_ARSPD 可以低於 AIRSPEED_MIN，但不能低於 <code>AIRSPEED_STALL</code>。</p></div></td></tr>
+      <tr class="wi"><td class="p">LAND_FLARE_ALT / FLARE_SEC</td><td class="d">3 m / 2 s</td><td>拉平觸發：離地高度或「以目前下沉率幾秒到地」先到者。拉平後鎖定航向、收油門。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>什麼時候拉平：離地高度低於 FLARE_ALT，或以目前下沉率 FLARE_SEC 秒內會到地，先到的算。拉平後鎖定航向、收油門，改用 <code>TECS_LAND_SINK</code> 的下沉率。</p><p class="lb">什麼時候要動它</p><p>拉平太早飄很遠、太晚撞地時調。官方建議以 FLARE_SEC 為主，FLARE_ALT 當備援。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 3 m／2 s。FLARE_SEC 設 0 就只看高度。</p></div></td></tr>
+      <tr><td class="p">LAND_PITCH_DEG</td><td class="d">0°</td><td>拉平末段的最低俯仰角，防止機頭先著地；依機型而定，通常是小的正值。4.5 版以前為 LAND_PITCH_CD（單位 0.01°）。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>拉平之後允許的最低俯仰角，確保觸地姿態適合起落架型式。它是下限，飛控會在這之上控制俯仰去達成下沉率。</p><p class="lb">什麼時候要動它</p><p>機頭先著地、或尾輪機想三點著地時調。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0°，範圍 -20～20，通常是小的正值。4.5 版以前叫 <code>LAND_PITCH_CD</code>，單位 0.01°。</p></div></td></tr>
+      <tr><td class="p">TECS_LAND_SINK</td><td class="d">0.25 m/s</td><td>拉平後的目標觸地下沉率。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>拉平後的目標觸地下沉率，也就是「摔多重」。</p><p class="lb">什麼時候要動它</p><p>落地太重就調小；拉平後一直飄不下來就調大。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 0.25 m/s，範圍 0～2。</p></div></td></tr>
+      <tr><td class="p">TECS_LAND_ARSPD</td><td class="d">-1</td><td>進場目標空速；負值時取 AIRSPEED_MIN 與 AIRSPEED_CRUISE 的中間值。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動降落進場時的目標空速。</p><p class="lb">什麼時候要動它</p><p>STOL 機想慢速進場時設；沒有空速計的機型改用 <code>TECS_LAND_THR</code>。</p><p class="lb">怎麼設／設錯會怎樣</p><p>負值 = 取 AIRSPEED_MIN 與 AIRSPEED_CRUISE 的中間值，範圍 -1～127。可以低於 AIRSPEED_MIN，下限是 <code>AIRSPEED_STALL</code>。</p></div></td></tr>
+      <tr><td class="p">LAND_TYPE</td><td class="d">0</td><td>0 標準下滑道；<b>1 深失速（Deepstall）降落</b>：刻意失速後垂直落下，適合沒有起落架的小型機。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>自動降落用哪種方式。</p><p class="lb">什麼時候要動它</p><p>沒有起落架、又想在極小場地落地的小機可以考慮深失速。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>0</b>：標準下滑道，一般跑道降落。</li><li><b>1</b>：深失速（Deepstall）：刻意讓飛機失速、幾乎垂直落下，要另外設 <code>LAND_DS_*</code> 參數，並確認重心與尾翼設計撐得住。</li></ul></div></td></tr>
+      <tr><td class="p">LAND_ABORT_THR</td><td class="d">0</td><td>1 = 進場中油門桿 ≥ 90% 即重飛。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>進場中把油門桿推到 90% 以上就中止降落、重飛。</p><p class="lb">什麼時候要動它</p><p>想保留人工重飛的手段時開。</p><p class="lb">怎麼設／設錯會怎樣</p><p>0 關、1 開。不管有沒有開搖桿混控都有效。</p></div></td></tr>
+      <tr><td class="p">LAND_DISARMDELAY / THEN_NEUTRL</td><td class="d">20 s / 0</td><td>落地靜止後幾秒上鎖；上鎖後舵面回中或關 PWM。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>落地後幾秒自動上鎖（DISARMDELAY），以及上鎖後舵面要不要回中或直接關 PWM（THEN_NEUTRL）。</p><p class="lb">什麼時候要動它</p><p>飛機落地翻覆時舵面會一直頂著出力，THEN_NEUTRL 可以避免舵機燒掉。</p><p class="lb">怎麼設／設錯會怎樣</p><p>DISARMDELAY 預設 20 s，0 = 不自動上鎖，範圍 0～127。THEN_NEUTRL：0 不動、1 舵面回中、2 關閉 PWM。</p></div></td></tr>
+      <tr><td class="p">USE_REV_THRUST</td><td class="d">2</td><td>哪些飛行階段允許負油門（bitmask，預設 2 = 只在自動降落）；需 THR_MIN 為負且電調支援反轉。MANUAL 模式只要 THR_MIN 為負就一定可以反推。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>在哪些飛行階段允許油門變負（螺旋槳反轉當煞車）。位元遮罩，每個位元對應一種階段。</p><p class="lb">什麼時候要動它</p><p>要縮短落地滑行距離、且電調支援反轉時設；同時 <code>THR_MIN</code> 要設成負值。</p><p class="lb">怎麼設／設錯會怎樣</p><p>預設 2 = 只在自動降落階段（bit 1）；1 = 所有 AUTO 階段。MANUAL 模式只要 THR_MIN 為負，隨時都能反推，不看這個值。</p></div></td></tr>
+      <tr><td class="p">RNGFND_LANDING</td><td class="d">0</td><td>bitmask，設 1（bit 0 = 所有用途）即用測距儀（Lidar）量離地高度，讓拉平時機不受氣壓高度誤差影響；短場降落強烈建議使用。 <button class="dt" type="button" aria-expanded="false">詳細</button></td></tr>
+<tr class="detail" hidden><td colspan="3"><div class="dtl"><p class="lb">它管什麼</p><p>讓自動降落用測距儀（Lidar、超音波）量離地高度，而不是氣壓計。氣壓高度會漂，拉平時機差一兩公尺就會摔或飄。</p><p class="lb">什麼時候要動它</p><p>有裝測距儀就開；短場降落強烈建議。</p><p class="lb">怎麼設／設錯會怎樣</p><ul><li><b>bit 0 All</b>（值 1）：所有用途都用。</li><li><b>bit 1</b>：只在起飛與降落。</li><li><b>bit 2</b>：Q-assist 的高度判斷。</li><li><b>bit 3</b>：QRTL／AUTO 的初始爬升。</li></ul><p>一般設 1 就好。</p></div></td></tr>
     </table></div>
   </div>
   <div class="lecturer"><div class="lab">講師備註</div>把 <code>LAND_TYPE=1</code>（深失速）當彩蛋講：它和尾座機一樣，是「刻意把飛機放到它最不想去的姿態」來換場地。有時間的話問學生：深失速降落需要什麼樣的重心與尾翼設計？</div>
@@ -1525,6 +1629,13 @@ img{max-width:100%}
   }else{
     var bt;addEventListener('resize',function(){clearTimeout(bt);bt=setTimeout(balanceGrids,120)});
   }
+
+
+  /* ---- 詳細說明展開／收合 ---- */
+  function dtTarget(b){var tr=b.closest('tr');if(tr&&tr.nextElementSibling&&tr.nextElementSibling.classList.contains('detail'))return tr.nextElementSibling;var n=b.nextElementSibling;return (n&&n.classList.contains('dtl'))?n:null}
+  function dtSet(b,open){var t=dtTarget(b);if(!t)return;t.hidden=!open;b.setAttribute('aria-expanded',String(open));b.textContent=open?'收合':'詳細'}
+  document.querySelectorAll('.dt').forEach(function(b){b.addEventListener('click',function(){dtSet(b,b.getAttribute('aria-expanded')!=='true')})});
+  document.querySelectorAll('.dt-all-btn').forEach(function(b){b.addEventListener('click',function(){var box=b.parentNode.nextElementSibling;var open=b.getAttribute('data-open')!=='1';box.querySelectorAll('.dt').forEach(function(x){dtSet(x,open)});b.setAttribute('data-open',open?'1':'0');b.textContent=open?'全部收合':'全部展開'})});
 
   updAF();
 })();
