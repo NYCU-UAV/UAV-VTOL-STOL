@@ -52,8 +52,6 @@ button{font-family:inherit}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
 .seg button{border:0;background:transparent;color:var(--ink-2);padding:5px 14px;border-radius:999px;font-weight:500;font-size:14px;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.chk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-2);cursor:pointer;user-select:none}
-.chk input{accent-color:var(--hover)}
 
 /* ---------- layout ---------- */
 .wrap{max-width:1720px;margin:0 auto;padding:0 20px 80px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
@@ -108,9 +106,12 @@ figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
 .callout.w{border-left-color:var(--wing);background:var(--wing-soft)}
 .callout .lab{font-family:var(--font-display);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--ink-2);margin-bottom:4px}
 .callout p:last-child{margin-bottom:0}
-.lecturer{display:none;border:1px dashed var(--muted);background:var(--surface-2);padding:12px 16px;border-radius:10px;margin:14px 0;font-size:14px;color:var(--ink-2)}
+.lecturer{border:1px dashed var(--muted);background:var(--surface-2);padding:12px 16px;border-radius:10px;margin:14px 0;font-size:14px;color:var(--ink-2)}
 .lecturer .lab{font-family:var(--font-display);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:4px}
-body[data-notes="on"] .lecturer{display:block}
+/* speaker mode (?speaker): lecturer notes, timing, prep checklist */
+html:not(.speaker) .spk,html:not(.speaker) .lecturer,html:not(.speaker) .outline .min{display:none!important}
+html.speaker .aud{display:none!important}
+.spk-badge{position:fixed;right:14px;bottom:14px;z-index:30;background:var(--ink);color:var(--bg);font-size:13px;padding:4px 10px;border-radius:6px;opacity:.85;pointer-events:none}
 .badge{display:inline-block;font-family:var(--font-display);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);vertical-align:middle}
 .badge.adv-b{border-color:var(--wing);color:var(--wing)}
 .badge.h{border-color:var(--hover);color:var(--hover)}
@@ -255,8 +256,10 @@ img{max-width:100%}
 .vidgroup h4{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .vidgroup h4 .sw{margin:0}
 </style>
+<script>if(/[?&]speaker(=|&|$)/.test(location.search))document.documentElement.classList.add("speaker")</script>
 </head>
-<body data-level="basic" data-notes="off">
+<body data-level="basic">
+<div class="spk spk-badge">講者模式</div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
@@ -280,13 +283,12 @@ img{max-width:100%}
       <button type="button" data-level="basic" aria-pressed="true">基礎</button>
       <button type="button" data-level="adv" aria-pressed="false">進階</button>
     </div>
-    <label class="chk"><input type="checkbox" id="notesToggle"> 講師備註</label>
   </div>
 </div></div>
 
 <div class="wrap">
 <nav class="outline" aria-label="課程大綱">
-  <h4>課綱 · 120 分鐘</h4>
+  <h4><span class="aud">大綱</span><span class="spk">課綱 · 120 分鐘</span></h4>
   <ol>
     <li><a href="#s0" data-track="misc"><span>開場：為什麼要垂起／短起</span><span class="min">8′</span></a></li>
     <li><a href="#s1" data-track="vtol"><span>垂起固定翼家族</span><span class="min">10′</span></a></li>
@@ -294,14 +296,16 @@ img{max-width:100%}
     <li><a href="#s3" data-track="vtol"><span>傾轉式 VTOL</span><span class="min">15′</span></a></li>
     <li><a href="#s4" data-track="vtol"><span>尾座式 Tailsitter</span><span class="min">12′</span></a></li>
     <li><a href="#s5" data-track="vtol"><span>過渡機制與飛行模式</span><span class="min">10′</span></a></li>
-    <li><a href="#brk" data-track="misc"><span>休息</span><span class="min">10′</span></a></li>
+    <li class="spk"><a href="#brk" data-track="misc"><span>休息</span><span class="min">10′</span></a></li>
     <li><a href="#s6" data-track="stol"><span>短距起降 STOL 原理</span><span class="min">20′</span></a></li>
     <li><a href="#s7" data-track="stol"><span>STOL 的 ArduPilot 設定</span><span class="min">8′</span></a></li>
     <li><a href="#s8" data-track="misc"><span>選型、常見失敗與 Q&amp;A</span><span class="min">12′</span></a></li>
-    <li><a href="#vids" data-track="misc"><span>▶ 課堂影片</span><span class="min">—</span></a></li>
-    <li><a href="#notes" data-track="misc"><span>▲ 註記與查證</span><span class="min">—</span></a></li>
+    <li class="aud"><a href="#more-vids" data-track="misc"><span>延伸影片</span></a></li>
+    <li class="spk"><a href="#vids" data-track="misc"><span>課堂影片清單</span><span class="min">—</span></a></li>
+    <li class="aud"><a href="#refs" data-track="misc"><span>參考資料</span></a></li>
+    <li class="spk"><a href="#notes" data-track="misc"><span>上課前待確認</span><span class="min">—</span></a></li>
   </ol>
-  <div class="legend"><span><i class="sw h"></i>垂直起降 VTOL</span><span><i class="sw w"></i>短距起降 STOL</span><span><i class="sw m"></i>開場／休息／總結</span></div>
+  <div class="legend"><span><i class="sw h"></i>垂直起降 VTOL</span><span><i class="sw w"></i>短距起降 STOL</span><span><i class="sw m"></i>開場與總結</span></div>
 </nav>
 
 <main>
@@ -311,6 +315,7 @@ img{max-width:100%}
   <p class="lede">兩個小時走過三大類垂起固定翼（標準式、傾轉式、尾座式）與短距起降飛機的設計邏輯，每一個構型都對照 ArduPilot 裡真實存在的參數與模擬模型，讓「為什麼這樣設計」和「飛控上怎麼設」接在一起。</p>
   <div class="meta"><span>對象 <b>RC 玩家 ／ 工程系學生</b></span><span>切換 <b>基礎 ⇄ 進階</b>（右上）</span><span>飛控 <b>ArduPilot Plane 4.x</b></span><span>紅色 ▲ = 末尾有註記</span></div>
 
+  <div class="spk">
   <div class="tl" aria-label="時間分配">
     <a class="m" href="#s0" style="flex:8" title="開場 8 分">開場</a>
     <a class="h" href="#s1" style="flex:10" title="家族 10 分">家族</a>
@@ -325,12 +330,13 @@ img{max-width:100%}
   </div>
   <div class="tl-ticks"><span>0′</span><span>30′</span><span>60′</span><span>90′</span><span>120′</span></div>
   <div class="tl-key"><span><i class="sw h"></i>VTOL 70′</span><span><i class="sw w"></i>STOL 28′</span><span><i class="sw m"></i>開場／休息／總結 30′</span><span style="color:var(--muted)">（進階模式不改時間，改深度）</span></div>
+  </div>
 </header>
 
 <!-- ============ S0 ============ -->
 <section class="sec" id="s0" data-track="misc">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">00 · 8 分鐘</span><span>開場</span></div>
+    <div class="kicker">開場<span class="spk"> · 8 分鐘</span></div>
     <h2>為什麼要垂起／短起？</h2>
     <p class="goal">先建立一個直覺：多旋翼與固定翼各自贏在哪裡、輸在哪裡，垂起與短起都是在「起降場地」和「巡航效率」之間找折衷。</p>
   </div></div>
@@ -380,14 +386,14 @@ img{max-width:100%}
     <figcaption>四種載具的相對表現（定性示意<a class="fn" href="#notes" title="見註記 4">4</a>）。灰色是對照組；橘色＝本課的 VTOL 固定翼，藍綠色＝本課的 STOL 固定翼。垂起固定翼幾乎補齊了固定翼的弱項，但把複雜度推到最高；STOL 則是用空氣動力學便宜地換到「很短的場地」。</figcaption>
   </figure>
 
-  <div class="callout"><div class="lab">課堂互動 · 1 分鐘</div><p>問學生：「如果任務是在山區每天巡一條 20 公里的輸電線，你選哪一種？為什麼不選多旋翼？」把答案留到第 8 節選型時回收。</p></div>
-  <div class="lecturer"><div class="lab">講師備註</div>這一節不要講參數。重點是讓聽眾接受「懸停很貴、機翼很划算、起降場地是限制條件」三句話，後面所有構型都是在這三句話上做取捨。</div>
+  <div class="callout"><div class="lab">思考題</div><p>如果任務是在山區每天巡檢一條 20 公里長的輸電線，你會選哪一種？為什麼不選多旋翼？第 8 節會再回來討論。</p></div>
+  <div class="lecturer"><div class="lab">講師備註</div>課堂互動約 1 分鐘：先請學生回答上面的思考題，答案留到第 8 節選型時回收。這一節不要講參數。重點是讓聽眾接受「懸停很貴、機翼很划算、起降場地是限制條件」三句話，後面所有構型都是在這三句話上做取捨。</div>
 </section>
 
 <!-- ============ S1 ============ -->
 <section class="sec" id="s1" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">01 · 10 分鐘</span><span>分類</span></div>
+    <div class="kicker">第 1 節<span class="spk"> · 10 分鐘</span></div>
     <h2>垂起固定翼家族：三種把「多旋翼」帶上飛機的方法</h2>
     <p class="goal">按「懸停時的升力由誰提供、巡航時它們去哪了」來分類，三大類的差別就一目瞭然。</p>
   </div></div>
@@ -437,7 +443,7 @@ img{max-width:100%}
 <!-- ============ S2 ============ -->
 <section class="sec" id="s2" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">02 · 15 分鐘</span><span>構型一</span></div>
+    <div class="kicker">第 2 節<span class="spk"> · 15 分鐘</span></div>
     <h2>標準式 VTOL：QuadPlane（SLT）</h2>
     <p class="goal">一架固定翼加上一組多旋翼，各做各的事。它是 ArduPilot 裡名字本身就叫 QuadPlane 的原型，也是最適合第一次做垂起的構型。</p>
   </div></div>
@@ -635,7 +641,7 @@ img{max-width:100%}
 <!-- ============ S3 ============ -->
 <section class="sec" id="s3" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">03 · 15 分鐘</span><span>構型二</span></div>
+    <div class="kicker">第 3 節<span class="spk"> · 15 分鐘</span></div>
     <h2>傾轉式 VTOL：Tilt-rotor 與 Tilt-wing</h2>
     <p class="goal">同一組馬達兩用：朝上懸停、轉向前巡航。省掉死重，換來舵機、機構和一段「半傾斜」的曖昧過渡期。</p>
   </div></div>
@@ -754,7 +760,7 @@ img{max-width:100%}
 <!-- ============ S4 ============ -->
 <section class="sec" id="s4" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">04 · 12 分鐘</span><span>構型三</span></div>
+    <div class="kicker">第 4 節<span class="spk"> · 12 分鐘</span></div>
     <h2>尾座式 VTOL：Tailsitter</h2>
     <p class="goal">不加任何東西——整架飛機立起來。機構最簡單，但懸停時是一片豎直的機翼在對抗風，控制律也最不像多旋翼。</p>
   </div></div>
@@ -840,7 +846,7 @@ img{max-width:100%}
 <!-- ============ S5 ============ -->
 <section class="sec" id="s5" data-track="vtol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">05 · 10 分鐘</span><span>機制</span></div>
+    <div class="kicker">第 5 節<span class="spk"> · 10 分鐘</span></div>
     <h2>過渡機制與飛行模式：升力如何從旋翼交棒給機翼</h2>
     <p class="goal">三種構型過渡的差別，就是「誰在等空速、等到了做什麼」。拉動滑桿，同一個空速進度下看三架飛機各自在做什麼。</p>
   </div></div>
@@ -1009,13 +1015,13 @@ img{max-width:100%}
   <div class="callout"><div class="lab">最常見的三種摔法</div><p><b>1. 空速不夠就切 MANUAL</b>——VTOL 馬達瞬間關閉，直接失速。用 QSTABILIZE／QLOITER 取代。<b>2. 後向過渡電壓崩潰</b>——所有馬達同時高出力，LiPo 掉到 3.0 V/cell 以下；用高 C 值電池或分開供電。<b>3. 傾轉舵機沒校準</b>——地面先在 MANUAL ⇄ QSTABILIZE 之間切換看傾轉是否平順。</p></div>
 </section>
 
-<section class="sec" id="brk" data-track="misc" style="padding:24px 0">
-  <div class="sec-head" style="margin:0"><div class="strip"></div><div><div class="kicker"><span class="t">— · 10 分鐘</span><span>休息</span></div><h2 style="font-size:20px">休息。下半場換一種思路：不帶旋翼，把起飛速度壓低。</h2></div></div>
+<section class="sec spk" id="brk" data-track="misc" style="padding:24px 0">
+  <div class="sec-head" style="margin:0"><div class="strip"></div><div><div class="kicker">休息 · 10 分鐘</div><h2 style="font-size:20px">休息。下半場換一種思路：不帶旋翼，把起飛速度壓低。</h2></div></div>
 </section>
 <!-- ============ S6 ============ -->
 <section class="sec" id="s6" data-track="stol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">06 · 20 分鐘</span><span>原理</span></div>
+    <div class="kicker">第 6 節<span class="spk"> · 20 分鐘</span></div>
     <h2>短距起降 STOL：把起飛速度壓到最低的每一種辦法</h2>
     <p class="goal">STOL 飛機沒有旋翼可以偷懶，所有功夫都在一條升力方程式上：想在低速產生同樣的升力，只能加大翼面積、拉高升力係數，或兩者都做。</p>
   </div></div>
@@ -1164,7 +1170,7 @@ img{max-width:100%}
 <!-- ============ S7 ============ -->
 <section class="sec" id="s7" data-track="stol">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">07 · 8 分鐘</span><span>設定</span></div>
+    <div class="kicker">第 7 節<span class="spk"> · 8 分鐘</span></div>
     <h2>STOL 的 ArduPilot 設定：襟翼排程、自動起飛、自動降落</h2>
     <p class="goal">ArduPilot Plane 沒有「STOL 模式」，但它把短距起降需要的每一件事——依空速放襟翼、旋轉離地、拉平、反推——都做成參數。</p>
   </div></div>
@@ -1248,7 +1254,7 @@ img{max-width:100%}
 <!-- ============ S8 ============ -->
 <section class="sec" id="s8" data-track="misc">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">08 · 12 分鐘</span><span>總結</span></div>
+    <div class="kicker">第 8 節<span class="spk"> · 12 分鐘</span></div>
     <h2>選型、常見失敗，以及 Q&amp;A</h2>
     <p class="goal">回收開場那個「巡輸電線」的問題。任務條件 → 構型的對應，不是品味問題，是懸停時間、風、場地與預算的算術。</p>
   </div></div>
@@ -1317,11 +1323,18 @@ img{max-width:100%}
 <!-- ============ VIDS ============ -->
 <section class="sec" id="vids" data-track="misc">
   <div class="sec-head"><div class="strip"></div><div>
-    <div class="kicker"><span class="t">— · 影片</span><span>素材</span></div>
-    <h2>課堂影片清單：每一節可以放的 YouTube 片段</h2>
-    <p class="goal">點縮圖就在頁面內播放（用 youtube-nocookie 嵌入），也可以另開 YouTube。清單是依標題挑的、未逐支看過<a class="fn" href="#notes" title="見註記 14">14</a>，上課前請先過一遍、記下要放的時間點。</p>
+    <h2 id="more-vids"><span class="aud">延伸影片</span><span class="spk">課堂影片清單</span></h2>
+    <p class="goal aud">各節內容以外的補充影片，點縮圖可以直接播放。</p>
+    <p class="goal spk">每一節可以放的 YouTube 片段。清單依標題挑選、還沒逐支看過，上課前請先看一遍並記下要放的時間點。</p>
   </div></div>
-  <div class="vidlist">
+  <div class="ytgrid aud">
+    <figure class="yt" data-id="FO5N-xVCwIw"><button class="yt-play" type="button" aria-label="播放：ArduPilot Plane 4.1 的 QuadPlane 新功能"><img src="https://i.ytimg.com/vi/FO5N-xVCwIw/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>ArduPilot Plane 4.1 的 QuadPlane 新功能<small>第 2 節 · QuadPlane</small><a href="https://www.youtube.com/watch?v=FO5N-xVCwIw" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
+    <figure class="yt" data-id="0wnxCMWYZvE"><button class="yt-play" type="button" aria-label="播放：Flite Test：Convergence 介紹"><img src="https://i.ytimg.com/vi/0wnxCMWYZvE/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Flite Test：Convergence 介紹<small>第 3 節 · 傾轉式</small><a href="https://www.youtube.com/watch?v=0wnxCMWYZvE" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
+    <figure class="yt" data-id="hVbVIhGqIjw"><button class="yt-play" type="button" aria-label="播放：ArduPlane 尾座機：軟體設定、首飛與首次過渡"><img src="https://i.ytimg.com/vi/hVbVIhGqIjw/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>ArduPlane 尾座機：軟體設定、首飛與首次過渡<small>第 4 節 · 尾座式</small><a href="https://www.youtube.com/watch?v=hVbVIhGqIjw" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
+    <figure class="yt" data-id="wS49-hXxP7U"><button class="yt-play" type="button" aria-label="播放：Zenith STOL 短場起降示範"><img src="https://i.ytimg.com/vi/wS49-hXxP7U/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Zenith STOL 短場起降示範<small>第 7 節 · STOL 設定</small><a href="https://www.youtube.com/watch?v=wS49-hXxP7U" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
+    <figure class="yt" data-id="FfBMgZmSFbk"><button class="yt-play" type="button" aria-label="播放：CH 701 起飛與降落"><img src="https://i.ytimg.com/vi/FfBMgZmSFbk/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>CH 701 起飛與降落<small>第 7 節 · STOL 設定</small><a href="https://www.youtube.com/watch?v=FfBMgZmSFbk" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
+  </div>
+  <div class="vidlist spk">
     <div class="vidgroup"><h4><i class="sw h"></i>第 2 節 · QuadPlane</h4><div class="ytgrid">
       <figure class="yt" data-id="FNuVuNiK-L4"><button class="yt-play" type="button" aria-label="播放：Ardupilot QuadPlane 飛行模式示範"><img src="https://i.ytimg.com/vi/FNuVuNiK-L4/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>Ardupilot QuadPlane 飛行模式示範<small>看 Q 模式與固定翼模式切換時飛機在做什麼</small><a href="https://www.youtube.com/watch?v=FNuVuNiK-L4" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
       <figure class="yt" data-id="ZaVoMkekVsM"><button class="yt-play" type="button" aria-label="播放：QuadPlane 起飛、過渡、降落（METU VTOL 競賽）"><img src="https://i.ytimg.com/vi/ZaVoMkekVsM/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="yt-btn"></span></button><figcaption>QuadPlane 起飛、過渡、降落（METU VTOL 競賽）<small>一趟完整 AUTO 任務，可配第 5 節流程圖</small><a href="https://www.youtube.com/watch?v=ZaVoMkekVsM" target="_blank" rel="noopener">在 YouTube 開啟 ↗</a></figcaption></figure>
@@ -1362,8 +1375,19 @@ img{max-width:100%}
   </div>
 </section>
 
+<!-- ============ REFERENCES ============ -->
+<section class="notes aud" id="refs">
+  <h2>參考資料</h2>
+  <ul>
+    <li>ArduPilot 官方文件：QuadPlane（frame setup、tilt-rotor、tailsitter、transitions、assisted fixed-wing flight、AUTO missions、simulation）、automatic takeoff／landing、automatic flaps</li>
+    <li>ArduPilot 原始碼（GitHub ArduPilot/ardupilot）：<code>quadplane.cpp</code>、<code>tailsitter.cpp</code>、<code>tiltrotor.cpp</code>、<code>Parameters.cpp</code>、<code>AP_Landing.cpp</code>、<code>mode_takeoff.cpp</code></li>
+    <li>Wikipedia：STOL、Tail-sitter、Tiltrotor、Flap (aeronautics)、Knapp Lil Cub</li>
+    <li>AOPA，〈Valdez STOL distances get shorter〉，2018</li>
+  </ul>
+</section>
+
 <!-- ============ NOTES ============ -->
-<section class="notes" id="notes">
+<section class="notes spk" id="notes">
   <h2><span style="color:var(--note)">▲</span> 註記與查證狀態</h2>
   <p style="font-size:14px;color:var(--ink-2)">正文中的紅色 ▲ 對應以下編號。參數名稱、預設值與說明均對照 ArduPilot 官方文件與原始碼（ArduPlane <code>quadplane.cpp</code>、<code>tailsitter.cpp</code>、<code>tiltrotor.cpp</code>、<code>Parameters.cpp</code>、<code>AP_Landing.cpp</code>、<code>mode_takeoff.cpp</code>，master 分支）整理；下列項目屬於未能完整查證或版本相依的內容，上課前建議再確認一次。</p>
   <ol>
@@ -1396,14 +1420,8 @@ img{max-width:100%}
   lvBtns.forEach(function(b){b.addEventListener('click',function(){setLevel(b.dataset.level)})});
   setLevel(load('vs-level')==='adv'?'adv':'basic');
 
-  /* ---- lecturer notes ---- */
-  var nt=document.getElementById('notesToggle');
-  function setNotes(on){body.setAttribute('data-notes',on?'on':'off');nt.checked=on;store('vs-notes',on?'1':'0')}
-  nt.addEventListener('change',function(){setNotes(nt.checked)});
-  setNotes(load('vs-notes')==='1');
-
   /* ---- outline active ---- */
-  var links=[].slice.call(document.querySelectorAll('.outline a[href^="#"]'));
+  var links=[].slice.call(document.querySelectorAll('.outline a[href^="#"]')).filter(function(a){return a.getClientRects().length});
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
   var ticking=false;
   function upd(){ticking=false;var y=window.scrollY+140,cur=secs[0];secs.forEach(function(s){if(s.offsetTop<=y)cur=s});links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur.id)})}
