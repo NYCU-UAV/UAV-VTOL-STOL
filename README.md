@@ -26,7 +26,7 @@ VTOL &amp; STOL UAV 課程講義（互動式單頁網站）。兩小時課程，
 ## 頁面功能
 
 - **基礎／進階切換**（右上角）：進階模式會展開完整的 ArduPilot 參數表
-- **講者模式**：網址加上 `?speaker`（例如 `https://nycu-uav.github.io/UAV-VTOL-STOL/?speaker`）會多顯示講師備註、各節時間分配、課堂提問，以及上課前待確認的事項；一般網址只顯示給聽眾看的內容
+- **聽眾／講者切換**（右上角，或網址加 `?speaker`，例如 `https://nycu-uav.github.io/UAV-VTOL-STOL/?speaker`）：講者檢視會多顯示講師備註、各節時間分配、課堂提問，以及上課前待確認的事項；聽眾檢視只顯示給聽眾看的內容
 - **互動過渡動畫**：同一個空速進度下並排比較三種構型的過渡行為
 - **翼型互動圖**：切換高升力裝置與攻角，即時看 C<sub>L</sub>–α 曲線與氣流分離
 - **失速速度計算器**：輸入重量與翼面積，算出 V<sub>s</sub>、翼負荷與建議的 `AIRSPEED_MIN`
@@ -45,6 +45,6 @@ python3 -m http.server 8000   # 然後開 http://localhost:8000/
 
 ## 資料來源與註記
 
-參數名稱、預設值與說明對照 ArduPilot 官方文件與 master 分支原始碼（`quadplane.cpp`、`tailsitter.cpp`、`tiltrotor.cpp`、`Parameters.cpp`、`AP_Landing.cpp`、`mode_takeoff.cpp`）整理。2026-09 另對照 ArduPilot master 與 ArduPlane-stable（V4.7.1）原始碼查證過；原始碼無法確認的經驗值與影片內容，列在講者模式（`?speaker`）頁尾的「上課前待確認」。
+參數名稱、預設值與說明對照 ArduPilot 官方文件與 master 分支原始碼（`quadplane.cpp`、`tailsitter.cpp`、`tiltrotor.cpp`、`Parameters.cpp`、`AP_Landing.cpp`、`mode_takeoff.cpp`）整理。2026-09-14 已將全部參數表逐條對照 ArduPilot 參數定義檔（master）、ArduPlane-stable（V4.7.1）原始碼與官方 wiki 查證；原始碼無法確認的經驗值與影片內容，列在講者模式（`?speaker`）頁尾的「上課前待確認」。
 
 韌體版本以 ArduPilot Plane 4.x 為準；頁面使用 4.5 版以後的參數名稱（例如 `AIRSPEED_MIN`，4.5 版以前叫 `ARSPD_FBW_MIN`），完整對照表在頁尾參考資料。
